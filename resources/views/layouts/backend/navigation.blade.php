@@ -28,7 +28,7 @@
                         </a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle arrow-none" href="/application" id="topnav-dashboard" role="button">
+                        <a class="nav-link dropdown-toggle arrow-none" href="/lists" id="topnav-dashboard" role="button">
                             <i class='bx bxs-cog mr-2'></i></i><span key="t-dashboards">Lists</span> 
                         </a>
                     </li>

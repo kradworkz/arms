@@ -25,7 +25,7 @@ Route::middleware(['role:Administrator','auth'])->group(function () {
     Route::get('/staffs', 'Administrator\PageController@staffs'); 
     Route::get('/agencies', 'Administrator\PageController@agencies'); 
     Route::get('/lgus', 'Administrator\PageController@lgus'); 
-    Route::get('/application', 'Administrator\PageController@settings'); 
+    Route::get('/lists', 'Administrator\PageController@settings'); 
 });
 
 Route::middleware(['role:Member','auth'])->group(function () {
