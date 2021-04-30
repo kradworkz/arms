@@ -35,7 +35,6 @@ class MemberController extends Controller
             }else{
                 ($request->input('editable')) ? $imageName = $data->Member->avatar : $imageName = 'avatar.jpg';
             }
-
             $data->avatar = $imageName;
             $data->save();
         }
@@ -47,7 +46,7 @@ class MemberController extends Controller
         ($keyword == '-') ? $keyword = '' : $keyword;
         $data =  MemberMunicipality::with('member')->with('municipality')
         ->whereHas('municipality',function ($query) use ($keyword) {
-            $query->where('name', 'LIKE', '%'.$keyword.'%');
+            $query->where('member_id',1)->where('name', 'LIKE', '%'.$keyword.'%');
         })->paginate(10);
         return DefaultResource::collection($data);
     }
