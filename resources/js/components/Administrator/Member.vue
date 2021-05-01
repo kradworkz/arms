@@ -148,10 +148,19 @@
             </div>
         </div>
     </div>
+
+    <loading :active.sync="isLoading" 
+    :can-cancel="true" 
+    loader="dots"
+    background-color="black"
+    :is-full-page="fullPage">
+    </loading>
+
 </div>
 </template>
 
 <script>
+import Loading from 'vue-loading-overlay';
 import myUpload from 'vue-image-crop-upload/upload-2.vue';
 export default {
     data(){
@@ -165,7 +174,9 @@ export default {
             photo: {show: false,url: '',signature: ''},
             params: {token: '123456798',name: 'avatar'},
             headers: {smail: '*_~'},
-            editable: false
+            editable: false,
+            isLoading: false,
+            fullPage: true
         }
     },
 
@@ -190,6 +201,7 @@ export default {
         },
 
         create(){
+            this.isLoading = true;
             axios.post(this.currentUrl + '/request/admin/member/store', {
                 id: this.member.id,
                 name: this.member.name,
@@ -198,6 +210,7 @@ export default {
                 editable: this.editable
             })
             .then(response => {
+                 this.isLoading = false;
                 if(this.editable == true){
                     let page_url = '/request/admin/members?page=' + this.pagination.current_page;
                     this.fetch(page_url);
@@ -246,6 +259,6 @@ export default {
             this.photo.url = imgDataUrl;
         }
 
-    }, components: { myUpload }
+    }, components: { Loading, myUpload }
 }
 </script>

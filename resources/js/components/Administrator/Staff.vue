@@ -172,10 +172,17 @@
             </div>
         </div>
     </div>
+     <loading :active.sync="isLoading" 
+    :can-cancel="true" 
+    loader="dots"
+    background-color="black"
+    :is-full-page="fullPage">
+    </loading>
 </div>
 </template>
 
 <script>
+import Loading from 'vue-loading-overlay';
 import Multiselect from 'vue-multiselect';
 import myUpload from 'vue-image-crop-upload/upload-2.vue';
 export default {
@@ -196,6 +203,8 @@ export default {
             params: {token: '123456798',name: 'avatar'},
             headers: {smail: '*_~'},
             editable: false,
+            isLoading: false,
+            fullPage: true
         }
     },
 
@@ -259,6 +268,7 @@ export default {
         },
 
         create(){
+            this.isLoading = true;
             axios.post(this.currentUrl + '/request/admin/user/store', {
                 id: this.user.id,
                 name: this.user.name,
@@ -278,6 +288,7 @@ export default {
                 this.editable = false;
                 $("#new").modal("hide");
                 this.clear();
+                this.isLoading = false;
             })
             .catch(error => {
                 if (error.response.status == 422) {
