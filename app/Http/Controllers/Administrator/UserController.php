@@ -11,6 +11,7 @@ use App\Services\StoreImage;
 use App\Http\Resources\UserResource;
 use App\Http\Requests\UserRequest;
 use Illuminate\Validation\Rules\Password;
+use App\Jobs\EmailNewAccount;
 
 class UserController extends Controller
 {
@@ -78,6 +79,8 @@ class UserController extends Controller
                 $mm->user()->create([
                     'user_id' => $data->id,
                 ]);
+
+                EmailNewAccount::dispatch($data->id)->delay(now()->addSeconds(10));
             }
         }
     }

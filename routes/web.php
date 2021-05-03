@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Spatie\WelcomeNotification\WelcomesNewUsers;
+use App\Http\Controllers\Auth\WelcomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,4 +55,9 @@ Route::prefix('request')->group(function () {
         Route::post('/list/{keyword}', 'Administrator\ListsController@store');
 
     });
+});
+
+Route::group(['middleware' => ['web', WelcomesNewUsers::class,]], function () {
+    Route::get('welcome/{user}', [WelcomeController::class, 'showWelcomeForm'])->name('welcome');
+    Route::post('welcome/{user}', [WelcomeController::class, 'savePassword']);
 });

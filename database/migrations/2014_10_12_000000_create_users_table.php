@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('avatar',200)->default('avatar.jpg');
             $table->string('type');
             $table->string('status')->default('Inactive');
+            $table->timestamp('welcome_valid_until')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

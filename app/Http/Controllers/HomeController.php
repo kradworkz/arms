@@ -24,9 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->status == "Inactive"){
-            return view('user_public.password');
-        }else if(Auth::user()->type == "Administrator"){
+        if(Auth::user()->type == "Administrator"){
             return view('user_admin.index');    
         }else if(Auth::user()->type == "Member"){
             return view('user_member.index');
