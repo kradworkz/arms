@@ -61,7 +61,7 @@
                         
                                             <div class="form-group row mb-0">
                                                 <div class="col-12 text-right">
-                                                    <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Reset</button>
+                                                    <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Save</button>
                                                 </div>
                                             </div>
         
