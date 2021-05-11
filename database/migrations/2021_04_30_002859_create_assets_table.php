@@ -19,15 +19,15 @@ class CreateAssetsTable extends Migration
             $table->string('code')->unique();
             $table->string('name',200);
             $table->integer('quantity')->unsigned()->default(1);
-            $table->string('image',100)->default('default.jpg');
+            $table->string('image',100)->default('default.jpeg');
             $table->smallInteger('mm_id')->unsigned()->index();
             $table->foreign('mm_id')->references('id')->on('member_municipalities')->onDelete('cascade');     
             $table->tinyInteger('category_id')->unsigned()->index();
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('dropdowns')->onDelete('cascade');
             $table->tinyInteger('storage_id')->unsigned()->index();
             $table->foreign('storage_id')->references('id')->on('storages')->onDelete('cascade');
             $table->tinyInteger('status_id')->unsigned()->index();
-            $table->foreign('status_id')->references('id')->on('statuses')->onDelete('cascade');
+            $table->foreign('status_id')->references('id')->on('dropdowns')->onDelete('cascade');
             $table->timestamps();
         });
     }

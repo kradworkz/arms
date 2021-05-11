@@ -21,6 +21,8 @@ try {
 import 'vue-multiselect/dist/vue-multiselect.min.css'
 import 'vue-toast-notification/dist/theme-sugar.css';
 import 'vue-loading-overlay/dist/vue-loading.css';
+import 'leaflet/dist/leaflet.css';
+
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';

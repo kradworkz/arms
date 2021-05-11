@@ -31,7 +31,9 @@ Route::middleware(['role:Administrator','auth'])->group(function () {
 });
 
 Route::middleware(['role:Member','auth'])->group(function () {
-    Route::get('/inventory', 'Member\PageController@inventory'); 
+    Route::get('/assetlists', 'Member\PageController@inventory'); 
+    Route::get('/locations', 'Member\PageController@list'); 
+    Route::get('/assetlist/{id}', 'Member\PageController@viewasset'); 
 });
 
 Route::prefix('request')->group(function () {
@@ -53,7 +55,32 @@ Route::prefix('request')->group(function () {
 
         Route::get('/{type}/{keyword}', 'Administrator\ListsController@index');
         Route::post('/list/{keyword}', 'Administrator\ListsController@store');
+        Route::get('/lists/s/{type}', 'Administrator\ListsController@lists');
 
+    });
+
+    Route::prefix('member')->group(function (){
+
+        Route::get('/categories', 'Member\ListController@categories');
+        Route::get('/vendors', 'Member\ListController@vendors');
+        Route::get('/storage', 'Member\ListController@storages');
+
+
+        Route::get('/type/{type}/{keyword}', 'Member\ListController@index');
+        Route::post('/list/{keyword}', 'Member\ListController@store');
+        Route::get('/storages', 'Member\ListController@storages');
+        Route::get('/vendors', 'Member\ListController@vendors');
+        Route::get('/lists/s/{type}', 'Member\ListController@lists');
+
+        Route::post('/asset/store', 'Member\AssetController@store');
+        Route::get('/assets/{keyword}', 'Member\AssetController@index');
+        Route::get('/asset/{id}', 'Member\AssetController@view'); 
+        Route::get('/asset/{id}/purchased', 'Member\AssetController@purchases'); 
+        Route::get('/asset/{id}/locations', 'Member\AssetController@locations'); 
+
+        Route::post('/location/store', 'Member\ListController@location');
+        
+        
     });
 });
 

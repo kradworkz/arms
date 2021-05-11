@@ -16,10 +16,10 @@
                             </div>
                             <div class="mail-list mt-4">
                                 <a @click="change(1)" :class="{active:selected == 1}">
-                                   <i class='bx bx-list-ul mr-2'></i>Categories
+                                    <i class='bx bx-home-alt mr-2'></i>Storages
                                 </a>
                                 <a @click="change(2)" :class="{active:selected == 2}">
-                                    <i class='bx bx-list-check mr-2'></i>Statuses
+                                    <i class='bx bx-store mr-2'></i>Vendors
                                 </a>
                             </div>
                             <hr class="mb-4">
@@ -63,20 +63,21 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                      
-                                        <th v-if="selected == 1">Status</th>
-                                        <th v-if="selected == 2">Type</th>
+                                        <th>Address</th>
+                                        <th>Contact no</th>
+                                        <th>Status</th>
                                         <th class="text-right">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="list in lists" v-bind:key="list.id">
                                         <td>{{list.name}}</td>
-                                        <td v-if="selected == 1">
+                                        <td>{{list.address}}</td>
+                                        <td>{{list.contact_no}}</td>
+                                        <td>
                                             <span v-if="list.status == 0" class="badge badge-lg badge-success">Active</span>
                                             <span v-else class="badge badge-danger">Inactive</span>
                                         </td> 
-                                        <td v-if="selected == 2">{{list.type}}</td>
                                         <td class="text-right">
                                             <button v-if="list.status == 0" @click="status(list.id,list.status)" class="btn btn-sm btn-danger waves-effect waves-light">Deactivate</button>
                                             <button v-else @click="status(list.id,list.status)" class="btn btn-sm btn-success waves-effect waves-light">Activate</button>
@@ -110,16 +111,18 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row" v-if="selected == 2">
-                                        <div class="col-md-12">
-                                            <label for="formrow-firstname-input">Type: <span v-if="errors.type" class="haveerror">({{ errors.type[0] }})</span></label>
-                                            <multiselect 
-                                                v-model="type" 
-                                                :options="options"
-                                                :allow-empty="false"
-                                                deselect-label="Can't remove this value"
-                                                >
-                                            </multiselect>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="formrow-firstname-input">Address: <span v-if="errors.address" class="haveerror">({{ errors.address[0] }})</span></label>
+                                                <input type="text" class="form-control" id="formrow-firstname-input" v-model="address" style="text-transform: capitalize;">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="formrow-firstname-input">Contact: <span v-if="errors.contact_no" class="haveerror">({{ errors.contact_no[0] }})</span></label>
+                                                <input type="text" class="form-control" id="formrow-firstname-input" v-model="contact_no">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -154,8 +157,7 @@ export default {
             contact_no: '',
             type: '',
             selected: 1,
-            editable: false,
-            options : ["Asset","Activity","Request","Maintenance"],
+            editable: false
         }
     },
 
@@ -179,7 +181,7 @@ export default {
         fetch(page_url) {
             let vm = this; let key;
             (this.keyword != '' && this.keyword != null) ? key = this.keyword : key = '-';
-            page_url = page_url || this.currentUrl + '/request/admin/'+this.selected+'/'+key;
+            page_url = page_url || this.currentUrl + '/request/member/type'+this.selected+'/'+key;
 
             axios.get(page_url)
             .then(response => {
@@ -194,13 +196,14 @@ export default {
             form.append('id', this.id);
             form.append('name', this.name);
             form.append('selected', this.selected);
+            form.append('address', this.address);
+            form.append('contact_no', this.contact_no);
             (this.editable == true) ? form.append('update', 'update') : form.append('update','create');
-            (this.selected == 2) ? form.append('type', this.type) : '';
 
-            axios.post(this.currentUrl + '/request/admin/list/store', form)
+            axios.post(this.currentUrl + '/request/member/list/store', form)
             .then(response => {
                 $('#new').modal('hide');
-                let page_url = '/request/admin/'+this.selected+'/-?page=' + this.pagination.current_page;
+                let page_url = '/request/member/'+this.selected+'/-?page=' + this.pagination.current_page;
                 this.fetch(page_url);
                 Vue.$toast.success('<strong>Successfully Updated</strong>', {
                     position: 'bottom-right'

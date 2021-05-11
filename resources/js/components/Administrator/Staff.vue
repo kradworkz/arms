@@ -321,6 +321,6 @@ export default {
             this.photo.url = imgDataUrl;
         }
 
-    }, components: { Multiselect, myUpload }
+    }, components: { Multiselect, myUpload, Loading }
 }
 </script>

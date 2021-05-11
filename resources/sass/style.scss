@@ -1,5 +1,6 @@
 @import '/assets/css/bootstrap.min.css';
 @import '/assets/css/app.min.css';
+@import '/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css';
 
 .haveerror {
 	color: red;
@@ -153,3 +154,4 @@
     cursor: default;
     opacity: .5;
   }
+  

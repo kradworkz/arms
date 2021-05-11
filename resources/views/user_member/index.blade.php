@@ -8,8 +8,8 @@
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Agency</a></li>
-                            <li class="breadcrumb-item active">Starter Page</li>
+                            {{-- <li class="breadcrumb-item"><a href="javascript: void(0);">Agency</a></li> --}}
+                            <li class="breadcrumb-item active">{{Auth::user()->member->mm->member->name}} - {{Auth::user()->member->mm->municipality->name}}</li>
                         </ol>
                     </div>
 

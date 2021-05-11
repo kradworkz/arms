@@ -17,7 +17,7 @@ class Asset extends Model
 
     public function category()
     {
-        return $this->belongsTo('App\Models\Category', 'category_id', 'id');
+        return $this->belongsTo('App\Models\Dropdown', 'category_id', 'id');
     }
 
     public function storage()
@@ -27,7 +27,22 @@ class Asset extends Model
 
     public function status()
     {
-        return $this->belongsTo('App\Models\Status', 'status_id', 'id');
+        return $this->belongsTo('App\Models\Dropdown', 'status_id', 'id');
+    }
+
+    public function purchases()
+    {
+        return $this->hasMany('App\Models\AssetPurchase', 'asset_id');
+    }
+
+    public function information()
+    {
+        return $this->hasOne('App\Models\AssetInformation', 'asset_id');
+    }
+
+    public function locations()
+    {
+        return $this->hasMany('App\Models\AssetLocation', 'asset_id');
     }
 
     public function getUpdatedAtAttribute($value)

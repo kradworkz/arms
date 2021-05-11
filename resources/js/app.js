@@ -9,6 +9,8 @@ require('./bootstrap');
 window.Vue = require('vue').default;
 import VueToast from 'vue-toast-notification';
 Vue.use(VueToast);
+import Vue from 'vue';
+
 
 /**
  * The following block of code may be used to automatically register your
@@ -29,8 +31,12 @@ Vue.component('member', require('./components/Administrator/Member.vue').default
 Vue.component('lgu', require('./components/Administrator/Lgu.vue').default);
 Vue.component('application-setting', require('./components/Administrator/Setting.vue').default);
 
-Vue.component('newasset', require('./components/Member/NewAsset.vue').default);
-Vue.component('inventory', require('./components/Member/Inventory.vue').default);
+// Vue.component('newasset', require('./components/Member/NewAsset.vue').default);
+Vue.component('inventory', require('./components/Member/Asset.vue').default);
+Vue.component('asset-create', require('./components/Member/AssetNew.vue').default);
+Vue.component('asset-view', require('./components/Member/AssetView.vue').default);
+Vue.component('asset-track', require('./components/Member/AssetTrack.vue').default);
+Vue.component('member-list', require('./components/Member/List.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

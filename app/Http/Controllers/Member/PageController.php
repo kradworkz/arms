@@ -11,4 +11,14 @@ class PageController extends Controller
     {
         return view('user_member.inventory');
     }
+
+    public function list()
+    {
+        return view('user_member.list');
+    }
+
+    public function viewasset()
+    {
+        return view('user_member.view');
+    }
 }

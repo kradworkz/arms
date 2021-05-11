@@ -11,6 +11,7 @@
     <script>window.Laravel = { csrfToken: '{{ csrf_token() }}' }</script>
 
     <link rel="shortcut icon" href="{{asset('assets/images/icon.png')}}">
+    <link type="text/css" rel="stylesheet" href="{{asset('assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css')}}" />
     <link type="text/css" rel="stylesheet" href="{{asset('css/style.css')}}" />
     <link type="text/css" rel="stylesheet" href="{{asset('fonts/boxicons-2.0.7/css/boxicons.css')}}" />
 </head>

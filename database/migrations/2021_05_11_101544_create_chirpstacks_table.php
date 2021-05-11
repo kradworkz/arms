@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStatusesTable extends Migration
+class CreateChirpstacksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateStatusesTable extends Migration
      */
     public function up()
     {
-        Schema::create('statuses', function (Blueprint $table) {
+        Schema::create('chirpstacks', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->tinyIncrements('id');
-            $table->string('name',20);
-            $table->string('type',20);  
+            $table->bigIncrements('id');
+            $table->json('value');
+            $table->timestamps();
         });
     }
 
@@ -28,6 +28,6 @@ class CreateStatusesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('statuses');
+        Schema::dropIfExists('chirpstacks');
     }
 }
