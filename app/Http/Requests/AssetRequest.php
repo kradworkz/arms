@@ -25,11 +25,7 @@ class AssetRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:150|unique:assets,name,'.$this->id,
-            'vendor' => 'required|integer',
-            'storage' => 'required|integer',
             'category' => 'required|integer',
-            'price' => 'required',
-            'quantity' => 'required',
             'avatar' => 'nullable|image64:jpeg,jpg',
             'brand' => 'nullable|string|max:150',
             'serial_no' => 'nullable|string|max:150',
@@ -44,10 +40,6 @@ class AssetRequest extends FormRequest
         return [
             'name.required' => '* required',
             'category.required' => '* required',
-            'storage.required' => '* required',
-            'vendor.required' => '* required',
-            'price.required' => '* required',
-            'quantity.required' => '* required',
         ];
     }
 }

@@ -15,32 +15,59 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="row customerform">
-                        <div class="col-md-6" style="margin-top: -10px;">
-                            <div class="form-group form-primary">
-                                <label class="float-label">Category <span v-if="errors.category" class="haveerror">({{ errors.category[0] }})</span></label>
-                                <multiselect v-model="asset.category" :options="categories" placeholder="Select Category" label="name" track-by="id">
-                                </multiselect>
+                    
+                        <div class="row col-md-12">
+                            <div class="col-md-9" style="margin-top: -10px;">
+                                <div class="form-group">
+                                    <label for="formrow-firstname-input">Name: <span v-if="errors.name" class="haveerror">({{ errors.name[0] }})</span></label>
+                                    <input type="text" class="form-control" id="formrow-firstname-input" v-model="asset.name" style="text-transform: capitalize;">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6" style="margin-top: -10px;">
-                            <div class="form-group form-primary">
-                                <label class="float-label">Storage <span v-if="errors.storage" class="haveerror">({{ errors.storage[0] }})</span></label>
-                                <multiselect v-model="asset.storage" :options="storages" placeholder="Select Storage" label="name" track-by="id">
-                                </multiselect>
-                            </div>
-                        </div>
-                        <div class="col-md-12" style="margin-top: -10px;">
-                            <div class="form-group">
-                                <label for="formrow-firstname-input">Name: <span v-if="errors.name" class="haveerror">({{ errors.name[0] }})</span></label>
-                                <input type="text" class="form-control" id="formrow-firstname-input" v-model="asset.name" style="text-transform: capitalize;">
+                            <div class="col-md-3" style="margin-top: -10px;">
+                                <div class="form-group form-primary">
+                                    <label class="float-label">Category <span v-if="errors.category" class="haveerror">({{ errors.category[0] }})</span></label>
+                                    <multiselect v-model="asset.category" :options="categories" placeholder="Select Category" label="name" track-by="id">
+                                    </multiselect>
+                                </div>
                             </div>
                         </div>
 
                         <div class="col-md-12">
                             <hr>
+                            <button @click="add" style="margin-top: -55px;" class="btn btn-sm btn-primary pull-right" type="button">Add Storage</button>
                         </div>
-                       
-                        <div class="col-md-6">
+
+                        <div class="row col-md-12" v-for="(list , index) in lists" v-bind:key="'a-'+list.id+index">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="float-label">Storage <span v-if="errors.storage" class="haveerror">({{ errors.storage[0] }})</span></label>
+                                    <multiselect v-model="list.storage" :options="storages" placeholder="Select Storage" label="name" track-by="id">
+                                    </multiselect>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group form-primary">
+                                    <label class="float-label">Status <span v-if="errors.status" class="haveerror">({{ errors.status[0] }})</span></label>
+                                    <multiselect v-model="list.status" :options="statuses" placeholder="Select Status" label="name" track-by="id">
+                                    </multiselect>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label>Quantity <span v-if="errors.quantity" class="haveerror">({{ errors.quantity[0] }})</span></label>
+                                <div class="input-group  bootstrap-touchspin bootstrap-touchspin-injected"><input type="text" v-model="list.quantity" class="form-control"><span class="input-group-btn-vertical">
+                                    <button @click="addup('add',index)" class="btn btn-primary bootstrap-touchspin-up " type="button">+</button>
+                                    <button @click="addup('minus',index)" class="btn btn-primary bootstrap-touchspin-down " type="button">-</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <hr>
+                        </div>
+                        <!-- <div class="col-md-6">
                             <div class="form-group">
                                 <label class="float-label">Vendor <span v-if="errors.vendor" class="haveerror">({{ errors.vendor[0] }})</span></label>
                                 <multiselect v-model="asset.vendor" :options="vendors" placeholder="Select Vendor" label="name" track-by="id">
@@ -60,7 +87,7 @@
                                 <button @click="addup('minus')" class="btn btn-primary bootstrap-touchspin-down " type="button">-</button>
                                 </span>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="col-md-12" style="margin-top: 20px;">
                             <hr>
@@ -216,10 +243,12 @@ export default {
                 address: '',
                 contact_no: ''
             },
+            lists : [ {quantity : 1}],
             categories: [],
             storages :[],
             vendors: [],
-             photo: {show: false,url: '',signature: ''},
+            statuses: [],
+            photo: {show: false,url: '',signature: ''},
             params: {token: '123456798',name: 'avatar'},
             headers: {smail: '*_~'},
             isLoading: false,
@@ -233,6 +262,7 @@ export default {
         this.fetchCategory();
         this.fetchStorage();
         this.fetchVendor();
+        this.fetchStatus();
     },
 
     methods : {
@@ -241,15 +271,15 @@ export default {
             axios.post(this.currentUrl + '/request/member/asset/store', {
                 id: this.asset.id,
                 name: this.asset.name,
-                price: this.asset.price,
-                quantity: this.asset.quantity,
                 category: this.asset.category.id,
-                storage: this.asset.storage.id,
-                vendor: this.asset.vendor.id,
-                brand: this.asset.brand,
-                serial_no: this.asset.serial_no,
-                model: this.asset.model,
-                desc: this.asset.desc,
+                lists: this.lists,
+                // storage: this.asset.storage.id,
+                // vendor: this.asset.vendor.id,
+                // status: this.asset.status.id,
+                // brand: this.asset.brand,
+                // serial_no: this.asset.serial_no,
+                // model: this.asset.model,
+                // desc: this.asset.desc,
                 avatar: this.photo.url,
                 editable: this.editable,
                 extra: this.extra,
@@ -304,6 +334,10 @@ export default {
             });
         },
 
+        add() {
+            this.lists.push({storage: '',quantity: 1, status: ''})
+        },
+
         fetchCategory(){
             axios.get(this.currentUrl + '/request/admin/lists/s/1')
             .then(response => {
@@ -311,6 +345,15 @@ export default {
             })
             .catch(err => console.log(err));
         },
+
+        fetchStatus(){
+            axios.get(this.currentUrl + '/request/admin/lists/s/2')
+            .then(response => {
+                this.statuses = response.data.data;;
+            })
+            .catch(err => console.log(err));
+        },
+
 
         fetchStorage(){
             axios.get(this.currentUrl + '/request/member/lists/s/1')
@@ -337,12 +380,12 @@ export default {
             (this.extra) ? this.extra = false : this.extra = true;
         },
 
-        addup(val){
+        addup(val,index){
             if(val == 'add'){
-                this.asset.quantity += 1;
+                this.lists[index].quantity += 1;
             }else{
-                if(this.asset.quantity > 1){
-                this.asset.quantity -= 1;
+                if(this.lists[index].quantity > 1){
+                this.lists[index].quantity -= 1;
                 }
             }
         },

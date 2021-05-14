@@ -20,16 +20,6 @@ class Asset extends Model
         return $this->belongsTo('App\Models\Dropdown', 'category_id', 'id');
     }
 
-    public function storage()
-    {
-        return $this->belongsTo('App\Models\Storage', 'storage_id', 'id');
-    }
-
-    public function status()
-    {
-        return $this->belongsTo('App\Models\Dropdown', 'status_id', 'id');
-    }
-
     public function purchases()
     {
         return $this->hasMany('App\Models\AssetPurchase', 'asset_id');
@@ -41,6 +31,11 @@ class Asset extends Model
     }
 
     public function locations()
+    {
+        return $this->hasMany('App\Models\AssetLocation', 'asset_id');
+    }
+
+    public function lists()
     {
         return $this->hasMany('App\Models\AssetLocation', 'asset_id');
     }
