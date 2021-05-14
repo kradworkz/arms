@@ -15,7 +15,7 @@ class ChirpstackController extends Controller
 
         $obj = json_decode($json);
 
-        $decoded = json_encode($obj);
+        $decoded = base64_decode(json_encode($obj->data));
 
 
         $data = new Chirpstack;

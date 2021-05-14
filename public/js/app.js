@@ -59652,7 +59652,7 @@ var render = function() {
                                 {
                                   staticClass: "mr-3 text-info",
                                   attrs: {
-                                    href: "assetlist/" + asset.id,
+                                    href: "assetlist/" + asset.asset_id,
                                     "data-toggle": "tooltip",
                                     "data-placement": "top",
                                     title: "",

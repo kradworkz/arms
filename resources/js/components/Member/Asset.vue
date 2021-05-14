@@ -93,7 +93,7 @@
                                     <span class="badge badge-success font-size-12">{{asset.status}}</span>
                                 </td>
                                 <td class="text-center">
-                                    <a :href="'assetlist/'+asset.id" class="mr-3 text-info" data-toggle="tooltip" data-placement="top" title="" data-original-title="View"><i class='bx bx-show'></i></a>
+                                    <a :href="'assetlist/'+asset.asset_id" class="mr-3 text-info" data-toggle="tooltip" data-placement="top" title="" data-original-title="View"><i class='bx bx-show'></i></a>
                                     <a class="mr-3 text-warning" @click="edit(asset)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class='bx bx-edit-alt' ></i></a>
                                     <a class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class='bx bx-trash'></i></a>
                                 </td>
