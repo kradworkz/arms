@@ -25,7 +25,7 @@ class ChirpstackController extends Controller
         $formatted_date = $date->format('Y-m-d H:i:s');
         $device = DeviceData::where('code',$array->uniqueid)->where('created_at','>=', $formatted_date)->count();
         
-        if($device < 1){
+        if($device == 0){
             $wew = new DeviceData;
             $wew->coordinates = json_encode($array->gps);
             $wew->status = $array->status;
