@@ -59,6 +59,8 @@ Route::prefix('request')->group(function () {
         Route::post('/list/{keyword}', 'Administrator\ListsController@store');
         Route::get('/lists/s/{type}', 'Administrator\ListsController@lists');
 
+        Route::get('/packets', 'Administrator\PacketController@index');
+
     });
 
     Route::prefix('member')->group(function (){

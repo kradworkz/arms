@@ -55,7 +55,7 @@ export default {
         listenForNewEvent(){
             Echo.join('public-channel')
             .listen('AssetLocation', (data) => {
-                this.lists.push(data);
+                this.lists.unshift(data);
             });
         },
 

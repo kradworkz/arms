@@ -1899,7 +1899,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       Echo.join('public-channel').listen('AssetLocation', function (data) {
-        _this.lists.push(data);
+        _this.lists.unshift(data);
       });
     }
   }
