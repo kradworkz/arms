@@ -33,7 +33,9 @@ class AssetLocation implements ShouldBroadcast
 
     public function broadcastWith()
     {   
-        $array = \json_decode($this->event->value);
+        $json = \json_decode($this->event->value);
+        $array = \json_decode($json);
+      
         return [
             'id' => $this->event->id,
             'uniqueid' => $array->uniqueid,

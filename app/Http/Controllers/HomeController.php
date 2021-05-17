@@ -7,6 +7,7 @@ use App\Models\Asset;
 use App\Models\Chirpstack;
 use Illuminate\Http\Request;
 use App\Events\AssetLocation;
+use App\Http\Resources\DefaultResource;
 
 class HomeController extends Controller
 {
@@ -43,7 +44,11 @@ class HomeController extends Controller
         // return \json_encode($data,JSON_UNESCAPED_SLASHES);
 
         $data = Chirpstack::where('id',1)->first();
-        return json_decode($data->value);
+        
+
+        $json = json_decode($data->value);
+        $a = \json_decode($json);
+        return $a->uniqueid;
     }
 
 
