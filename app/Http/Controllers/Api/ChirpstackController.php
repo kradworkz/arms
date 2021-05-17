@@ -20,6 +20,11 @@ class ChirpstackController extends Controller
         $a = \json_decode($decoded);
         $array = \json_decode($a);
 
+        $date = new \DateTime;
+        $date->modify('-1 minutes');
+        $formatted_date = $date->format('Y-m-d H:i:s');
+        $device = DeviceData::where('code',$array->uniqueid)->where('created_at','>=', $formatted_date)->count();
+
         $data = new DeviceData;
         $data->random = 'rmdno';
         $data->coordinates = json_encode($array->gps);
