@@ -23,7 +23,7 @@ class ChirpstackController extends Controller
         $date = new \DateTime;
         $date->modify('-1 minutes');
         $formatted_date = $date->format('Y-m-d H:i:s');
-        $device = DeviceData::where('code',$aa->uniqueid)->where('created_at','>=', $formatted_date)->count();
+        $device = DeviceData::where('code',$aa->uniqueid)->where('status',$aa->status)->where('created_at','>=', $formatted_date)->count();
         
         if($device == 0){
             $wew = new DeviceData;
