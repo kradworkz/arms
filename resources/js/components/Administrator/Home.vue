@@ -18,7 +18,10 @@
                                 <tr v-for="(list,index) in lists" v-bind:key="index">
                                     <td><a class="text-body font-weight-bold">{{list.uniqueid}}</a> </td>
                                     <td>{{list.coordinates}}</td>
-                                    <td>{{list.status}}</td>
+                                    <td>
+                                        <span v-if="list.status == 1" class="badge badge-lg badge-success">Serviceable</span>
+                                        <span v-else class="badge badge-danger">Non Serviceable</span>
+                                    </td>
                                     <td>{{list.created_at}}</td>
                                 </tr>
                             </tbody>
