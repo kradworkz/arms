@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateChirpstacksTable extends Migration
+class CreateDeviceDataTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateChirpstacksTable extends Migration
      */
     public function up()
     {
-        Schema::create('chirpstacks', function (Blueprint $table) {
+        Schema::create('device_data', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
-            $table->json('value');
+            $table->string('code',50);
+            $table->json('coordinates');
+            $table->string('status',3);
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreateChirpstacksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('chirpstacks');
+        Schema::dropIfExists('device_data');
     }
 }

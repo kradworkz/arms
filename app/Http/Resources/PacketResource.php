@@ -14,13 +14,11 @@ class PacketResource extends JsonResource
      */
     public function toArray($request)
     {   
-        $json = \json_decode($this->value);
-        $array = \json_decode($json);
         return [
             'id' => $this->id,
-            'uniqueid' => $array->uniqueid,
-            'gps' => $array->gps,
-            'status' => $array->status,
+            'code' => $this->code,
+            'coordinates' => $this->coordinates,
+            'status' => $this->status,
             'created_at' => $this->created_at,
         ];
     }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Chirpstack;
+use App\Models\DeviceData;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\DefaultResource;
@@ -16,15 +16,17 @@ class ChirpstackController extends Controller
         $json = file_get_contents("php://input");
 
         $obj = json_decode($json);
-        $decoded = json_encode($obj->objectJSON,JSON_UNESCAPED_SLASHES);
+        $decoded = json_encode($obj->objectJSON);
+        $array = \json_decode($decoded);
 
-        $data = new Chirpstack;
-        $data->value = $decoded;
+        $data = new DeviceData;
+        $data->coordinate = $array->coordinate;
+        $data->status = $array->status;
+        $data->code = $array->code;
         $data->save();
 
         broadcast(new AssetLocation($data));
         return new DefaultResource($data);
-        
     }
 
     public function test(){

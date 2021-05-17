@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Administrator;
 
-use App\Models\Chirpstack;
+use App\Models\DeviceData;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\DefaultResource;
@@ -12,7 +12,7 @@ class PacketController extends Controller
 {
     public function index(){
 
-        $data = Chirpstack::orderBy('created_at','DESC')->get();
+        $data = DeviceData::orderBy('created_at','DESC')->get();
         return PacketResource::collection($data);
     }
 }

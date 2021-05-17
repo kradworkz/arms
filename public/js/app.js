@@ -67629,7 +67629,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", { staticClass: "text-center" }, [
                         _c("a", { staticClass: "text-body font-weight-bold" }, [
-                          _vm._v(_vm._s(list.uniqueid))
+                          _vm._v(_vm._s(list.code))
                         ])
                       ]),
                       _vm._v(" "),
