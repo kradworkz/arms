@@ -20,13 +20,14 @@ class ChirpstackController extends Controller
         $a = \json_decode($decoded);
         $array = \json_decode($a);
 
-        $wew = new DeviceData;
-        $wew->coordinates = json_encode($array->gps);
-        $wew->status = $array->status;
-        $wew->code = $array->uniqueid;
-        $wew->save();
+        $data = new DeviceData;
+        $data->random = 'rmdno';
+        $data->coordinates = json_encode($array->gps);
+        $data->status = $array->status;
+        $data->code = $array->uniqueid;
+        $data->save();
 
-        broadcast(new AssetLocation($wew));
+        broadcast(new AssetLocation($data));
         return new DefaultResource($data);
     }
 
