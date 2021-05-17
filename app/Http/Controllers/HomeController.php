@@ -57,8 +57,8 @@ class HomeController extends Controller
         // $a = \json_decode($json);
         // return $a->gps;
 
-        $data = "{\"gps\":[6.940501,122.071357],\"status\":2,\"uniqueid\":1001}";
-        $decoded = json_encode($data);
+        $data = '{"gps":[6.940501,122.071357],"status":2,"uniqueid":1001}"';
+        dd($decoded = json_encode($data));
         $a = \json_decode($decoded);
         $array = \json_decode($a);
       
