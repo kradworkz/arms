@@ -67648,10 +67648,10 @@ var render = function() {
                           ? _c(
                               "span",
                               { staticClass: "badge badge-lg badge-warning" },
-                              [_vm._v("GPS")]
+                              [_vm._v("Non Serviceable")]
                             )
                           : _c("span", { staticClass: "badge badge-danger" }, [
-                              _vm._v("Non Serviceable")
+                              _vm._v("GPS")
                             ])
                       ]),
                       _vm._v(" "),

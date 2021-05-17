@@ -22,8 +22,8 @@
                                     <td class="text-center">{{list.coordinates}}</td>
                                     <td class="text-center">
                                         <span v-if="list.status == 1" class="badge badge-lg badge-success">Serviceable</span>
-                                        <span v-else-if="list.status == 0" class="badge badge-lg badge-warning">GPS</span>
-                                        <span v-else class="badge badge-danger">Non Serviceable</span>
+                                        <span v-else-if="list.status == 0" class="badge badge-lg badge-warning">Non Serviceable</span>
+                                        <span v-else class="badge badge-danger">GPS</span>
                                     </td >
                                     <td class="text-center">{{list.created_at}}</td>
                                 </tr>
