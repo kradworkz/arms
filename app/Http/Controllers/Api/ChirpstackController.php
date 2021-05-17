@@ -24,16 +24,20 @@ class ChirpstackController extends Controller
         $date->modify('-1 minutes');
         $formatted_date = $date->format('Y-m-d H:i:s');
         $device = DeviceData::where('code',$array->uniqueid)->where('created_at','>=', $formatted_date)->count();
+        
+        if($device < 1){
+            $data = new DeviceData;
+            $data->random = 'rmdno';
+            $data->coordinates = json_encode($array->gps);
+            $data->status = $array->status;
+            $data->code = $array->uniqueid;
+            $data->save();
 
-        $data = new DeviceData;
-        $data->random = 'rmdno';
-        $data->coordinates = json_encode($array->gps);
-        $data->status = $array->status;
-        $data->code = $array->uniqueid;
-        $data->save();
-
-        broadcast(new AssetLocation($data));
-        return new DefaultResource($data);
+            broadcast(new AssetLocation($data));
+            return new DefaultResource($data);
+        }else{
+            return '';
+        }
     }
 
     public function test(){
