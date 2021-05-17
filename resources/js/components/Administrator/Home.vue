@@ -16,9 +16,9 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(list,index) in lists" v-bind:key="index">
-                                    <td><a class="text-body font-weight-bold">{{list.id}}</a> </td>
-                                    <td>{{list.value}}</td>
-                                    <td>07 Oct, 2019</td>
+                                    <td><a class="text-body font-weight-bold">{{list.uniqueid}}</a> </td>
+                                    <td>{{list.coordinates}}</td>
+                                    <td>{{list.status}}</td>
                                     <td>{{list.created_at}}</td>
                                 </tr>
                             </tbody>

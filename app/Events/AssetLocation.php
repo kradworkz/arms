@@ -32,10 +32,13 @@ class AssetLocation implements ShouldBroadcast
     }
 
     public function broadcastWith()
-    {
+    {   
+        $array = \json_decode($this->event->value);
         return [
             'id' => $this->event->id,
-            'value' => $this->event->value,
+            'uniqueid' => $array->uniqueid,
+            'coordinates' => $array->gps,
+            'status' => $array->status,
             'created_at' => $this->event->created_at,
         ];
     }

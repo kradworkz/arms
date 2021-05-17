@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Models\Asset;
+use App\Models\Chirpstack;
 use Illuminate\Http\Request;
 use App\Events\AssetLocation;
 
@@ -38,8 +39,11 @@ class HomeController extends Controller
     public function test(){
         // $data = Asset::where('id',1)->first();
         // $test = broadcast(new AssetLocation($data));
+        // $data = "{\"gps\":[6.940501,122.071357],\"status\":2,\"uniqueid\":1001}";
+        // return \json_encode($data,JSON_UNESCAPED_SLASHES);
 
-        return \json_encode("{\"gps\":[6.940501,122.071357],\"status\":2,\"uniqueid\":1001}");
+        $data = Chirpstack::where('id',1)->first();
+        return json_decode($data->value);
     }
 
 

@@ -67621,13 +67621,13 @@ var render = function() {
                     return _c("tr", { key: index }, [
                       _c("td", [
                         _c("a", { staticClass: "text-body font-weight-bold" }, [
-                          _vm._v(_vm._s(list.id))
+                          _vm._v(_vm._s(list.uniqueid))
                         ])
                       ]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(list.value))]),
+                      _c("td", [_vm._v(_vm._s(list.coordinates))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v("07 Oct, 2019")]),
+                      _c("td", [_vm._v(_vm._s(list.status))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(list.created_at))])
                     ])
