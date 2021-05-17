@@ -28,6 +28,7 @@
                                     <td class="text-center">{{list.created_at}}</td>
                                 </tr>
                             </tbody>
+                            
                         </table>
                     </div>
                     <!-- end table-responsive -->
