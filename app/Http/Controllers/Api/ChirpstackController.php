@@ -16,7 +16,7 @@ class ChirpstackController extends Controller
         $json = file_get_contents("php://input");
 
         $obj = json_decode($json);
-        $decoded = json_encode($obj->objectJSON);
+        $decoded = json_encode($obj->objectJSON,JSON_UNESCAPED_SLASHES);
 
         $data = new Chirpstack;
         $data->value = $decoded;

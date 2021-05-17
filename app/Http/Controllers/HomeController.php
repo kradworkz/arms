@@ -36,7 +36,11 @@ class HomeController extends Controller
     }
 
     public function test(){
-        $data = Asset::where('id',1)->first();
-        $test = broadcast(new AssetLocation($data));
+        // $data = Asset::where('id',1)->first();
+        // $test = broadcast(new AssetLocation($data));
+
+        return \json_encode("{\"gps\":[6.940501,122.071357],\"status\":2,\"uniqueid\":1001}");
     }
+
+
 }
