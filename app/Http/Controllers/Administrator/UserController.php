@@ -80,7 +80,9 @@ class UserController extends Controller
                     'user_id' => $data->id,
                 ]);
 
-                EmailNewAccount::dispatch($data->id)->delay(now()->addSeconds(10));
+                // EmailNewAccount::dispatch($data->id)->delay(now()->addSeconds(10));
+                $expiresAt = now()->addDay();
+                $data->sendWelcomeNotification($expiresAt);
             }
         }
     }

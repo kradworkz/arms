@@ -19,3 +19,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/chirpstack', 'Api\ChirpstackController@index');
+Route::get('/test', 'Api\ChirpstackController@test');

@@ -23,6 +23,8 @@ Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/test', 'HomeController@test');
+
 Route::middleware(['role:Administrator','auth'])->group(function () {
     Route::get('/staffs', 'Administrator\PageController@staffs'); 
     Route::get('/agencies', 'Administrator\PageController@agencies'); 

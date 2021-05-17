@@ -24,16 +24,16 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
-        // \DB::table('users')->insert([
-        //     'name' => 'Eden Galleno',
-        //     'email' => 'gallenoeden09@gmail.com',
-        //     'password' => bcrypt('eden123456'),
-        //     'type' => 'Administrator',
-        //     'status' => 'Active',
-        //     'created_at' => now(),
-        //     'updated_at' => now(),
-        //     'email_verified_at' => now(),
-        // ]);
+        \DB::table('users')->insert([
+            'name' => 'Eden Galleno',
+            'email' => 'gallenoeden09@gmail.com',
+            'password' => bcrypt('eden123456'),
+            'type' => 'Administrator',
+            'status' => 'Active',
+            'created_at' => now(),
+            'updated_at' => now(),
+            'email_verified_at' => now(),
+        ]);
 
         \DB::table('members')->insert([
             'name' => 'Local Government Unit',

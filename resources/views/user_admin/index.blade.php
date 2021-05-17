@@ -17,4 +17,6 @@
             </div>
         </div>
 
+        <admin-home></admin-home>
+
 @endsection

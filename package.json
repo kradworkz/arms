@@ -25,7 +25,9 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "laravel-echo": "^1.10.0",
         "leaflet": "^1.7.1",
+        "pusher-js": "4.3",
         "vue-image-crop-upload": "^3.0.3",
         "vue-loading-overlay": "^3.4.2",
         "vue-multiselect": "^2.1.6",

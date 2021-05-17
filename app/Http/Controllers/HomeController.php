@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use App\Models\Asset;
 use Illuminate\Http\Request;
+use App\Events\AssetLocation;
 
 class HomeController extends Controller
 {
@@ -31,5 +33,10 @@ class HomeController extends Controller
         }else{
             return view('user_top.index');
         }
+    }
+
+    public function test(){
+        $data = Asset::where('id',1)->first();
+        $test = broadcast(new AssetLocation($data));
     }
 }

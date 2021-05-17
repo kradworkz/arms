@@ -30,6 +30,7 @@ Vue.component('staff', require('./components/Administrator/Staff.vue').default);
 Vue.component('member', require('./components/Administrator/Member.vue').default);
 Vue.component('lgu', require('./components/Administrator/Lgu.vue').default);
 Vue.component('application-setting', require('./components/Administrator/Setting.vue').default);
+Vue.component('admin-home', require('./components/Administrator/Home.vue').default);
 
 // Vue.component('newasset', require('./components/Member/NewAsset.vue').default);
 Vue.component('inventory', require('./components/Member/Asset.vue').default);
