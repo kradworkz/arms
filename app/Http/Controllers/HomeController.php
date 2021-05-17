@@ -38,17 +38,24 @@ class HomeController extends Controller
     }
 
     public function test(){
-        // $data = Asset::where('id',1)->first();
-        // $test = broadcast(new AssetLocation($data));
+        $data = '{
+            "id" => 1,
+            "gps" => "[123131,2313131]",
+            "code" => "adsada",
+            "status" => 2,
+            "created_at" => "123131"
+        }';
+        $data = json_encode($data);
+        $test = broadcast(new AssetLocation($data));
         // $data = "{\"gps\":[6.940501,122.071357],\"status\":2,\"uniqueid\":1001}";
         // return \json_encode($data,JSON_UNESCAPED_SLASHES);
 
-        $data = Chirpstack::where('id',1)->first();
+        // $data = Chirpstack::where('id',1)->first();
         
 
-        $json = json_decode($data->value);
-        $a = \json_decode($json);
-        return $a->gps;
+        // $json = json_decode($data->value);
+        // $a = \json_decode($json);
+        // return $a->gps;
     }
 
 

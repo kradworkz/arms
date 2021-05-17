@@ -1885,6 +1885,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -67615,57 +67621,87 @@ var render = function() {
             _vm._v("Latest Asset Location")
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "table-responsive" }, [
-            _c(
-              "table",
-              { staticClass: "table table-centered table-nowrap mb-0" },
-              [
-                _vm._m(0),
-                _vm._v(" "),
-                _c(
-                  "tbody",
-                  _vm._l(_vm.lists, function(list, index) {
-                    return _c("tr", { key: index }, [
-                      _c("td", [_vm._v(_vm._s(index + 1))]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-center" }, [
-                        _c("a", { staticClass: "text-body font-weight-bold" }, [
-                          _vm._v(_vm._s(list.code))
+          _c(
+            "div",
+            {
+              staticClass: "table-responsive",
+              staticStyle: { "min-height": "300px" }
+            },
+            [
+              _c(
+                "table",
+                { staticClass: "table table-centered table-nowrap mb-0" },
+                [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.lists, function(list, index) {
+                      return _c("tr", { key: index }, [
+                        _c("td", [_vm._v(_vm._s(index + 1))]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "text-center" }, [
+                          _c(
+                            "a",
+                            { staticClass: "text-body font-weight-bold" },
+                            [_vm._v(_vm._s(list.code))]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "text-center" }, [
+                          _vm._v(_vm._s(list.coordinates))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "text-center" }, [
+                          list.status == 1
+                            ? _c(
+                                "span",
+                                { staticClass: "badge badge-lg badge-success" },
+                                [_vm._v("Serviceable")]
+                              )
+                            : list.status == 0
+                            ? _c(
+                                "span",
+                                { staticClass: "badge badge-lg badge-danger" },
+                                [_vm._v("Non Serviceable")]
+                              )
+                            : _c(
+                                "span",
+                                { staticClass: "badge badge-warning" },
+                                [_vm._v("GPS")]
+                              )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "text-center" }, [
+                          _vm._v(_vm._s(list.created_at))
                         ])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-center" }, [
-                        _vm._v(_vm._s(list.coordinates))
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-center" }, [
-                        list.status == 1
-                          ? _c(
-                              "span",
-                              { staticClass: "badge badge-lg badge-success" },
-                              [_vm._v("Serviceable")]
-                            )
-                          : list.status == 0
-                          ? _c(
-                              "span",
-                              { staticClass: "badge badge-lg badge-danger" },
-                              [_vm._v("Non Serviceable")]
-                            )
-                          : _c("span", { staticClass: "badge badge-warning" }, [
-                              _vm._v("GPS")
-                            ])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-center" }, [
-                        _vm._v(_vm._s(list.created_at))
                       ])
-                    ])
-                  }),
-                  0
-                )
-              ]
-            )
-          ])
+                    }),
+                    0
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _vm.lists.length == 0
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "col-md-12 align-center",
+                      staticStyle: { "margin-top": "50px" }
+                    },
+                    [
+                      _c("center", [
+                        _c("i", {
+                          staticClass: "bx bx-wifi bx-flashing",
+                          staticStyle: { "font-size": "100px" }
+                        })
+                      ])
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ]
+          )
         ])
       ])
     ])

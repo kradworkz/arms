@@ -4,7 +4,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-4">Latest Asset Location</h4>
-                    <div class="table-responsive">
+                    <div class="table-responsive" style="min-height: 300px;">
                         <table class="table table-centered table-nowrap mb-0">
                             <thead class="thead-light">
                                 <tr>
@@ -27,9 +27,15 @@
                                     </td >
                                     <td class="text-center">{{list.created_at}}</td>
                                 </tr>
+                                
                             </tbody>
                             
                         </table>
+                        <div class="col-md-12 align-center" style="margin-top: 50px;" v-if="lists.length == 0">
+                            <center>
+                            <i class='bx bx-wifi bx-flashing' style="font-size: 100px;"></i>
+                            </center>
+                        </div>
                     </div>
                     <!-- end table-responsive -->
                 </div>

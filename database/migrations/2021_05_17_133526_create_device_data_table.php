@@ -16,6 +16,7 @@ class CreateDeviceDataTable extends Migration
         Schema::create('device_data', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
+            $table->string('random',50)->nullable();
             $table->string('code',50);
             $table->json('coordinates');
             $table->string('status',3);

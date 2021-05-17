@@ -20,6 +20,7 @@ class ChirpstackController extends Controller
         $array = \json_decode($decoded);
 
         $data = new DeviceData;
+        $data->random = 'rmdno';
         $data->coordinates = $array->gps;
         $data->status = $array->status;
         $data->code = $array->uniqueid;
