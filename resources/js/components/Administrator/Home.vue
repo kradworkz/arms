@@ -4,7 +4,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-4">Latest Asset Location</h4>
-                    <div class="table-responsive" style="min-height: 300px;">
+                    <div class="table-responsive" style="min-height: 230px;">
                         <table class="table table-centered table-nowrap mb-0">
                             <thead class="thead-light">
                                 <tr>

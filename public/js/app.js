@@ -67625,7 +67625,7 @@ var render = function() {
             "div",
             {
               staticClass: "table-responsive",
-              staticStyle: { "min-height": "300px" }
+              staticStyle: { "min-height": "230px" }
             },
             [
               _c(
