@@ -67647,10 +67647,10 @@ var render = function() {
                           : list.status == 0
                           ? _c(
                               "span",
-                              { staticClass: "badge badge-lg badge-warning" },
+                              { staticClass: "badge badge-lg badge-danger" },
                               [_vm._v("Non Serviceable")]
                             )
-                          : _c("span", { staticClass: "badge badge-danger" }, [
+                          : _c("span", { staticClass: "badge badge-warning" }, [
                               _vm._v("GPS")
                             ])
                       ]),
