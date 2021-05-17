@@ -1881,6 +1881,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -67622,15 +67624,19 @@ var render = function() {
                   "tbody",
                   _vm._l(_vm.lists, function(list, index) {
                     return _c("tr", { key: index }, [
-                      _c("td", [
+                      _c("td", [_vm._v(_vm._s(index + 1))]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-center" }, [
                         _c("a", { staticClass: "text-body font-weight-bold" }, [
                           _vm._v(_vm._s(list.uniqueid))
                         ])
                       ]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(list.coordinates))]),
+                      _c("td", { staticClass: "text-center" }, [
+                        _vm._v(_vm._s(list.coordinates))
+                      ]),
                       _vm._v(" "),
-                      _c("td", [
+                      _c("td", { staticClass: "text-center" }, [
                         list.status == 1
                           ? _c(
                               "span",
@@ -67642,7 +67648,9 @@ var render = function() {
                             ])
                       ]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(list.created_at))])
+                      _c("td", { staticClass: "text-center" }, [
+                        _vm._v(_vm._s(list.created_at))
+                      ])
                     ])
                   }),
                   0
@@ -67662,13 +67670,15 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", { staticClass: "thead-light" }, [
       _c("tr", [
-        _c("th", [_vm._v("Asset Code")]),
+        _c("th", [_vm._v("#")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Coordinates")]),
+        _c("th", { staticClass: "text-center" }, [_vm._v("Asset Code")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Status")]),
+        _c("th", { staticClass: "text-center" }, [_vm._v("Coordinates")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Date")])
+        _c("th", { staticClass: "text-center" }, [_vm._v("Status")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" }, [_vm._v("Date")])
       ])
     ])
   }

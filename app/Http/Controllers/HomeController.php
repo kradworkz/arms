@@ -48,7 +48,7 @@ class HomeController extends Controller
 
         $json = json_decode($data->value);
         $a = \json_decode($json);
-        return $a->uniqueid;
+        return $a->gps;
     }
 
 

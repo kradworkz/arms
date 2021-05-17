@@ -8,21 +8,23 @@
                         <table class="table table-centered table-nowrap mb-0">
                             <thead class="thead-light">
                                 <tr>
-                                    <th>Asset Code</th>
-                                    <th>Coordinates</th>
-                                    <th>Status</th>
-                                    <th>Date</th>
+                                    <th>#</th>
+                                    <th class="text-center">Asset Code</th>
+                                    <th class="text-center">Coordinates</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-center">Date</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(list,index) in lists" v-bind:key="index">
-                                    <td><a class="text-body font-weight-bold">{{list.uniqueid}}</a> </td>
-                                    <td>{{list.coordinates}}</td>
-                                    <td>
+                                    <td>{{index+1}}</td>
+                                    <td class="text-center"><a class="text-body font-weight-bold">{{list.uniqueid}}</a> </td>
+                                    <td class="text-center">{{list.coordinates}}</td>
+                                    <td class="text-center">
                                         <span v-if="list.status == 1" class="badge badge-lg badge-success">Serviceable</span>
                                         <span v-else class="badge badge-danger">Non Serviceable</span>
-                                    </td>
-                                    <td>{{list.created_at}}</td>
+                                    </td >
+                                    <td class="text-center">{{list.created_at}}</td>
                                 </tr>
                             </tbody>
                         </table>
