@@ -34,7 +34,9 @@ class AssetLocation implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'event' => $this->event,
+            'id' => $this->event->id,
+            'value' => $this->event->value,
+            'created_at' => $this->event->created_at,
         ];
     }
 }

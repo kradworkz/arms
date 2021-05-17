@@ -67619,9 +67619,13 @@ var render = function() {
                   "tbody",
                   _vm._l(_vm.lists, function(list, index) {
                     return _c("tr", { key: index }, [
-                      _vm._m(1, true),
+                      _c("td", [
+                        _c("a", { staticClass: "text-body font-weight-bold" }, [
+                          _vm._v(_vm._s(list.id))
+                        ])
+                      ]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(list))]),
+                      _c("td", [_vm._v(_vm._s(list.value))]),
                       _vm._v(" "),
                       _c("td", [_vm._v("07 Oct, 2019")]),
                       _vm._v(" "),
@@ -67652,16 +67656,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Status")]),
         _vm._v(" "),
         _c("th", [_vm._v("Date")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("a", { staticClass: "text-body font-weight-bold" }, [
-        _vm._v("#SK2540")
       ])
     ])
   }
