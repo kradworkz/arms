@@ -1883,6 +1883,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -67642,6 +67643,12 @@ var render = function() {
                               "span",
                               { staticClass: "badge badge-lg badge-success" },
                               [_vm._v("Serviceable")]
+                            )
+                          : list.status == 0
+                          ? _c(
+                              "span",
+                              { staticClass: "badge badge-lg badge-warning" },
+                              [_vm._v("GPS")]
                             )
                           : _c("span", { staticClass: "badge badge-danger" }, [
                               _vm._v("Non Serviceable")
