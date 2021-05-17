@@ -26,15 +26,14 @@ class ChirpstackController extends Controller
         $device = DeviceData::where('code',$array->uniqueid)->where('created_at','>=', $formatted_date)->count();
         
         if($device < 1){
-            $data = new DeviceData;
-            $data->random = 'rmdno';
-            $data->coordinates = json_encode($array->gps);
-            $data->status = $array->status;
-            $data->code = $array->uniqueid;
-            $data->save();
+            $wew = new DeviceData;
+            $wew->coordinates = json_encode($array->gps);
+            $wew->status = $array->status;
+            $wew->code = $array->uniqueid;
+            $wew->save();
 
-            broadcast(new AssetLocation($data));
-            return new DefaultResource($data);
+            broadcast(new AssetLocation($wew));
+            return new DefaultResource($wew);
         }else{
             return '';
         }
