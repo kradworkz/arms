@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\DeviceData;
+use App\Models\AssetTracker;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\DefaultResource;
@@ -33,9 +34,16 @@ class ChirpstackController extends Controller
             $wew->save();
 
             broadcast(new AssetLocation($wew));
-            return new DefaultResource($wew);
+
+            $data = AssetTracker::where('code',$aa->uniqueid)->first();
+            $data->coordinates =  json_encode($aa->gps);
+            $data->status = $aa->status;
+            $data->save();
+
+            return true;
+            
         }else{
-            return '';
+            return true;
         }
     }
 

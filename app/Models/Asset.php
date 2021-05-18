@@ -37,7 +37,12 @@ class Asset extends Model
 
     public function lists()
     {
-        return $this->hasMany('App\Models\AssetLocation', 'asset_id');
+        return $this->hasMany('App\Models\AssetList', 'asset_id');
+    }  
+    
+    public function quantity()
+    {
+        return  $this->hasMany('App\Models\AssetList', 'asset_id')->sum('quantity');
     }
 
     public function getUpdatedAtAttribute($value)

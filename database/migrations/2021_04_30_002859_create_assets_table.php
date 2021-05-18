@@ -19,7 +19,7 @@ class CreateAssetsTable extends Migration
             $table->string('name',200);
             $table->string('image',100)->default('default.jpeg');
             $table->smallInteger('mm_id')->unsigned()->index();
-            $table->foreign('mm_id')->references('id')->on('member_municipalities')->onDelete('cascade');     
+            $table->foreign('mm_id')->references('id')->on('member_municipalities')->onDelete('cascade');  
             $table->tinyInteger('category_id')->unsigned()->index();
             $table->foreign('category_id')->references('id')->on('dropdowns')->onDelete('cascade');
             $table->timestamps();

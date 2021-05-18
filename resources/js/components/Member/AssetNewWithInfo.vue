@@ -13,20 +13,6 @@
 
         <form  @submit.prevent="create">
             <div class="row">
-                <div class="col-md-4" style="margin-top: -20px;">
-                    <myUpload field="img" @crop-success="cropSuccess" v-model="photo.show" :width="500" :height="500" :params="params" :headers="headers" lang-type="en" img-format="jpeg">
-                    </myUpload>
-                    <div @click="toggleShow" class="fuzone" style="width:100%;">
-                        <div v-if="photo.url != ''">
-                            <img :src="photo.url" style="width: 100%;">
-                        </div>
-                        <div v-else class="fu-text" @click="toggleShow">
-                            <span><i class="fa fa-picture"></i> Click here to upload<br> 
-                                <span v-if="errors.avatar" style="color: red; font-size: 12px; margin-top: -20px;">({{ errors.avatar[0] }})</span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
                 <div class="col-md-8">
                     <div class="row customerform">
                     
@@ -76,10 +62,89 @@
                                 </div>
                             </div>
                         </div>
+
+
+                        <div class="col-md-12">
+                            <hr>
+                        </div>
+                        <!-- <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="float-label">Vendor <span v-if="errors.vendor" class="haveerror">({{ errors.vendor[0] }})</span></label>
+                                <multiselect v-model="asset.vendor" :options="vendors" placeholder="Select Vendor" label="name" track-by="id">
+                                </multiselect>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Price <span v-if="errors.price" class="haveerror">({{ errors.price[0] }})</span></label>
+                                <input type="text" class="form-control" id="formrow-firstname-input" v-model="asset.price" style="text-transform: capitalize;">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Quantity <span v-if="errors.quantity" class="haveerror">({{ errors.quantity[0] }})</span></label>
+                            <div class="input-group  bootstrap-touchspin bootstrap-touchspin-injected"><input type="text" v-model="asset.quantity" class="form-control"><span class="input-group-btn-vertical">
+                                <button @click="addup('add')" class="btn btn-primary bootstrap-touchspin-up " type="button">+</button>
+                                <button @click="addup('minus')" class="btn btn-primary bootstrap-touchspin-down " type="button">-</button>
+                                </span>
+                            </div>
+                        </div> -->
+
+                        <!-- <div class="col-md-12" style="margin-top: 20px;">
+                            <hr>
+                            <center>
+                                <button @click="more" style="margin-top: -55px;" class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                   Add more information
+                                </button>
+                            </center>
+                        </div>
+
+                        <div class="collapse" id="collapseExample">
+                            <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="formrow-firstname-input">Brand: <span v-if="errors.brand" class="haveerror">({{ errors.brand[0] }})</span></label>
+                                        <input type="text" class="form-control" id="formrow-firstname-input" v-model="asset.brand" style="text-transform: capitalize;">
+                                    </div>
+                                </div>
+                                <div class="col-md-6" style="margin-top: -10px;">
+                                    <div class="form-group">
+                                        <label for="formrow-firstname-input">Serial no: <span v-if="errors.serial_no" class="haveerror">({{ errors.serial_no[0] }})</span></label>
+                                        <input type="text" class="form-control" id="formrow-firstname-input" v-model="asset.serial_no" style="text-transform: capitalize;">
+                                    </div>
+                                </div>
+                                <div class="col-md-6" style="margin-top: -10px;">
+                                    <div class="form-group">
+                                        <label for="formrow-firstname-input">Model: <span v-if="errors.nmodel" class="haveerror">({{ errors.model[0] }})</span></label>
+                                        <input type="text" class="form-control" id="formrow-firstname-input" v-model="asset.model" style="text-transform: capitalize;">
+                                    </div>
+                                </div>
+                                <div class="col-md-12" style="margin-top: -10px;">
+                                    <div class="form-group">
+                                        <label class="float-label">Description <code style="color: red;" v-if="errors.desc">({{ errors.name[0] }})</code></label>
+                                        <textarea v-model="asset.desc" class="form-control" rows="2"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div> -->
                         
                     </div>
                 </div>
-               
+                <div class="col-md-4" style="margin-top: -20px;">
+                    <myUpload field="img" @crop-success="cropSuccess" v-model="photo.show" :width="500" :height="500" :params="params" :headers="headers" lang-type="en" img-format="jpeg">
+                    </myUpload>
+                    <div @click="toggleShow" class="fuzone" style="width:100%;">
+                        <div v-if="photo.url != ''">
+                            <img :src="photo.url" style="width: 100%;">
+                        </div>
+                        <div v-else class="fu-text" @click="toggleShow">
+                            <span><i class="fa fa-picture"></i> Click here to upload<br> 
+                                <span v-if="errors.avatar" style="color: red; font-size: 12px; margin-top: -20px;">({{ errors.avatar[0] }})</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-12">
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Save</button>
@@ -221,7 +286,15 @@ export default {
                 selected: this.selected
             })
             .then(response => {
+                if(this.editable == true){
+                    let page_url = '/request/admin/users?page=' + this.pagination.current_page;
+                    this.fetch(page_url);
+                }else{
+                    this.fetch();
+                }
+                this.editable = false;
                 this.$emit('status', true);
+                this.clear();
                 this.isLoading = false;
             })
             .catch(error => {

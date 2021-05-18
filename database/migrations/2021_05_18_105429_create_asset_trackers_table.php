@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDeviceDataTable extends Migration
+class CreateAssetTrackersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class CreateDeviceDataTable extends Migration
      */
     public function up()
     {
-        Schema::create('device_data', function (Blueprint $table) {
+        Schema::create('asset_trackers', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->string('code',50);
-            $table->json('coordinates');
-            $table->string('status',3);
+            $table->json('coordinates')->nullable();
+            $table->string('status',3)->nullable();
+            $table->smallInteger('assetlist_id')->unsigned()->index();
+            $table->foreign('assetlist_id')->references('id')->on('asset_lists')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ class CreateDeviceDataTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('device_data');
+        Schema::dropIfExists('asset_trackers');
     }
 }

@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Member;
 use App\Models\Asset;
 use App\Models\AssetList;
 use App\Models\AssetPurchase;
+use App\Models\AssetTracker;
 use App\Models\AssetLocation;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\StoreImage;
 use App\Http\Resources\DefaultResource;
+use App\Http\Resources\ViewResource;
 use App\Http\Resources\AssetResource;
 use App\Http\Requests\AssetRequest;
 
@@ -32,91 +34,61 @@ class AssetController extends Controller
             { 
                 $data = Asset::findOrFail($request->input('id'));
                 $data->name =  ucwords(strtolower($request->input('name')));
-                $data->mm_id = $member_id;
                 $data->save();
 
             }else{
                 $lists = $request->input('lists'); // Adding thru array
 
+                if($request->input('avatar') != ''){
+                    $imageName = $strmg->strmg($request->input('avatar'),strtolower($request->input('name')));
+                }else{
+                    ($request->input('editable')) ? $imageName = $data->avatar : $imageName = 'default.jpg';
+                }
+
                 $data = new Asset; 
                 $data->name =  ucwords(strtolower($request->input('name')));
                 $data->category_id = $request->input('category');
                 $data->mm_id = $member_id;
+                $data->image = $imageName;
+
                 if($data->save()){
-                    $name = strtolower($request->input('name')).'-'.$data->id;
-                    if($request->input('avatar') != ''){
-                        $imageName = $strmg->strmg($request->input('avatar'),$name);
-                    }else{
-                        ($request->input('editable')) ? $imageName = $data->avatar : $imageName = 'default.jpg';
-                    }
-                    $data->image = $imageName;
-                    if($data->save()){
-                        if(!empty($lists)){
-                            $c = 0;
-                            foreach($lists as $list)
-                            {   
-                                $cc = $count + $c;
-                                $assetlist = new AssetList;
-                                $assetlist->code = \Auth::user()->member->mm->member->acronym.'-'.$member_id.'-'.str_pad(($cc+1), 4, '0', STR_PAD_LEFT); 
-                                $assetlist->quantity = $list['quantity'];
-                                $assetlist->status_id = $list['status']['id'];
-                                $assetlist->storage_id = $list['storage']['id'];
-                                $assetlist->asset_id = $data->id;
-                                $assetlist->save();
-                                $c++;
-                            }
+                    if(!empty($lists)){
+                        $c = 0;
+                        foreach($lists as $list)
+                        {   
+                            $cc = $count + $c;
+                            $assetlist = new AssetList;
+                            $assetlist->code = \Auth::user()->member->mm->member->acronym.'-'.$member_id.'-'.str_pad(($cc+1), 4, '0', STR_PAD_LEFT); 
+                            $assetlist->quantity = $list['quantity'];
+                            $assetlist->status_id = $list['status']['id'];
+                            $assetlist->storage_id = $list['storage']['id'];
+                            $assetlist->asset_id = $data->id;
+                            $assetlist->save();
+                            $c++;
                         }
                     }
+                    return new DefaultResource($data);
                 }
             }
-            // $member_id = \Auth::user()->member->mm->id;
-            // $count = Asset::count();
-
-            // $data = ($request->input('editable')) ? Asset::findOrFail($request->input('id')) : new Asset;
-            // $data->code = \Auth::user()->member->mm->member->acronym.'-'.$member_id.'-'.str_pad(($count+1), 4, '0', STR_PAD_LEFT); 
-            // $data->name =  ucwords(strtolower($request->input('name')));
-            // $data->category_id = $request->input('category');
-            // $data->storage_id = $request->input('storage');
-            // $data->quantity = $request->input('quantity');
-            // $data->status_id = 5;
-            // $data->mm_id = $member_id;
-            
-            // if($data->save()){
-
-            //     $name = strtolower($request->input('name')).'-'.$data->id;
-            //     if($request->input('avatar') != ''){
-            //         $imageName = $strmg->strmg($request->input('avatar'),$name);
-            //     }else{
-            //         ($request->input('editable')) ? $imageName = $data->avatar : $imageName = 'default.jpg';
-            //     }
-            //     $data->image = $imageName;
-            //     $data->save();
-
-            //     $data->purchase()->create([
-            //         'quantity' => $request->input('quantity'),
-            //         'price' => $request->input('price'),
-            //         'vendor_id' => $request->input('vendor')
-            //     ]); 
-                
-            //     if($request->input('extra')){
-            //         $data->information()->create([
-            //             'brand' => ($request->input('brand')!= '') ? $request->input('brand') : 'n/a',
-            //             'serial_no' => ($request->input('serial_no')!= '') ? $request->input('serial_no') : 'n/a',
-            //             'model' => ($request->input('model')!= '') ? $request->input('model') : 'n/a',
-            //             'description' => ($request->input('description')!= '') ? $request->input('description') : 'n/a',
-            //         ]); 
-            //     }
-            // }
         });
     }
 
     public function view($id){
-       $data = Asset::with('category')
-        ->with('information')->with('status')->with('storage')
-        ->with('purchases')
-        ->where('id',$id)->first();
+        $data = Asset::with('category')->where('id',$id)->first();
+        return new ViewResource($data);
+    }
 
-        return new AssetResource($data);
+    public function track(Request $request){
+        $data = new AssetTracker;
+        $data->code = $request->input('code');
+        $data->assetlist_id = $request->input('assetlist_id');
+ 
+        return new DefaultResource($data);
+    } 
+
+    public function checkTrack($id){
+        $data = AssetTracker::where('assetlist_id',$id)->count();
+        return $data;
     }
 
     public function purchases($id){
@@ -127,8 +99,8 @@ class AssetController extends Controller
      }
 
      public function locations($id){
-        $data = AssetLocation::where('asset_id',$id)->paginate(5);
+        $data = AssetList::where('asset_id',$id)->paginate(5);
  
-        return DefaultResource::collection($data);
+        return AssetResource::collection($data);
      }
 }

@@ -164,6 +164,7 @@ export default {
                     position: 'bottom-left'
                 });
                 this.addnew = false;
+                this.fetch();
             }else{
                 this.addnew = false;
             }
