@@ -29,6 +29,11 @@ class AssetList extends Model
         return $this->hasMany('App\Models\AssetTracker', 'assetlist_id');
     }
 
+    public function trackercount()
+    {
+        return $this->hasMany('App\Models\AssetTracker', 'assetlist_id')->count();
+    }
+
     public function getUpdatedAtAttribute($value)
     {
         return date('M d, Y g:i a', strtotime($value));

@@ -202,7 +202,7 @@ export default {
 
     methods : {
         create(){
-           
+            this.isLoading = true;
             axios.post(this.currentUrl + '/request/member/asset/store', {
                 id: this.asset.id,
                 name: this.asset.name,
@@ -226,6 +226,7 @@ export default {
             })
             .catch(error => {
                 if (error.response.status == 422) {
+                    this.isLoading = false;
                     this.errors = error.response.data.errors;
                 }
             });

@@ -74,7 +74,7 @@ class AssetController extends Controller
     }
 
     public function view($id){
-        $data = Asset::with('category')->where('id',$id)->first();
+        $data = AssetList::with('asset')->where('id',$id)->first();
         return new ViewResource($data);
     }
 

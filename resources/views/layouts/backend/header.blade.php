@@ -83,7 +83,7 @@
                         </div>
                     </div>
                     <div data-simplebar style="max-height: 230px;">
-                        <a href="#" class="text-reset notification-item">
+                        {{-- <a href="#" class="text-reset notification-item">
                             <div class="media">
                                 <div class="avatar-xs mr-3">
                                     <span class="avatar-title bg-primary rounded-circle font-size-16">
@@ -141,7 +141,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </a>
+                        </a> --}}
                     </div>
                     <div class="p-2 border-top">
                         <a class="btn btn-sm btn-link font-size-14 btn-block text-center" href="javascript:void(0)">

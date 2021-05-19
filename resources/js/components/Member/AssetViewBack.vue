@@ -12,9 +12,8 @@
                                 </div>
                                 <div class="media-body align-self-center">
                                     <div class="text-muted">
-                                        <p class="mb-2">{{asset.storage}}</p>
                                         <h5 class="mb-1">{{asset.name}}</h5>
-                                        <p class="mb-0">{{asset.storage}}</p>
+                                        <p class="mb-0">{{asset.category}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -49,8 +48,8 @@
                         <div class="col-lg-4 d-none d-lg-block">
                         <div class="ml-auto">
                                 <div class="toolbar button-items text-right">
-                                    <button @click="newtrack(asset.id,asset.quantity)" type="button" class="btn btn-light btn-sm">
-                                        Register Tracker
+                                    <button type="button" class="btn btn-light btn-sm">
+                                        New Tracker
                                     </button>
                                     <button type="button" class="btn btn-light btn-sm">
                                         Maintenance
@@ -152,7 +151,7 @@
         <div class="modal-dialog modal-dialog-centered modal" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Register Tracker</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add Tracker</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

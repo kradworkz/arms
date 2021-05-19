@@ -2941,6 +2941,7 @@ __webpack_require__.r(__webpack_exports__);
         _this5.isLoading = false;
       })["catch"](function (error) {
         if (error.response.status == 422) {
+          _this5.isLoading = false;
           _this5.errors = error.response.data.errors;
         }
       });
@@ -3434,6 +3435,7 @@ __webpack_require__.r(__webpack_exports__);
     create: function create() {
       var _this = this;
 
+      this.isLoading = true;
       axios.post(this.currentUrl + '/request/member/asset/store', {
         id: this.asset.id,
         name: this.asset.name,
@@ -3456,6 +3458,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.isLoading = false;
       })["catch"](function (error) {
         if (error.response.status == 422) {
+          _this.isLoading = false;
           _this.errors = error.response.data.errors;
         }
       });
@@ -3685,6 +3688,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
 //
 //
 //
@@ -70294,7 +70298,7 @@ var render = function() {
                                 {
                                   staticClass: "mr-3 text-info",
                                   attrs: {
-                                    href: "assetlist/" + asset.asset_id,
+                                    href: "assetlist/" + asset.id,
                                     "data-toggle": "tooltip",
                                     "data-placement": "top",
                                     title: "",
@@ -71411,12 +71415,16 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "media-body align-self-center" }, [
                     _c("div", { staticClass: "text-muted" }, [
+                      _c("p", { staticClass: "mb-2" }, [
+                        _vm._v(_vm._s(_vm.asset.storage))
+                      ]),
+                      _vm._v(" "),
                       _c("h5", { staticClass: "mb-1" }, [
                         _vm._v(_vm._s(_vm.asset.name))
                       ]),
                       _vm._v(" "),
                       _c("p", { staticClass: "mb-0" }, [
-                        _vm._v(_vm._s(_vm.asset.category))
+                        _vm._v(_vm._s(_vm.asset.storage))
                       ])
                     ])
                   ])
@@ -71447,7 +71455,49 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(2)
+              _c("div", { staticClass: "col-lg-4 d-none d-lg-block" }, [
+                _c("div", { staticClass: "ml-auto" }, [
+                  _c(
+                    "div",
+                    { staticClass: "toolbar button-items text-right" },
+                    [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-light btn-sm",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.newtrack(
+                                _vm.asset.id,
+                                _vm.asset.quantity
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\r\n                                        Register Tracker\r\n                                    "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-light btn-sm",
+                          attrs: { type: "button" }
+                        },
+                        [
+                          _vm._v(
+                            "\r\n                                        Maintenance\r\n                                    "
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                ])
+              ])
             ])
           ])
         ])
@@ -71532,7 +71582,7 @@ var render = function() {
                   ]
                 ),
                 _vm._v(" "),
-                _vm._m(3)
+                _vm._m(2)
               ]
             ),
             _vm._v(" "),
@@ -71552,7 +71602,7 @@ var render = function() {
                   "table",
                   { staticClass: "table table-centered table-nowrap mb-0" },
                   [
-                    _vm._m(4),
+                    _vm._m(3),
                     _vm._v(" "),
                     _c(
                       "tbody",
@@ -71577,7 +71627,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("td", { staticClass: "text-right" }, [
-                            _vm._m(5, true),
+                            _vm._m(4, true),
                             _vm._v(" "),
                             _c(
                               "a",
@@ -71696,7 +71746,7 @@ var render = function() {
               _vm._v("Asset Tracker/'s")
             ]),
             _vm._v(" "),
-            _vm._m(6)
+            _vm._m(5)
           ])
         ])
       ])
@@ -71723,7 +71773,7 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(7),
+              _vm._m(6),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body customerform" }, [
                 _c(
@@ -71831,14 +71881,14 @@ var render = function() {
                   : _vm._e()
               ]),
               _vm._v(" "),
-              _vm._m(8)
+              _vm._m(7)
             ])
           ]
         )
       ]
     ),
     _vm._v(" "),
-    _vm._m(9),
+    _vm._m(8),
     _vm._v(" "),
     _c(
       "div",
@@ -71888,36 +71938,6 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("h5", { staticClass: "mb-0" }, [_vm._v("18")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-lg-4 d-none d-lg-block" }, [
-      _c("div", { staticClass: "ml-auto" }, [
-        _c("div", { staticClass: "toolbar button-items text-right" }, [
-          _c(
-            "button",
-            { staticClass: "btn btn-light btn-sm", attrs: { type: "button" } },
-            [
-              _vm._v(
-                "\r\n                                        New Tracker\r\n                                    "
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            { staticClass: "btn btn-light btn-sm", attrs: { type: "button" } },
-            [
-              _vm._v(
-                "\r\n                                        Maintenance\r\n                                    "
-              )
-            ]
-          )
-        ])
       ])
     ])
   },
@@ -71999,7 +72019,7 @@ var staticRenderFns = [
       _c(
         "h5",
         { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
-        [_vm._v("Add Tracker")]
+        [_vm._v("Register Tracker")]
       ),
       _vm._v(" "),
       _c(
