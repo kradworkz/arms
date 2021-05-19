@@ -17,7 +17,7 @@ class ChirpstackController extends Controller
         $json = file_get_contents("php://input");
 
         $obj = json_decode($json);
-        $tracker_id= json_encode($obj->devAddr);
+        $tracker_id= json_encode($obj->devEUI);
         $decoded = json_encode($obj->objectJSON);
         $a = \json_decode($decoded);
         $aa = \json_decode($a);
