@@ -11,11 +11,11 @@ class DeviceData extends Model
 
     public function getUpdatedAtAttribute($value)
     {
-        return date('M d, Y g:i a', strtotime($value));
+        return date('M d, Y g:i:s a', strtotime($value));
     }
 
     public function getCreatedAtAttribute($value)
     {
-        return date('M d, Y g:i a', strtotime($value));
+        return date('M d, Y g:i:s a', strtotime($value));
     }
 }
