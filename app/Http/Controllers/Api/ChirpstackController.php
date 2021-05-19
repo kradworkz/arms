@@ -23,15 +23,16 @@ class ChirpstackController extends Controller
         $decoded = json_encode($obj->objectJSON);
         $a = \json_decode($decoded);
         $aa = \json_decode($a);
-
         if($devicename == "Node1Slews"){
             $wew = new DeviceData;
-            $wew->coordinates = json_encode($aa->temperature);
+            $wew->coordinates = \json_encode($decoded);
             $wew->status = 1;
             $wew->code = $tracker_id;
             $wew->save();
 
             broadcast(new AssetLocation($wew));
+
+            return 'yes';
         }else{
             $date = new \DateTime;
             $date->modify('-1 minutes');
