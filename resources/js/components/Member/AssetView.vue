@@ -82,17 +82,12 @@
                                 <i class='bx bxs-chevron-right font-size-16'></i>
                             </a>
                         </li>
-                        <li class="list-inline-item d-none d-sm-inline-block">
-                            <button type="button" class="btn btn-light btn-sm">
-                                New Location
-                            </button>
-                        </li>
                     </ul>
                   
                     <h4 class="card-title mb-5">Location/'s</h4>
 
                     <div class="table-responsive"  data-simplebar style="max-height: 278px; min-height: 278px;">
-                        <table class="table table-centered table-nowrap mb-0">
+                        <!-- <table class="table table-centered table-nowrap mb-0">
                             <thead>
                                 <tr>
                                     <th>Location</th>
@@ -112,7 +107,7 @@
                                     </td>
                                 </tr>
                             </tbody>
-                        </table>
+                        </table> -->
                     </div>
 
                 </div>
@@ -157,6 +152,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+                <form @submit.prevent="createtracker">
                 <div class="modal-body customerform">
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
                         <i class='bx bx-error mr-2'></i>
@@ -177,6 +173,7 @@
                     <button type="submit" class="btn btn-primary">Save changes</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
+                </form>
             </div>
         </div>
     </div>
@@ -287,6 +284,33 @@ export default {
             })
             .catch(err => console.log(err));
            
+        },
+
+        createtracker(){
+            axios.post(this.currentUrl + '/request/member/location/store', {
+                id: this.asset.id,
+                assetcode: this.assetcode,
+                code: this.code
+            })
+            .then(response => {
+                if(this.selected == 'Storage'){
+                    this.fetchStorage();
+                }else{
+                    this.fetchVendor();
+                }
+                $("#newloc").modal("hide");
+                this.loc.name = '';
+                this.loc.address = '';
+                this.loc.contact_no = '';
+                 Vue.$toast.success('<strong>Successfully Created</strong>', {
+                    position: 'bottom-right'
+                });
+            })
+            .catch(error => {
+                if (error.response.status == 422) {
+                    this.errors = error.response.data.errors;
+                }
+            });
         },
 
         newquantity(id){

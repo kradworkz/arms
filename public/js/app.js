@@ -3892,9 +3892,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['assetid'],
   data: function data() {
@@ -3975,6 +3972,33 @@ __webpack_require__.r(__webpack_exports__);
         $("#newtrack").modal('show');
       })["catch"](function (err) {
         return console.log(err);
+      });
+    },
+    createtracker: function createtracker() {
+      var _this5 = this;
+
+      axios.post(this.currentUrl + '/request/member/location/store', {
+        id: this.asset.id,
+        assetcode: this.assetcode,
+        code: this.code
+      }).then(function (response) {
+        if (_this5.selected == 'Storage') {
+          _this5.fetchStorage();
+        } else {
+          _this5.fetchVendor();
+        }
+
+        $("#newloc").modal("hide");
+        _this5.loc.name = '';
+        _this5.loc.address = '';
+        _this5.loc.contact_no = '';
+        Vue.$toast.success('<strong>Successfully Created</strong>', {
+          position: 'bottom-right'
+        });
+      })["catch"](function (error) {
+        if (error.response.status == 422) {
+          _this5.errors = error.response.data.errors;
+        }
       });
     },
     newquantity: function newquantity(id) {
@@ -71580,9 +71604,7 @@ var render = function() {
                       ]
                     )
                   ]
-                ),
-                _vm._v(" "),
-                _vm._m(2)
+                )
               ]
             ),
             _vm._v(" "),
@@ -71590,75 +71612,11 @@ var render = function() {
               _vm._v("Location/'s")
             ]),
             _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "table-responsive",
-                staticStyle: { "max-height": "278px", "min-height": "278px" },
-                attrs: { "data-simplebar": "" }
-              },
-              [
-                _c(
-                  "table",
-                  { staticClass: "table table-centered table-nowrap mb-0" },
-                  [
-                    _vm._m(3),
-                    _vm._v(" "),
-                    _c(
-                      "tbody",
-                      _vm._l(_vm.locations, function(location) {
-                        return _c("tr", { key: location.id }, [
-                          _c("td", [
-                            _c(
-                              "h5",
-                              {
-                                staticClass: "font-size-13 text-truncate mb-1"
-                              },
-                              [
-                                _c("a", { staticClass: "text-dark" }, [
-                                  _vm._v(_vm._s(location.storage))
-                                ])
-                              ]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("td", { staticClass: "text-center" }, [
-                            _vm._v(_vm._s(location.quantity))
-                          ]),
-                          _vm._v(" "),
-                          _c("td", { staticClass: "text-right" }, [
-                            _vm._m(4, true),
-                            _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                staticClass: "text-danger",
-                                attrs: {
-                                  "data-toggle": "tooltip",
-                                  "data-placement": "top",
-                                  title: "",
-                                  "data-original-title": "Delete"
-                                },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.newtrack(
-                                      location.id,
-                                      location.quantity
-                                    )
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "bx bxs-location-plus" })]
-                            )
-                          ])
-                        ])
-                      }),
-                      0
-                    )
-                  ]
-                )
-              ]
-            )
+            _c("div", {
+              staticClass: "table-responsive",
+              staticStyle: { "max-height": "278px", "min-height": "278px" },
+              attrs: { "data-simplebar": "" }
+            })
           ])
         ])
       ]),
@@ -71746,7 +71704,7 @@ var render = function() {
               _vm._v("Asset Tracker/'s")
             ]),
             _vm._v(" "),
-            _vm._m(5)
+            _vm._m(2)
           ])
         ])
       ])
@@ -71773,122 +71731,139 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(6),
+              _vm._m(3),
               _vm._v(" "),
-              _c("div", { staticClass: "modal-body customerform" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "alert alert-warning alert-dismissible fade show",
-                    attrs: { role: "alert" }
-                  },
-                  [
-                    _c("i", { staticClass: "bx bx-error mr-2" }),
+              _c(
+                "form",
+                {
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.createtracker($event)
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "modal-body customerform" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "alert alert-warning alert-dismissible fade show",
+                        attrs: { role: "alert" }
+                      },
+                      [
+                        _c("i", { staticClass: "bx bx-error mr-2" }),
+                        _vm._v(" "),
+                        _c("b", [_vm._v(_vm._s(_vm.count))]),
+                        _vm._v(" tracked asset out of "),
+                        _c("b", [_vm._v(_vm._s(_vm.qnty))])
+                      ]
+                    ),
                     _vm._v(" "),
-                    _c("b", [_vm._v(_vm._s(_vm.count))]),
-                    _vm._v(" tracked asset out of "),
-                    _c("b", [_vm._v(_vm._s(_vm.qnty))])
-                  ]
-                ),
-                _vm._v(" "),
-                _vm.count != _vm.qnty
-                  ? _c("div", [
-                      _c("div", { staticClass: "form-group " }, [
-                        _c(
-                          "label",
-                          { attrs: { for: "formrow-firstname-input" } },
-                          [
-                            _vm._v("Asset Code: "),
-                            _vm.errors.assetcode
-                              ? _c("span", { staticClass: "haveerror" }, [
-                                  _vm._v(
-                                    "(" + _vm._s(_vm.errors.assetcode[0]) + ")"
-                                  )
-                                ])
-                              : _vm._e()
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.assetcode,
-                              expression: "assetcode"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          staticStyle: { "text-transform": "capitalize" },
-                          attrs: {
-                            type: "text",
-                            id: "formrow-firstname-input"
-                          },
-                          domProps: { value: _vm.assetcode },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
+                    _vm.count != _vm.qnty
+                      ? _c("div", [
+                          _c("div", { staticClass: "form-group " }, [
+                            _c(
+                              "label",
+                              { attrs: { for: "formrow-firstname-input" } },
+                              [
+                                _vm._v("Asset Code: "),
+                                _vm.errors.assetcode
+                                  ? _c("span", { staticClass: "haveerror" }, [
+                                      _vm._v(
+                                        "(" +
+                                          _vm._s(_vm.errors.assetcode[0]) +
+                                          ")"
+                                      )
+                                    ])
+                                  : _vm._e()
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.assetcode,
+                                  expression: "assetcode"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              staticStyle: { "text-transform": "capitalize" },
+                              attrs: {
+                                type: "text",
+                                id: "formrow-firstname-input"
+                              },
+                              domProps: { value: _vm.assetcode },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.assetcode = $event.target.value
+                                }
                               }
-                              _vm.assetcode = $event.target.value
-                            }
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "form-group " }, [
-                        _c(
-                          "label",
-                          { attrs: { for: "formrow-firstname-input" } },
-                          [
-                            _vm._v("Tracker Code: "),
-                            _vm.errors.code
-                              ? _c("span", { staticClass: "haveerror" }, [
-                                  _vm._v("(" + _vm._s(_vm.errors.code[0]) + ")")
-                                ])
-                              : _vm._e()
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.code,
-                              expression: "code"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          staticStyle: { "text-transform": "capitalize" },
-                          attrs: {
-                            type: "text",
-                            id: "formrow-firstname-input"
-                          },
-                          domProps: { value: _vm.code },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group " }, [
+                            _c(
+                              "label",
+                              { attrs: { for: "formrow-firstname-input" } },
+                              [
+                                _vm._v("Tracker Code: "),
+                                _vm.errors.code
+                                  ? _c("span", { staticClass: "haveerror" }, [
+                                      _vm._v(
+                                        "(" + _vm._s(_vm.errors.code[0]) + ")"
+                                      )
+                                    ])
+                                  : _vm._e()
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.code,
+                                  expression: "code"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              staticStyle: { "text-transform": "capitalize" },
+                              attrs: {
+                                type: "text",
+                                id: "formrow-firstname-input"
+                              },
+                              domProps: { value: _vm.code },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.code = $event.target.value
+                                }
                               }
-                              _vm.code = $event.target.value
-                            }
-                          }
-                        })
-                      ])
-                    ])
-                  : _vm._e()
-              ]),
-              _vm._v(" "),
-              _vm._m(7)
+                            })
+                          ])
+                        ])
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(4)
+                ]
+              )
             ])
           ]
         )
       ]
     ),
     _vm._v(" "),
-    _vm._m(8),
+    _vm._m(5),
     _vm._v(" "),
     _c(
       "div",
@@ -71940,58 +71915,6 @@ var staticRenderFns = [
         _c("h5", { staticClass: "mb-0" }, [_vm._v("18")])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "li",
-      { staticClass: "list-inline-item d-none d-sm-inline-block" },
-      [
-        _c(
-          "button",
-          { staticClass: "btn btn-light btn-sm", attrs: { type: "button" } },
-          [
-            _vm._v(
-              "\r\n                                New Location\r\n                            "
-            )
-          ]
-        )
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Location")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "text-center" }, [_vm._v("Qnty")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Action")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      {
-        staticClass: "mr-3 text-warning",
-        attrs: {
-          "data-toggle": "tooltip",
-          "data-placement": "top",
-          title: "",
-          "data-original-title": "Edit"
-        }
-      },
-      [_c("i", { staticClass: "bx bx-edit-alt" })]
-    )
   },
   function() {
     var _vm = this
