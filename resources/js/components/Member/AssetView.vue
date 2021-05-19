@@ -145,7 +145,7 @@
                                     <td class="font-weight-bold">{{tracker.asset_code}}</td>
                                     <td class="text-center font-weight-bold">{{tracker.tracker_code}}</td>
                                     <td class="text-center">
-                                        <a class="text-danger" @click="track(tracker.coordinates)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Track"><i class='bx bxs-location-plus'></i></a>
+                                        <a class="text-danger" @click="track(tracker.id)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Track"><i class='bx bxs-location-plus'></i></a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -271,8 +271,8 @@ export default {
         },
 
 
-        track(coor){
-            this.$refs.tracks.test(coor);
+        track(id){
+            this.$refs.tracks.test(id);
             $("#track").modal('show');
         },
 

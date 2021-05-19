@@ -89,6 +89,7 @@ Route::prefix('request')->group(function () {
         Route::get('/trackers/{id}', 'Member\TrackerController@index'); 
         Route::post('/tracker/store', 'Member\TrackerController@store'); 
         Route::get('/checktracker/{id}', 'Member\TrackerController@count'); 
+        Route::get('/coordinates/{id}', 'Member\TrackerController@coordinates'); 
         
         
     });

@@ -3659,10 +3659,15 @@ __webpack_require__.r(__webpack_exports__);
     track: function track() {
       alert(this.selectedasset);
     },
-    test: function test(coor) {
+    test: function test(id) {
       var _this = this;
 
-      this.center = coor;
+      axios.get(this.currentUrl + '/request/member/coordinates/' + id).then(function (response) {
+        _this.center = JSON.parse(response.data.coordinates);
+      })["catch"](function (err) {
+        return console.log(err);
+      }); // this.center = JSON.parse(coor);
+
       setTimeout(function () {
         _this.$refs.mymap.mapObject.invalidateSize();
       }, 500);
@@ -3959,8 +3964,8 @@ __webpack_require__.r(__webpack_exports__);
         return console.log(err);
       });
     },
-    track: function track(coor) {
-      this.$refs.tracks.test(coor);
+    track: function track(id) {
+      this.$refs.tracks.test(id);
       $("#track").modal('show');
     },
     newtrack: function newtrack(id, qnty) {
@@ -71739,7 +71744,7 @@ var render = function() {
                                 },
                                 on: {
                                   click: function($event) {
-                                    return _vm.track(tracker.coordinates)
+                                    return _vm.track(tracker.id)
                                   }
                                 }
                               },

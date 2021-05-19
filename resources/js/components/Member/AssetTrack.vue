@@ -64,8 +64,13 @@ export default {
             alert(this.selectedasset);
         },
         
-        test(coor){
-            this.center = coor;
+        test(id){
+            axios.get(this.currentUrl + '/request/member/coordinates/'+id)
+            .then(response => {
+                this.center = JSON.parse(response.data.coordinates);
+            })
+            .catch(err => console.log(err));
+            // this.center = JSON.parse(coor);
             setTimeout(() => {
                 this.$refs.mymap.mapObject.invalidateSize(); 
             }, 500);

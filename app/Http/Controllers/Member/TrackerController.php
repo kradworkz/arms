@@ -28,4 +28,9 @@ class TrackerController extends Controller
         $data = AssetTracker::where('assetlist_id',$id)->count();
         return $data;
     }
+
+    public function coordinates($id){
+        $data = AssetTracker::select('coordinates')->where('id',$id)->first();
+        return $data;
+    }
 }
