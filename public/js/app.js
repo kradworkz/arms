@@ -3383,17 +3383,10 @@ __webpack_require__.r(__webpack_exports__);
         id: '',
         code: '',
         name: '',
-        price: '',
         quantity: 1,
         category: '',
-        storage: '',
-        status: '',
-        brand: '',
-        serial_no: '',
-        model: '',
-        description: '',
-        vendor: '',
-        desc: ''
+        location: '',
+        status: ''
       },
       loc: {
         name: '',
@@ -3404,9 +3397,7 @@ __webpack_require__.r(__webpack_exports__);
         quantity: 1
       }],
       categories: [],
-      storages: [],
-      vendors: [],
-      statuses: [],
+      locations: [],
       photo: {
         show: false,
         url: '',
@@ -3427,9 +3418,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.fetchCategory();
-    this.fetchStorage();
-    this.fetchVendor();
     this.fetchStatus();
+    this.fetchLocations();
   },
   methods: {
     create: function create() {
@@ -3441,13 +3431,6 @@ __webpack_require__.r(__webpack_exports__);
         name: this.asset.name,
         category: this.asset.category.id,
         lists: this.lists,
-        // storage: this.asset.storage.id,
-        // vendor: this.asset.vendor.id,
-        // status: this.asset.status.id,
-        // brand: this.asset.brand,
-        // serial_no: this.asset.serial_no,
-        // model: this.asset.model,
-        // desc: this.asset.desc,
         avatar: this.photo.url,
         editable: this.editable,
         extra: this.extra,
@@ -3472,11 +3455,7 @@ __webpack_require__.r(__webpack_exports__);
         contact_no: this.loc.contact_no,
         selected: this.selected
       }).then(function (response) {
-        if (_this2.selected == 'Storage') {
-          _this2.fetchStorage();
-        } else {
-          _this2.fetchVendor();
-        }
+        _this2.fetchLocations();
 
         $("#newloc").modal("hide");
         _this2.loc.name = '';
@@ -3508,32 +3487,11 @@ __webpack_require__.r(__webpack_exports__);
         return console.log(err);
       });
     },
-    fetchStatus: function fetchStatus() {
+    fetchLocations: function fetchLocations() {
       var _this4 = this;
 
-      axios.get(this.currentUrl + '/request/admin/lists/s/2').then(function (response) {
-        _this4.statuses = response.data.data;
-        ;
-      })["catch"](function (err) {
-        return console.log(err);
-      });
-    },
-    fetchStorage: function fetchStorage() {
-      var _this5 = this;
-
-      axios.get(this.currentUrl + '/request/member/lists/s/1').then(function (response) {
-        _this5.storages = response.data.data;
-        ;
-      })["catch"](function (err) {
-        return console.log(err);
-      });
-    },
-    fetchVendor: function fetchVendor() {
-      var _this6 = this;
-
-      axios.get(this.currentUrl + '/request/member/lists/s/2').then(function (response) {
-        _this6.vendors = response.data.data;
-        ;
+      axios.get(this.currentUrl + '/request/member/locations').then(function (response) {
+        _this4.locations = response.data.data;
       })["catch"](function (err) {
         return console.log(err);
       });
@@ -3634,13 +3592,6 @@ __webpack_require__.r(__webpack_exports__);
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       zoom: 20,
       center: [6.905508, 122.075958],
-      latlong: [{
-        "lng": 122.075958,
-        "lat": 6.905508
-      }, {
-        "lng": 122.075958,
-        "lat": 6.915508
-      }],
       confirmed: [],
       staticAnchor: [16, 37],
       customText: "Foobar",
@@ -70767,20 +70718,20 @@ var render = function() {
                         staticClass: "row col-md-12"
                       },
                       [
-                        _c("div", { staticClass: "col-md-6" }, [
+                        _c("div", { staticClass: "col-md-9" }, [
                           _c(
                             "div",
                             { staticClass: "form-group" },
                             [
                               _c("label", { staticClass: "float-label" }, [
-                                _vm._v("Storage  "),
-                                _vm.errors["lists." + index + ".storage"]
+                                _vm._v("Location  "),
+                                _vm.errors["lists." + index + ".location"]
                                   ? _c("span", { staticClass: "haveerror" }, [
                                       _vm._v(
                                         " " +
                                           _vm._s(
                                             _vm.errors[
-                                              "lists." + index + ".storage"
+                                              "lists." + index + ".location"
                                             ][0]
                                           )
                                       )
@@ -70790,58 +70741,17 @@ var render = function() {
                               _vm._v(" "),
                               _c("multiselect", {
                                 attrs: {
-                                  options: _vm.storages,
-                                  placeholder: "Select Storage",
+                                  options: _vm.locations,
+                                  placeholder: "Select Location",
                                   label: "name",
                                   "track-by": "id"
                                 },
                                 model: {
-                                  value: list.storage,
+                                  value: list.location,
                                   callback: function($$v) {
-                                    _vm.$set(list, "storage", $$v)
+                                    _vm.$set(list, "location", $$v)
                                   },
-                                  expression: "list.storage"
-                                }
-                              })
-                            ],
-                            1
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-3" }, [
-                          _c(
-                            "div",
-                            { staticClass: "form-group form-primary" },
-                            [
-                              _c("label", { staticClass: "float-label" }, [
-                                _vm._v("Status "),
-                                _vm.errors["lists." + index + ".status"]
-                                  ? _c("span", { staticClass: "haveerror" }, [
-                                      _vm._v(
-                                        " " +
-                                          _vm._s(
-                                            _vm.errors[
-                                              "lists." + index + ".status"
-                                            ][0]
-                                          )
-                                      )
-                                    ])
-                                  : _vm._e()
-                              ]),
-                              _vm._v(" "),
-                              _c("multiselect", {
-                                attrs: {
-                                  options: _vm.statuses,
-                                  placeholder: "Select Status",
-                                  label: "name",
-                                  "track-by": "id"
-                                },
-                                model: {
-                                  value: list.status,
-                                  callback: function($$v) {
-                                    _vm.$set(list, "status", $$v)
-                                  },
-                                  expression: "list.status"
+                                  expression: "list.location"
                                 }
                               })
                             ],

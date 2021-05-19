@@ -90,7 +90,10 @@ Route::prefix('request')->group(function () {
         Route::post('/tracker/store', 'Member\TrackerController@store'); 
         Route::get('/checktracker/{id}', 'Member\TrackerController@count'); 
         Route::get('/coordinates/{id}', 'Member\TrackerController@coordinates'); 
+
         
+        Route::get('/locations/{keyword}', 'Member\LocationController@index');
+        Route::post('/location/store', 'Member\LocationController@store');
         
     });
 });

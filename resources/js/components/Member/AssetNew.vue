@@ -52,20 +52,20 @@
                         </div>
 
                         <div class="row col-md-12" v-for="(list , index) in lists" v-bind:key="'a-'+list.id+index">
-                            <div class="col-md-6">
+                            <div class="col-md-9">
                                 <div class="form-group">
-                                    <label class="float-label">Storage  <span v-if="errors['lists.'+index+'.storage']" class="haveerror"> {{( errors['lists.'+index+'.storage'][0] )}}</span></label>
-                                    <multiselect v-model="list.storage" :options="storages" placeholder="Select Storage" label="name" track-by="id">
+                                    <label class="float-label">Location  <span v-if="errors['lists.'+index+'.location']" class="haveerror"> {{( errors['lists.'+index+'.location'][0] )}}</span></label>
+                                    <multiselect v-model="list.location" :options="locations" placeholder="Select Location" label="name" track-by="id">
                                     </multiselect>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <!-- <div class="col-md-3">
                                 <div class="form-group form-primary">
                                     <label class="float-label">Status <span v-if="errors['lists.'+index+'.status']" class="haveerror"> {{( errors['lists.'+index+'.status'][0] )}}</span></label>
                                     <multiselect v-model="list.status" :options="statuses" placeholder="Select Status" label="name" track-by="id">
                                     </multiselect>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="col-md-3">
                                 <label>Quantity <span v-if="errors['lists.'+index+'.quantity']" class="haveerror"> {{( errors['lists.'+index+'.quantity'][0] )}}</span></label>
@@ -161,17 +161,10 @@ export default {
                 id : '',
                 code: '',
                 name: '',
-                price: '',
                 quantity: 1,
                 category: '',
-                storage: '',
+                location: '',
                 status: '',
-                brand: '',
-                serial_no: '',
-                model: '',
-                description: '',
-                vendor: '',
-                desc: ''
             },
             loc: {
                 name: '',
@@ -180,9 +173,7 @@ export default {
             },
             lists : [ {quantity : 1}],
             categories: [],
-            storages :[],
-            vendors: [],
-            statuses: [],
+            locations :[],
             photo: {show: false,url: '',signature: ''},
             params: {token: '123456798',name: 'avatar'},
             headers: {smail: '*_~'},
@@ -195,9 +186,8 @@ export default {
 
     created(){
         this.fetchCategory();
-        this.fetchStorage();
-        this.fetchVendor();
         this.fetchStatus();
+        this.fetchLocations();
     },
 
     methods : {
@@ -208,13 +198,6 @@ export default {
                 name: this.asset.name,
                 category: this.asset.category.id,
                 lists: this.lists,
-                // storage: this.asset.storage.id,
-                // vendor: this.asset.vendor.id,
-                // status: this.asset.status.id,
-                // brand: this.asset.brand,
-                // serial_no: this.asset.serial_no,
-                // model: this.asset.model,
-                // desc: this.asset.desc,
                 avatar: this.photo.url,
                 editable: this.editable,
                 extra: this.extra,
@@ -233,7 +216,6 @@ export default {
         },
 
         createloc(){
-           
             axios.post(this.currentUrl + '/request/member/location/store', {
                 name: this.loc.name,
                 address: this.loc.address,
@@ -241,11 +223,7 @@ export default {
                 selected: this.selected,
             })
             .then(response => {
-                if(this.selected == 'Storage'){
-                    this.fetchStorage();
-                }else{
-                    this.fetchVendor();
-                }
+                this.fetchLocations();
                 $("#newloc").modal("hide");
                 this.loc.name = '';
                 this.loc.address = '';
@@ -273,27 +251,10 @@ export default {
             .catch(err => console.log(err));
         },
 
-        fetchStatus(){
-            axios.get(this.currentUrl + '/request/admin/lists/s/2')
+        fetchLocations(){
+            axios.get(this.currentUrl + '/request/member/locations')
             .then(response => {
-                this.statuses = response.data.data;;
-            })
-            .catch(err => console.log(err));
-        },
-
-
-        fetchStorage(){
-            axios.get(this.currentUrl + '/request/member/lists/s/1')
-            .then(response => {
-                this.storages = response.data.data;;
-            })
-            .catch(err => console.log(err));
-        },
-
-        fetchVendor(){
-            axios.get(this.currentUrl + '/request/member/lists/s/2')
-            .then(response => {
-                this.vendors = response.data.data;;
+                this.locations = response.data.data;
             })
             .catch(err => console.log(err));
         },

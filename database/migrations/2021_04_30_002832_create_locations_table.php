@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateVendorsTable extends Migration
+class CreateLocationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,15 @@ class CreateVendorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('vendors', function (Blueprint $table) {
+        Schema::create('locations', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->smallIncrements('id');
+            $table->tinyIncrements('id');
             $table->string('name',100);
             $table->string('address',200);
             $table->string('contact_no',12);  
             $table->boolean('status')->default(1);
-            $table->timestamps();
+            $table->smallInteger('mm_id')->unsigned()->index();
+            $table->foreign('mm_id')->references('id')->on('member_municipalities')->onDelete('cascade');     
         });
     }
 
@@ -31,6 +32,6 @@ class CreateVendorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vendors');
+        Schema::dropIfExists('locations');
     }
 }

@@ -18,34 +18,45 @@ class ChirpstackController extends Controller
 
         $obj = json_decode($json);
         $binary = base64_decode($obj->devAddr);
+        $devicename = $obj->deviceName;
         $tracker_id = bin2hex($binary);
         $decoded = json_encode($obj->objectJSON);
         $a = \json_decode($decoded);
         $aa = \json_decode($a);
 
-        $date = new \DateTime;
-        $date->modify('-1 minutes');
-        $formatted_date = $date->format('Y-m-d H:i:s');
-        $device = DeviceData::where('code',$tracker_id)->where('status',$aa->status)->where('created_at','>=', $formatted_date)->count();
-        
-        if($device == 0){
+        if($devicename == "Node1Slews"){
             $wew = new DeviceData;
-            $wew->coordinates = json_encode($aa->gps);
-            $wew->status = $aa->status;
+            $wew->coordinates = json_encode($aa->temperature);
+            $wew->status = $aa->soilmoisture;
             $wew->code = $tracker_id;
             $wew->save();
 
             broadcast(new AssetLocation($wew));
-
-            $data = AssetTracker::where('tracker_code',$tracker_id)->first();
-            $data->coordinates =  json_encode($aa->gps);
-            $data->status = $aa->status;
-            $data->save();
-
-            return true;
-            
         }else{
-            return true;
+            $date = new \DateTime;
+            $date->modify('-1 minutes');
+            $formatted_date = $date->format('Y-m-d H:i:s');
+            $device = DeviceData::where('code',$tracker_id)->where('status',$aa->status)->where('created_at','>=', $formatted_date)->count();
+            
+            if($device == 0){
+                $wew = new DeviceData;
+                $wew->coordinates = json_encode($aa->gps);
+                $wew->status = $aa->status;
+                $wew->code = $tracker_id;
+                $wew->save();
+
+                broadcast(new AssetLocation($wew));
+
+                $data = AssetTracker::where('tracker_code',$tracker_id)->first();
+                $data->coordinates =  json_encode($aa->gps);
+                $data->status = $aa->status;
+                $data->save();
+
+                return true;
+                
+            }else{
+                return true;
+            }
         }
     }
 

@@ -15,15 +15,14 @@ class CreateAssetListsTable extends Migration
     {
         Schema::create('asset_lists', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->smallIncrements('id');
-            $table->string('code')->unique();
-            $table->integer('quantity')->unsigned()->default(1);
+            $table->bigIncrements('id');
+            $table->string('asset_code',50)->unique();
+            $table->string('tracker_code',50)->unique()->nullable();
+            $table->json('coordinates')->nullable();
             $table->tinyInteger('status_id')->unsigned()->index();
             $table->foreign('status_id')->references('id')->on('dropdowns')->onDelete('cascade');
-            $table->tinyInteger('storage_id')->unsigned()->index();
-            $table->foreign('storage_id')->references('id')->on('storages')->onDelete('cascade');
-            $table->smallInteger('asset_id')->unsigned()->index();
-            $table->foreign('asset_id')->references('id')->on('assets')->onDelete('cascade');
+            $table->smallInteger('assetlocation_id')->unsigned()->index();
+            $table->foreign('assetlocation_id')->references('id')->on('asset_locations')->onDelete('cascade');
             $table->timestamps();
         });
     }

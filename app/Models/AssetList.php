@@ -9,31 +9,16 @@ class AssetList extends Model
 {
     use HasFactory;
 
-    public function asset()
+    public function assetlocation()
     {
-        return $this->belongsTo('App\Models\Asset', 'asset_id', 'id');
-    }
-    
-    public function storage()
-    {
-        return $this->belongsTo('App\Models\Storage', 'storage_id', 'id');
+        return $this->belongsTo('App\Models\AssetLocation', 'assetlocation_id', 'id');
     }
 
     public function status()
     {
         return $this->belongsTo('App\Models\Dropdown', 'status_id', 'id');
     }
-
-    public function trackers()
-    {
-        return $this->hasMany('App\Models\AssetTracker', 'assetlist_id');
-    }
-
-    public function trackercount()
-    {
-        return $this->hasMany('App\Models\AssetTracker', 'assetlist_id')->count();
-    }
-
+  
     public function getUpdatedAtAttribute($value)
     {
         return date('M d, Y g:i a', strtotime($value));

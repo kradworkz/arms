@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAssetPurchasesTable extends Migration
+class CreateAssetLocationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateAssetPurchasesTable extends Migration
      */
     public function up()
     {
-        Schema::create('asset_purchases', function (Blueprint $table) {
-            $table->engine = 'InnoDB';$table->engine = 'InnoDB';
+        Schema::create('asset_locations', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->smallIncrements('id');
-            $table->integer('quantity')->unsigned();
-            $table->decimal('price',12,2);
-            $table->smallInteger('vendor_id')->unsigned()->index();
-            $table->foreign('vendor_id')->references('id')->on('vendors')->onDelete('cascade');
+            $table->integer('quantity')->unsigned()->default(1);
+            $table->tinyInteger('location_id')->unsigned()->index();
+            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
             $table->smallInteger('asset_id')->unsigned()->index();
             $table->foreign('asset_id')->references('id')->on('assets')->onDelete('cascade');
             $table->timestamps();
@@ -33,6 +32,6 @@ class CreateAssetPurchasesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('asset_purchases');
+        Schema::dropIfExists('asset_locations');
     }
 }

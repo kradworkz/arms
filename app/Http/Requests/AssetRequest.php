@@ -40,8 +40,7 @@ class AssetRequest extends FormRequest
                 $rules = array_merge($rules, ['lists.'.$key.'.name' => 'required|unique:subspecializations,name,'.$staff['id']]);
             } else {  // just check if the email it's not unique
                 $rules = array_merge($rules, ['lists.'.$key.'.quantity' => 'required']);
-                $rules = array_merge($rules, ['lists.'.$key.'.status' => 'required']);
-                $rules = array_merge($rules, ['lists.'.$key.'.storage' => 'required']);
+                $rules = array_merge($rules, ['lists.'.$key.'.location' => 'required']);
             }
         }
 
@@ -57,8 +56,7 @@ class AssetRequest extends FormRequest
 
         foreach($this->lists as $key => $staff) {
             $message = array_merge($message, ['lists.'.$key.'.quantity.required' => '(* required)']);
-            $message = array_merge($message, ['lists.'.$key.'.status.required' => '(* required)']);
-            $message = array_merge($message, ['lists.'.$key.'.storage.required' => '(* required)']);
+            $message = array_merge($message, ['lists.'.$key.'.location.required' => '(* required)']);
         }
 
         return $message;

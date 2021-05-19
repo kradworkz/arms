@@ -42,7 +42,7 @@ export default {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
             zoom: 20,
             center: [6.905508,122.075958],
-            latlong : [{"lng":122.075958,"lat":6.905508},{"lng":122.075958,"lat":6.915508}],
+           
             confirmed : [],
             staticAnchor: [16, 37],
             customText: "Foobar",

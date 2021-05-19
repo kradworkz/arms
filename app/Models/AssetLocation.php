@@ -13,6 +13,16 @@ class AssetLocation extends Model
     {
         return $this->belongsTo('App\Models\Asset', 'asset_id', 'id');
     }
+
+    public function location()
+    {
+        return $this->belongsTo('App\Models\Location', 'location_id', 'id');
+    }
+
+    public function lists()
+    {
+        return $this->hasMany('App\Models\AssetList', 'assetlocation_id');
+    }
     
     public function getUpdatedAtAttribute($value)
     {

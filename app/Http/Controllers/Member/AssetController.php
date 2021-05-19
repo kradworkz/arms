@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Member;
 
 use App\Models\Asset;
 use App\Models\AssetList;
-use App\Models\AssetPurchase;
-use App\Models\AssetTracker;
 use App\Models\AssetLocation;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -20,7 +18,7 @@ class AssetController extends Controller
     public function index($keyword){
         $member_id = \Auth::user()->member->mm->id;
         ($keyword == '-') ? $keyword = '' : $keyword;
-        $data =  AssetList::with('asset')->with('status')->with('storage')->paginate(20);
+        $data =  AssetList::with('asset')->with('location')->paginate(20);
         return AssetResource::collection($data);
     }
 
@@ -60,8 +58,7 @@ class AssetController extends Controller
                             $assetlist = new AssetList;
                             $assetlist->code = \Auth::user()->member->mm->member->acronym.'-'.$member_id.'-'.str_pad(($cc+1), 4, '0', STR_PAD_LEFT); 
                             $assetlist->quantity = $list['quantity'];
-                            $assetlist->status_id = $list['status']['id'];
-                            $assetlist->storage_id = $list['storage']['id'];
+                            $assetlist->location_id = $list['location']['id'];
                             $assetlist->asset_id = $data->id;
                             $assetlist->save();
                             $c++;
@@ -86,7 +83,7 @@ class AssetController extends Controller
      }
 
      public function locations($id){
-        $data = AssetList::where('asset_id',$id)->paginate(5);
+        $data = AssetLocation::where('asset_id',$id)->paginate(5);
  
         return AssetResource::collection($data);
      }
