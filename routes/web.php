@@ -84,7 +84,11 @@ Route::prefix('request')->group(function () {
 
         Route::post('/location/store', 'Member\ListController@location');
 
-        Route::get('/checktracker/{id}', 'Member\AssetController@checkTrack'); 
+       
+
+        Route::get('/trackers/{id}', 'Member\TrackerController@index'); 
+        Route::post('/tracker/store', 'Member\TrackerController@store'); 
+        Route::get('/checktracker/{id}', 'Member\TrackerController@count'); 
         
         
     });

@@ -16,7 +16,8 @@ class CreateAssetTrackersTable extends Migration
         Schema::create('asset_trackers', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
-            $table->string('code',50);
+            $table->string('tracker_code',50)->unique();
+            $table->string('asset_code',50)->unique();
             $table->json('coordinates')->nullable();
             $table->string('status',3)->nullable();
             $table->smallInteger('assetlist_id')->unsigned()->index();

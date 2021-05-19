@@ -3659,9 +3659,10 @@ __webpack_require__.r(__webpack_exports__);
     track: function track() {
       alert(this.selectedasset);
     },
-    test: function test() {
+    test: function test(coor) {
       var _this = this;
 
+      this.center = coor;
       setTimeout(function () {
         _this.$refs.mymap.mapObject.invalidateSize();
       }, 500);
@@ -3892,6 +3893,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['assetid'],
   data: function data() {
@@ -3903,7 +3917,7 @@ __webpack_require__.r(__webpack_exports__);
       asset: {},
       trackers: [],
       locations: [],
-      code: '',
+      trackercode: '',
       assetcode: '',
       location_id: '',
       qnty: '',
@@ -3913,7 +3927,6 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     this.fetch();
     this.fetchTrackers();
-    this.fetchLocations();
   },
   methods: {
     makePagination: function makePagination(meta, links) {
@@ -3938,66 +3951,47 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       var vm = this;
-      page_url = page_url || this.currentUrl + '/request/member/asset/' + this.assetid + '/purchased';
+      page_url = page_url || this.currentUrl + '/request/member/trackers/' + this.assetid;
       axios.get(page_url).then(function (response) {
-        _this2.purchases = response.data.data;
+        _this2.trackers = response.data.data;
         vm.makePagination(response.data.meta, response.data.links);
       })["catch"](function (err) {
         return console.log(err);
       });
     },
-    fetchLocations: function fetchLocations(page_url) {
-      var _this3 = this;
-
-      var vm = this;
-      page_url = page_url || this.currentUrl + '/request/member/asset/' + this.assetid + '/locations';
-      axios.get(page_url).then(function (response) {
-        _this3.locations = response.data.data;
-        vm.makePagination(response.data.meta, response.data.links);
-      })["catch"](function (err) {
-        return console.log(err);
-      });
-    },
-    track: function track() {
+    track: function track(coor) {
+      this.$refs.tracks.test(coor);
       $("#track").modal('show');
-      this.$refs.tracks.test();
     },
     newtrack: function newtrack(id, qnty) {
-      var _this4 = this;
+      var _this3 = this;
 
       this.location_id = id;
       this.qnty = qnty;
       axios.get(this.currentUrl + '/request/member/checktracker/' + id).then(function (response) {
-        _this4.count = response.data;
+        _this3.count = response.data;
         $("#newtrack").modal('show');
       })["catch"](function (err) {
         return console.log(err);
       });
     },
     createtracker: function createtracker() {
-      var _this5 = this;
+      var _this4 = this;
 
-      axios.post(this.currentUrl + '/request/member/location/store', {
+      axios.post(this.currentUrl + '/request/member/tracker/store', {
         id: this.asset.id,
         assetcode: this.assetcode,
-        code: this.code
+        trackercode: this.trackercode
       }).then(function (response) {
-        if (_this5.selected == 'Storage') {
-          _this5.fetchStorage();
-        } else {
-          _this5.fetchVendor();
-        }
-
-        $("#newloc").modal("hide");
-        _this5.loc.name = '';
-        _this5.loc.address = '';
-        _this5.loc.contact_no = '';
+        $("#newtrack").modal("hide");
+        _this4.assetcode = '';
+        _this4.trackercode = '';
         Vue.$toast.success('<strong>Successfully Created</strong>', {
           position: 'bottom-right'
         });
       })["catch"](function (error) {
         if (error.response.status == 422) {
-          _this5.errors = error.response.data.errors;
+          _this4.errors = error.response.data.errors;
         }
       });
     },
@@ -71704,7 +71698,62 @@ var render = function() {
               _vm._v("Asset Tracker/'s")
             ]),
             _vm._v(" "),
-            _vm._m(2)
+            _c(
+              "div",
+              {
+                staticClass: "table-responsive",
+                staticStyle: { "max-height": "278px", "min-height": "278px" },
+                attrs: { "data-simplebar": "" }
+              },
+              [
+                _c(
+                  "table",
+                  { staticClass: "table table-centered table-nowrap mb-0" },
+                  [
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.trackers, function(tracker, index) {
+                        return _c("tr", { key: index }, [
+                          _c("td", { staticClass: "font-weight-bold" }, [
+                            _vm._v(_vm._s(tracker.asset_code))
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            { staticClass: "text-center font-weight-bold" },
+                            [_vm._v(_vm._s(tracker.tracker_code))]
+                          ),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "text-center" }, [
+                            _c(
+                              "a",
+                              {
+                                staticClass: "text-danger",
+                                attrs: {
+                                  "data-toggle": "tooltip",
+                                  "data-placement": "top",
+                                  title: "",
+                                  "data-original-title": "Track"
+                                },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.track(tracker.coordinates)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "bx bxs-location-plus" })]
+                            )
+                          ])
+                        ])
+                      }),
+                      0
+                    )
+                  ]
+                )
+              ]
+            )
           ])
         ])
       ])
@@ -71814,10 +71863,12 @@ var render = function() {
                               { attrs: { for: "formrow-firstname-input" } },
                               [
                                 _vm._v("Tracker Code: "),
-                                _vm.errors.code
+                                _vm.errors.trackercode
                                   ? _c("span", { staticClass: "haveerror" }, [
                                       _vm._v(
-                                        "(" + _vm._s(_vm.errors.code[0]) + ")"
+                                        "(" +
+                                          _vm._s(_vm.errors.tracker[0]) +
+                                          ")"
                                       )
                                     ])
                                   : _vm._e()
@@ -71829,8 +71880,8 @@ var render = function() {
                                 {
                                   name: "model",
                                   rawName: "v-model",
-                                  value: _vm.code,
-                                  expression: "code"
+                                  value: _vm.trackercode,
+                                  expression: "trackercode"
                                 }
                               ],
                               staticClass: "form-control",
@@ -71839,13 +71890,13 @@ var render = function() {
                                 type: "text",
                                 id: "formrow-firstname-input"
                               },
-                              domProps: { value: _vm.code },
+                              domProps: { value: _vm.trackercode },
                               on: {
                                 input: function($event) {
                                   if ($event.target.composing) {
                                     return
                                   }
-                                  _vm.code = $event.target.value
+                                  _vm.trackercode = $event.target.value
                                 }
                               }
                             })
@@ -71920,19 +71971,15 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "table-responsive",
-        staticStyle: { "max-height": "278px", "min-height": "278px" },
-        attrs: { "data-simplebar": "" }
-      },
-      [
-        _c("table", { staticClass: "table table-centered table-nowrap mb-0" }, [
-          _c("tbody")
-        ])
-      ]
-    )
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Asset Code")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" }, [_vm._v("Tracker Code")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" }, [_vm._v("Action")])
+      ])
+    ])
   },
   function() {
     var _vm = this

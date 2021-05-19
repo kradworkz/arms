@@ -17,7 +17,8 @@ class ChirpstackController extends Controller
         $json = file_get_contents("php://input");
 
         $obj = json_decode($json);
-        $tracker_id= json_encode($obj->devAddr);
+        $binary = base64_decode($obj->devAddr);
+        $tracker_id = bin2hex($binary);
         $decoded = json_encode($obj->objectJSON);
         $a = \json_decode($decoded);
         $aa = \json_decode($a);
@@ -36,7 +37,7 @@ class ChirpstackController extends Controller
 
             broadcast(new AssetLocation($wew));
 
-            $data = AssetTracker::where('code',$aa->uniqueid)->first();
+            $data = AssetTracker::where('tracker_code',$tracker_id)->first();
             $data->coordinates =  json_encode($aa->gps);
             $data->status = $aa->status;
             $data->save();

@@ -133,8 +133,21 @@
 
                     <div class="table-responsive"  data-simplebar style="max-height: 278px; min-height: 278px;">
                         <table class="table table-centered table-nowrap mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Asset Code</th>
+                                    <th class="text-center">Tracker Code</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
                            <tbody>
-                                
+                                <tr v-for="(tracker,index) in trackers" v-bind:key="index">
+                                    <td class="font-weight-bold">{{tracker.asset_code}}</td>
+                                    <td class="text-center font-weight-bold">{{tracker.tracker_code}}</td>
+                                    <td class="text-center">
+                                        <a class="text-danger" @click="track(tracker.coordinates)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Track"><i class='bx bxs-location-plus'></i></a>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -164,8 +177,8 @@
                             <input type="text" class="form-control" id="formrow-firstname-input" v-model="assetcode" style="text-transform: capitalize;">
                         </div>
                         <div class="form-group ">
-                            <label for="formrow-firstname-input">Tracker Code: <span v-if="errors.code" class="haveerror">({{ errors.code[0] }})</span></label>
-                            <input type="text" class="form-control" id="formrow-firstname-input" v-model="code" style="text-transform: capitalize;">
+                            <label for="formrow-firstname-input">Tracker Code: <span v-if="errors.trackercode" class="haveerror">({{ errors.tracker[0] }})</span></label>
+                            <input type="text" class="form-control" id="formrow-firstname-input" v-model="trackercode" style="text-transform: capitalize;">
                         </div>
                     </div>
                 </div>
@@ -214,7 +227,7 @@ export default {
             asset: {},
             trackers: [],
             locations: [],
-            code: '',
+            trackercode: '',
             assetcode: '',
             location_id: '',
             qnty: '',
@@ -225,7 +238,6 @@ export default {
     created(){
         this.fetch();
         this.fetchTrackers();
-        this.fetchLocations();
     },
 
     methods : {
@@ -249,29 +261,19 @@ export default {
 
         fetchTrackers(page_url){
             let vm = this; 
-            page_url = page_url || this.currentUrl + '/request/member/asset/'+this.assetid+'/purchased';
+            page_url = page_url || this.currentUrl + '/request/member/trackers/'+this.assetid;
             axios.get(page_url)
             .then(response => {
-                this.purchases = response.data.data;
+                this.trackers = response.data.data;
                 vm.makePagination(response.data.meta, response.data.links);
             })
             .catch(err => console.log(err));
         },
 
-        fetchLocations(page_url){
-            let vm = this; 
-            page_url = page_url || this.currentUrl + '/request/member/asset/'+this.assetid+'/locations';
-            axios.get(page_url)
-            .then(response => {
-                this.locations = response.data.data;
-                vm.makePagination(response.data.meta, response.data.links);
-            })
-            .catch(err => console.log(err));
-        },
 
-        track(){
+        track(coor){
+            this.$refs.tracks.test(coor);
             $("#track").modal('show');
-            this.$refs.tracks.test();
         },
 
         newtrack(id,qnty){
@@ -287,22 +289,16 @@ export default {
         },
 
         createtracker(){
-            axios.post(this.currentUrl + '/request/member/location/store', {
+            axios.post(this.currentUrl + '/request/member/tracker/store', {
                 id: this.asset.id,
                 assetcode: this.assetcode,
-                code: this.code
+                trackercode: this.trackercode
             })
             .then(response => {
-                if(this.selected == 'Storage'){
-                    this.fetchStorage();
-                }else{
-                    this.fetchVendor();
-                }
-                $("#newloc").modal("hide");
-                this.loc.name = '';
-                this.loc.address = '';
-                this.loc.contact_no = '';
-                 Vue.$toast.success('<strong>Successfully Created</strong>', {
+                $("#newtrack").modal("hide");
+                this.assetcode = '';
+                this.trackercode = '';
+                Vue.$toast.success('<strong>Successfully Created</strong>', {
                     position: 'bottom-right'
                 });
             })

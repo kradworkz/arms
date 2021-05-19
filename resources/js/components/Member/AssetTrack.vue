@@ -44,27 +44,28 @@ export default {
             center: [6.905508,122.075958],
             latlong : [{"lng":122.075958,"lat":6.905508},{"lng":122.075958,"lat":6.915508}],
             confirmed : [],
-                staticAnchor: [16, 37],
-      customText: "Foobar",
-      iconSize: 64
+            staticAnchor: [16, 37],
+            customText: "Foobar",
+            iconSize: 64
         }
     },
 
      computed: {
-    dynamicSize() {
-      return [this.iconSize, this.iconSize * 1.15];
+        dynamicSize() {
+            return [this.iconSize, this.iconSize * 1.15];
+        },
+        dynamicAnchor() {
+            return [this.iconSize / 2, this.iconSize * 1.15];
+        }
     },
-    dynamicAnchor() {
-      return [this.iconSize / 2, this.iconSize * 1.15];
-    }
-  },
 
     methods : {
         track(){
             alert(this.selectedasset);
         },
         
-        test(){
+        test(coor){
+            this.center = coor;
             setTimeout(() => {
                 this.$refs.mymap.mapObject.invalidateSize(); 
             }, 500);

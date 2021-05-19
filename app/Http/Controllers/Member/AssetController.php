@@ -78,19 +78,6 @@ class AssetController extends Controller
         return new ViewResource($data);
     }
 
-    public function track(Request $request){
-        $data = new AssetTracker;
-        $data->code = $request->input('code');
-        $data->assetlist_id = $request->input('assetlist_id');
- 
-        return new DefaultResource($data);
-    } 
-
-    public function checkTrack($id){
-        $data = AssetTracker::where('assetlist_id',$id)->count();
-        return $data;
-    }
-
     public function purchases($id){
         $data = AssetPurchase::with('vendor')
          ->where('asset_id',$id)->paginate(5);
