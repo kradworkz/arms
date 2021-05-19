@@ -27,7 +27,7 @@ class ChirpstackController extends Controller
         if($devicename == "Node1Slews"){
             $wew = new DeviceData;
             $wew->coordinates = json_encode($aa->temperature);
-            $wew->status = $aa->soilmoisture;
+            $wew->status = 1;
             $wew->code = $tracker_id;
             $wew->save();
 
