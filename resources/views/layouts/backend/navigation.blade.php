@@ -39,15 +39,10 @@
                         </a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle arrow-none" href="/requests" target="_blank" id="topnav-dashboard" role="button">
-                            <i class="bx bxs-chat mr-2"></i><span key="t-dashboards">Requests</span> 
+                        <a class="nav-link dropdown-toggle arrow-none" href="/stations"  id="topnav-dashboard" role="button">
+                            <i class='bx bx-map mr-2'></i><span key="t-dashboards">Stations</span> 
                         </a>
                     </li>
-                    <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle arrow-none" href="/locations" id="topnav-dashboard" role="button">
-                                <i class='bx bxs-cog mr-2'></i></i><span key="t-dashboards">Lists</span> 
-                            </a>
-                        </li>
                     @endif
                 </ul>
                   

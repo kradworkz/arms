@@ -16,7 +16,7 @@ use App\Http\Controllers\Auth\WelcomeController;
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+    return view('welcome');
 });
 
 Auth::routes(['register' => false]);
@@ -34,7 +34,7 @@ Route::middleware(['role:Administrator','auth'])->group(function () {
 
 Route::middleware(['role:Member','auth'])->group(function () {
     Route::get('/assetlists', 'Member\PageController@inventory'); 
-    Route::get('/locations', 'Member\PageController@list'); 
+    Route::get('/stations', 'Member\PageController@locations'); 
     Route::get('/assetlist/{id}', 'Member\PageController@viewasset'); 
 });
 
@@ -44,6 +44,7 @@ Route::prefix('request')->group(function () {
     Route::get('/regions', 'LocationController@regions');
     Route::get('/provinces/{id}', 'LocationController@provinces');
     Route::get('/municipalities/{id}', 'LocationController@municipalities');
+    Route::get('/dropdown/{type}', 'DropdownController@lists');
 
     Route::prefix('admin')->group(function () {
 
@@ -55,9 +56,8 @@ Route::prefix('request')->group(function () {
         Route::post('/member/store', 'Administrator\MemberController@store');
         Route::get('/lgus/{keyword}', 'Administrator\MemberController@lgu');
 
-        Route::get('/{type}/{keyword}', 'Administrator\ListsController@index');
-        Route::post('/list/{keyword}', 'Administrator\ListsController@store');
-        Route::get('/lists/s/{type}', 'Administrator\ListsController@lists');
+        Route::get('/{type}/{keyword}', 'DropdownController@index');
+        Route::post('/dropdown/{keyword}', 'DropdownController@store');
 
         Route::get('/packets', 'Administrator\PacketController@index');
 
@@ -65,36 +65,20 @@ Route::prefix('request')->group(function () {
 
     Route::prefix('member')->group(function (){
 
-        Route::get('/categories', 'Member\ListController@categories');
-        Route::get('/vendors', 'Member\ListController@vendors');
-        Route::get('/storage', 'Member\ListController@storages');
-
-
-        Route::get('/type/{type}/{keyword}', 'Member\ListController@index');
-        Route::post('/list/{keyword}', 'Member\ListController@store');
-        Route::get('/storages', 'Member\ListController@storages');
-        Route::get('/vendors', 'Member\ListController@vendors');
-        Route::get('/lists/s/{type}', 'Member\ListController@lists');
-
         Route::post('/asset/store', 'Member\AssetController@store');
         Route::get('/assets/{keyword}', 'Member\AssetController@index');
         Route::get('/asset/{id}', 'Member\AssetController@view'); 
         Route::get('/asset/{id}/purchased', 'Member\AssetController@purchases'); 
         Route::get('/asset/{id}/locations', 'Member\AssetController@locations'); 
+        Route::post('/status/update', 'Member\AssetController@status'); 
 
-        Route::post('/location/store', 'Member\ListController@location');
-
-       
-
-        Route::get('/trackers/{id}', 'Member\TrackerController@index'); 
-        Route::post('/tracker/store', 'Member\TrackerController@store'); 
-        Route::get('/checktracker/{id}', 'Member\TrackerController@count'); 
-        Route::get('/coordinates/{id}', 'Member\TrackerController@coordinates'); 
-
-        
-        Route::get('/locations/{keyword}', 'Member\LocationController@index');
+        Route::get('/locations', 'Member\LocationController@lists');
+        Route::get('/location/lists/{keyword}', 'Member\LocationController@index');
         Route::post('/location/store', 'Member\LocationController@store');
-        
+
+        Route::get('/lists/{id}', 'Member\ListsController@index'); 
+        Route::post('/tracker/store', 'Member\ListsController@store'); 
+        Route::get('/coordinates/{id}', 'Member\ListsController@coordinates'); 
     });
 });
 

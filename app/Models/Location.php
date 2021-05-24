@@ -10,4 +10,9 @@ class Location extends Model
     use HasFactory;
     protected $guarded = [];
     public $timestamps = false;
+
+    public function assets()
+    {
+        return $this->hasMany('App\Models\AssetLocation', 'location_id')->sum('quantity');
+    }
 }

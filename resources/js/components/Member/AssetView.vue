@@ -8,13 +8,13 @@
                         <div class="col-lg-4">
                             <div class="media">
                                 <div class="mr-3">
-                                    <img :src="currentUrl+'/images/avatars/'+asset.image" alt="" class="avatar-md rounded-circle img-thumbnail">
+                                    <img v-if="asset.image != undefined" :src="currentUrl+'/images/avatars/'+asset.image" alt="" class="avatar-md rounded-circle img-thumbnail">
                                 </div>
                                 <div class="media-body align-self-center">
-                                    <div class="text-muted">
-                                        <p class="mb-2">{{asset.storage}}</p>
-                                        <h5 class="mb-1">{{asset.name}}</h5>
-                                        <p class="mb-0">{{asset.storage}}</p>
+                                    <div class="text-muted font-weight-bold">
+                                        <p class="text-primary mb-2">{{asset.location}}</p>
+                                        <h5 class="text-success mb-1">{{asset.name}}</h5>
+                                        <p class="mb-0">{{asset.category}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -32,13 +32,13 @@
                                     <div class="col-4">
                                         <div>
                                             <p class="text-muted text-truncate mb-2">Available</p>
-                                            <h5 class="mb-0">40</h5>
+                                            <h5 class="mb-0">{{asset.available}}</h5>
                                         </div>
                                     </div>
                                     <div class="col-4">
                                         <div>
-                                            <p class="text-muted text-truncate mb-2">w/ Tracker</p>
-                                            <h5 class="mb-0">18</h5>
+                                            <p class="text-muted text-truncate mb-2">With Tracker</p>
+                                            <h5 class="mb-0">{{asset.tracker}}</h5>
                                             
                                         </div>
                                     </div>
@@ -47,7 +47,7 @@
                         </div>
 
                         <div class="col-lg-4 d-none d-lg-block">
-                        <div class="ml-auto">
+                            <div class="ml-auto">
                                 <div class="toolbar button-items text-right">
                                     <button @click="newtrack(asset.id,asset.quantity)" type="button" class="btn btn-light btn-sm">
                                         Register Tracker
@@ -67,7 +67,7 @@
     </div>
                 
     <div class="row">
-        <div class="col-xl-6">
+        <div class="col-xl-8">
             <div class="card">
                 <div class="card-body">
                     <ul class="list-inline user-chat-nav float-right" style="margin-top: -10px;">
@@ -84,68 +84,33 @@
                         </li>
                     </ul>
                   
-                    <h4 class="card-title mb-5">Location/'s</h4>
-
-                    <div class="table-responsive"  data-simplebar style="max-height: 278px; min-height: 278px;">
-                        <!-- <table class="table table-centered table-nowrap mb-0">
-                            <thead>
-                                <tr>
-                                    <th>Location</th>
-                                    <th class="text-center">Qnty</th>
-                                    <th class="text-right">Action</th>
-                                </tr>
-                            </thead>
-                           <tbody>
-                                <tr v-for="location in locations" v-bind:key="location.id">
-                                    <td>
-                                        <h5 class="font-size-13 text-truncate mb-1"><a class="text-dark">{{location.storage}}</a></h5>
-                                    </td>
-                                    <td class="text-center">{{location.quantity}}</td>
-                                    <td class="text-right">
-                                        <a class="mr-3 text-warning" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class='bx bx-edit-alt' ></i></a>
-                                        <a class="text-danger" @click="newtrack(location.id,location.quantity)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class='bx bxs-location-plus'></i></a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table> -->
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-6">
-            <div class="card">
-                <div class="card-body">
-                    <ul class="list-inline user-chat-nav float-right" style="margin-top: -10px;">
-                        <li class="list-inline-item d-none d-sm-inline-block font-size-12">{{pagination.current_page}} out of {{pagination.last_page}}</li>
-                        <li class="list-inline-item d-none d-sm-inline-block">
-                            <a class="btn nav-btn" v-bind:class="[{disabled: !pagination.prev_page_url}]" @click="fetchTrackers(pagination.prev_page_url)">
-                                <i class='bx bxs-chevron-left font-size-16'></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item d-none d-sm-inline-block">
-                            <a class="btn nav-btn" v-bind:class="[{disabled: !pagination.next_page_url}]" @click="fetchTrackers(pagination.next_page_url)">
-                                <i class='bx bxs-chevron-right font-size-16'></i>
-                            </a>
-                        </li>
-                    </ul>
-                    <h4 class="card-title mb-5">Asset Tracker/'s</h4>
+                    <h4 class="card-title mb-5">Asset Lists</h4>
 
                     <div class="table-responsive"  data-simplebar style="max-height: 278px; min-height: 278px;">
                         <table class="table table-centered table-nowrap mb-0">
                             <thead>
                                 <tr>
-                                    <th>Asset Code</th>
+                                    <th>#</th>
+                                    <th class="text-center">Asset Code</th>
                                     <th class="text-center">Tracker Code</th>
-                                    <th class="text-center">Action</th>
+                                    <th class="text-center">Status</th>
+                                     <th class="text-center">Action</th>
                                 </tr>
                             </thead>
                            <tbody>
-                                <tr v-for="(tracker,index) in trackers" v-bind:key="index">
-                                    <td class="font-weight-bold">{{tracker.asset_code}}</td>
-                                    <td class="text-center font-weight-bold">{{tracker.tracker_code}}</td>
+                               <!-- :class="{'table-success':list.coordinates != 'n/a'} -->
+                                <tr v-for="(list,index) in lists" v-bind:key="list.id">
+                                    <td>{{index +1}}</td>
+                                    <td class="text-center font-weight-bold">{{list.asset}}</td>
+                                    <td class="text-center">{{list.tracker}}</td>
                                     <td class="text-center">
-                                        <a class="text-danger" @click="track(tracker.id)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Track"><i class='bx bxs-location-plus'></i></a>
+                                        <span :class="'badge badge-'+list.status.color">{{list.status.name}}</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="mr-2 text-warning font-size-16" @click="newtrack(list.id,index,list.status)"><i class='bx bx-edit-alt'></i></a>
+                                        <a v-if="list.coordinates == 'n/a'" class="mr-2 text-danger font-size-16" @click="newtrack(list.id,list.asset,'newtrack')"><i class='bx bxs-location-plus'></i></a>
+                                        <a v-else class="mr-2 text-danger font-size-16" @click="newtrack(list.id,list.tracker,'edit')"><i class='bx bxs-edit-location' ></i></a>
+                                        <a @click="track(list.id,list.coordinates)" v-bind:class="[(list.coordinates != 'n/a' ? 'text-danger' : 'text-secondary')]" class="font-size-16"><i class='bx bx-current-location'></i></i></a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -155,60 +120,54 @@
                 </div>
             </div>
         </div>
+        <div class="col-xl-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-5">Asset Tracker/'s</h4>
+                    <div class="table-responsive"  data-simplebar style="max-height: 278px; min-height: 278px;">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="modal fade exampleModal" id="newtrack" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Register Tracker</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h5 class="modal-title" v-if="type == 'newtrack' || type == 'edit'">Asset Code: {{code}} </h5>
+                    <h5 class="modal-title" v-else>Update Status</h5>
                 </div>
-                <form @submit.prevent="createtracker">
-                <div class="modal-body customerform">
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <i class='bx bx-error mr-2'></i>
-                        <b>{{ count }}</b> tracked asset out of <b>{{qnty}}</b>
-                    </div>
-                    <div v-if="count != qnty">
-                        <div class="form-group ">
-                            <label for="formrow-firstname-input">Asset Code: <span v-if="errors.assetcode" class="haveerror">({{ errors.assetcode[0] }})</span></label>
-                            <input type="text" class="form-control" id="formrow-firstname-input" v-model="assetcode" style="text-transform: capitalize;">
+                <form  @submit.prevent="createtracker">
+                    <div class="modal-body customerform">
+                        <div v-if="type == 'newtrack' || type == 'edit'">
+                            <div class="form-group ">
+                                <label for="formrow-firstname-input">Tracker Code: <span v-if="errors.trackercode" class="haveerror">({{ errors.trackercode[0] }})</span></label>
+                                <input type="text" class="form-control" id="formrow-firstname-input" v-model="trackercode" style="text-transform: capitalize;">
+                            </div>
                         </div>
-                        <div class="form-group ">
-                            <label for="formrow-firstname-input">Tracker Code: <span v-if="errors.trackercode" class="haveerror">({{ errors.tracker[0] }})</span></label>
-                            <input type="text" class="form-control" id="formrow-firstname-input" v-model="trackercode" style="text-transform: capitalize;">
+                        <div v-else>
+                            <div class="form-group">
+                                <label class="float-label">Status  <span v-if="errors.status" class="haveerror"> {{( errors.status )}}</span></label>
+                                <multiselect v-model="status" 
+                                :allow-empty="false"
+                                deselect-label="Can't remove"
+                                :options="statuses" 
+                                placeholder="Select Status" 
+                                label="name" track-by="id">
+                                </multiselect>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button @click="clear" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
-    <div class="modal fade exampleModal" id="newquantity" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Quantity</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body customerform">
-                  
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
+   
     <div class="modal fade exampleModal" id="track" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <asset-track :selectedasset="assetid" ref="tracks"></asset-track>
     </div>
@@ -216,6 +175,7 @@
 </template>
 
 <script>
+import Multiselect from 'vue-multiselect';
 export default {
     props: ['assetid'],
     data(){
@@ -225,19 +185,22 @@ export default {
             pagination: {},
             keyword: '',
             asset: {},
-            trackers: [],
-            locations: [],
+            lists: [],
+            statuses: [],
             trackercode: '',
-            assetcode: '',
             location_id: '',
             qnty: '',
             count: '',
+            code: '',
+            type: '',
+            status: ''
         }
     },
 
     created(){
         this.fetch();
-        this.fetchTrackers();
+        this.fetchLists();
+        this.fetchStatus();
     },
 
     methods : {
@@ -259,60 +222,99 @@ export default {
             .catch(err => console.log(err));
         },
 
-        fetchTrackers(page_url){
+        fetchLists(page_url){
             let vm = this; 
-            page_url = page_url || this.currentUrl + '/request/member/trackers/'+this.assetid;
+            page_url = page_url || this.currentUrl + '/request/member/lists/'+this.assetid;
             axios.get(page_url)
             .then(response => {
-                this.trackers = response.data.data;
+                this.lists = response.data.data;
                 vm.makePagination(response.data.meta, response.data.links);
             })
             .catch(err => console.log(err));
         },
 
-
-        track(id){
-            this.$refs.tracks.test(id);
-            $("#track").modal('show');
-        },
-
-        newtrack(id,qnty){
-            this.location_id = id;
-            this.qnty = qnty;
-            axios.get(this.currentUrl + '/request/member/checktracker/'+id)
+        fetchStatus(){
+            axios.get(this.currentUrl + '/request/dropdown/2')
             .then(response => {
-                this.count = response.data;
-                $("#newtrack").modal('show');
+                this.statuses = response.data.data;;
             })
             .catch(err => console.log(err));
-           
+        },
+
+        track(id,coor){
+            if(coor != 'n/a'){
+                this.$refs.tracks.test(id);
+                $("#track").modal('show');
+            }
+        },
+
+        newtrack(id,code,type){
+            this.code = code;
+            this.location_id = id;
+            this.type = type;
+            if(this.type == 'newtrack'){
+                this.type = type;
+                this.trackercode = ''
+            }else if(this.type == 'edit'){
+                this.trackercode = code;
+            }else{
+                this.status = type;
+            }
+            if(this.status.id != 3){
+                $("#newtrack").modal('show');
+            }
         },
 
         createtracker(){
-            axios.post(this.currentUrl + '/request/member/tracker/store', {
-                id: this.asset.id,
-                assetcode: this.assetcode,
-                trackercode: this.trackercode
-            })
-            .then(response => {
-                $("#newtrack").modal("hide");
-                this.assetcode = '';
-                this.trackercode = '';
-                Vue.$toast.success('<strong>Successfully Created</strong>', {
-                    position: 'bottom-right'
+            if(this.type == 'newtrack' || this.type == 'edit'){
+                axios.post(this.currentUrl + '/request/member/tracker/store', {
+                    id: this.location_id,
+                    trackercode: this.trackercode
+                })
+                .then(response => {
+                    $("#newtrack").modal("hide");
+                    Vue.$toast.success('<strong>Successfully Created</strong>', {
+                        position: 'bottom-right'
+                    });
+                    this.clear();
+                })
+                .catch(error => {
+                    if (error.response.status == 422) {
+                        this.errors = error.response.data.errors;
+                    }
                 });
-            })
-            .catch(error => {
-                if (error.response.status == 422) {
-                    this.errors = error.response.data.errors;
-                }
-            });
+            }else{
+                axios.post(this.currentUrl + '/request/member/status/update', {
+                    id: this.location_id,
+                    status: this.status.id
+                })
+                .then(response => {
+                    this.lists[this.code] = response.data.data;
+                    $("#newtrack").modal("hide");
+                    Vue.$toast.success('<strong>Successfully Updated</strong>', {
+                        position: 'bottom-right'
+                    });
+                    this.clear();
+                })
+                .catch(error => {
+                    if (error.response.status == 422) {
+                        this.errors = error.response.data.errors;
+                    }
+                });
+            }
+        },
+
+        clear(){
+            this.status= '';
+            this.trackercode = '';
+            this.code = '';
+            this.errors = [];
         },
 
         newquantity(id){
             this.location_id = id;
             $("#newquantity").modal('show');
         }
-    }
+    }, components: { Multiselect}
 }
 </script>

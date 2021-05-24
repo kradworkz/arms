@@ -5,7 +5,7 @@
 
             <div class="card-body" v-if="addnew == false">
                 <div class="row mb-3">
-                  <div class="col-xl-6 col-sm-6 form-inline">
+                    <div class="col-xl-6 col-sm-6 form-inline">
                          <button type="button" @click="newasset" class="btn btn-danger waves-effect waves-light mr-2">New <i class='bx bx-plus-medical ml-2'></i></button>
                         <form class="float-sm-right form-inline">
                             <div class="search-box">
@@ -30,68 +30,31 @@
                                 </a>
                             </li>
                             <li class="list-inline-item d-non d-sm-inline-block">
-                                <div class="dropdown">
-                                    <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="d-none d-sm-inline-block"> <i class='bx bx-dots-vertical-rounded'></i></span></button>
-                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-md" style="">
-                                        <div class="dropdown-item-text">
-                                            <div>
-                                                <p class="text-muted mb-2">Available Balance</p>
-                                                <h5 class="mb-0">$ 9148.23</h5>
-                                            </div>
-                                        </div>
-
-                                        <div class="dropdown-divider"></div>
-
-                                        <a class="dropdown-item" href="#">
-                                            BTC : <span class="float-right">1.02356</span>
-                                        </a>
-                                        <a class="dropdown-item" href="#">
-                                            ETH : <span class="float-right">0.04121</span>
-                                        </a>
-                                        <a class="dropdown-item" href="#">
-                                            LTC : <span class="float-right">0.00356</span>
-                                        </a>
-
-                                        <div class="dropdown-divider"></div>
-
-                                        <a class="dropdown-item text-primary text-center" href="#">
-                                            Learn more
-                                        </a>
-                                    </div>
-                                </div>
+                                <button @click="fetch()" type="button" class="btn btn-light"><span class="d-none d-sm-inline-block "> <i class='bx bx-refresh'></i></span></button>                                 
                             </li>
                         </ul>
-                        
                     </div>
                 </div>
 
                 <div class="table-responsive">
                     <table class="table table-centered table-nowrap">
-                        <thead>
+                        <thead class="thead-light">
                             <tr>
                                 <th></th>
-                                <th>Code</th>
                                 <th class="text-center">Name</th>
-                                <th class="text-center">Quantity</th>
-                                <th class="text-center">Storage</th>
-                                <th class="text-center">Status</th>
+                                <th class="text-center">Location</th>
+                                <th class="text-center">Availability</th>
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="asset in assets" v-bind:key="asset.id" @click="view(asset.id)" :class="{'table-success':trselected == asset.id}">
                                 <td>
-                                    <div class="avatar-xs">
-                                        <span class="avatar-title rounded-circle">{{asset.name.charAt(0)}}</span>
-                                    </div>
+                                    <div class="avatar-xs"><span class="avatar-title rounded-circle">{{asset.name.charAt(0)}}</span></div>
                                 </td>
-                                <td class="font-weight-bold">{{asset.code}}</td>
                                 <td class="text-center">{{asset.name}}</td>
-                                <td class="text-center">{{asset.quantity}}</td>
-                                <td class="text-center">{{asset.storage}}</td>
-                                <td class="text-center">
-                                    <span class="badge badge-success font-size-12">{{asset.status}}</span>
-                                </td>
+                                <td class="text-center">{{asset.location}}</td>
+                                <td class="text-center">{{asset.available}} of {{asset.quantity}}</td>
                                 <td class="text-center">
                                     <a :href="'assetlist/'+asset.id" class="mr-3 text-info" data-toggle="tooltip" data-placement="top" title="" data-original-title="View"><i class='bx bx-show'></i></a>
                                     <a class="mr-3 text-warning" @click="edit(asset)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class='bx bx-edit-alt' ></i></a>
@@ -158,7 +121,7 @@ export default {
             .catch(err => console.log(err));
         },
 
-         newass(status) {
+        newass(status) {
             if (status) {
                 Vue.$toast.success('<strong>Successfully Created</strong>', {
                     position: 'bottom-left'

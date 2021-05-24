@@ -17,4 +17,6 @@
             </div>
         </div>
 
+        <member-home></member-home>
+
 @endsection

@@ -19,6 +19,7 @@ class CreateDropdownsTable extends Migration
             $table->string('name',100);
             $table->string('type',20)->defualt('n/a');  
             $table->string('classification',20);  
+            $table->string('color',20)->default('none');  
             $table->boolean('status')->default(1);
         });
     }

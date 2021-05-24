@@ -36,6 +36,7 @@ class HomeController extends Controller
             return view('user_top.index');
         }
     }
+    
 
     public function test(){
         // $data = '{

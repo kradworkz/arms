@@ -37,7 +37,8 @@ Vue.component('inventory', require('./components/Member/Asset.vue').default);
 Vue.component('asset-create', require('./components/Member/AssetNew.vue').default);
 Vue.component('asset-view', require('./components/Member/AssetView.vue').default);
 Vue.component('asset-track', require('./components/Member/AssetTrack.vue').default);
-Vue.component('member-list', require('./components/Member/List.vue').default);
+Vue.component('locations', require('./components/Member/Location.vue').default);
+Vue.component('member-home', require('./components/Member/Home.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Administrator;
+namespace App\Http\Controllers;
 
 use App\Models\Dropdown;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\DefaultResource;
 
-class ListsController extends Controller
+class DropdownController extends Controller
 {
     public function index($type,$keyword){
         ($keyword == '-') ? $keyword = '' : $keyword;
@@ -28,6 +27,7 @@ class ListsController extends Controller
         $data->name =  ucwords(strtolower($request->input('name')));
         $data->type = ($request->input('type')) ? $request->input('type') : 'n/a';
         $data->classification = ($request->input('selected') == 1) ? 'Category' : 'Status';
+        ($request->input('selected') == 1) ? '' : $data->color = $request->input('color');
         $data->save();
 
         return new DefaultResource($data);

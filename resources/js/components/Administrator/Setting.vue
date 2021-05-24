@@ -121,6 +121,14 @@
                                                 >
                                             </multiselect>
                                         </div>
+                                        <div class="col-md-12">
+                                            <label for="formrow-firstname-input">Color: <span v-if="errors.color" class="haveerror">({{ errors.color[0] }})</span></label>
+                                            <multiselect 
+                                                v-model="color" 
+                                                :options="colors"
+                                                :allow-empty="false">
+                                            </multiselect>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -153,9 +161,11 @@ export default {
             address: '',
             contact_no: '',
             type: '',
+            color: '',
             selected: 1,
             editable: false,
             options : ["Asset","Activity","Request","Maintenance"],
+            colors : ["green","red","blue","yellow","black","gray"],
         }
     },
 
@@ -196,8 +206,9 @@ export default {
             form.append('selected', this.selected);
             (this.editable == true) ? form.append('update', 'update') : form.append('update','create');
             (this.selected == 2) ? form.append('type', this.type) : '';
+            (this.selected == 2) ? form.append('color', this.color) : '';
 
-            axios.post(this.currentUrl + '/request/admin/list/store', form)
+            axios.post(this.currentUrl + '/request/admin/dropdown/store', form)
             .then(response => {
                 $('#new').modal('hide');
                 let page_url = '/request/admin/'+this.selected+'/-?page=' + this.pagination.current_page;

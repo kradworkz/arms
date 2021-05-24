@@ -4094,7 +4094,7 @@ input[switch=dark]:checked+label {
 
 @media (min-width:992px) {
     .chat-leftsidebar {
-        min-width: 380px
+        min-width: 330px
     }
 }
 

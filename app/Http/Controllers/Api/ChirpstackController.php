@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\DeviceData;
-use App\Models\AssetTracker;
+use App\Models\AssetList;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\DefaultResource;
@@ -17,7 +17,7 @@ class ChirpstackController extends Controller
         $json = file_get_contents("php://input");
 
         $obj = json_decode($json);
-        $binary = base64_decode($obj->devAddr);
+        $binary = base64_decode($obj->devEUI);
         $devicename = $obj->deviceName;
         $tracker_id = bin2hex($binary);
         $decoded = json_encode($obj->objectJSON);
@@ -48,9 +48,8 @@ class ChirpstackController extends Controller
 
                 broadcast(new AssetLocation($wew));
 
-                $data = AssetTracker::where('tracker_code',$tracker_id)->first();
+                $data = AssetList::where('tracker_code',$tracker_id)->first();
                 $data->coordinates =  json_encode($aa->gps);
-                $data->status = $aa->status;
                 $data->save();
 
                 return true;

@@ -23,6 +23,17 @@ class AssetLocation extends Model
     {
         return $this->hasMany('App\Models\AssetList', 'assetlocation_id');
     }
+
+    public function available()
+    {
+        return $this->hasMany('App\Models\AssetList', 'assetlocation_id')->where('status_id',1)->count();
+    }
+
+    public function tracker()
+    {
+        return $this->hasMany('App\Models\AssetList', 'assetlocation_id')->where('tracker_code','!=',NULL)->count();
+    }
+    
     
     public function getUpdatedAtAttribute($value)
     {

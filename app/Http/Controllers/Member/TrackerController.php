@@ -15,10 +15,8 @@ class TrackerController extends Controller
     }
 
     public function store(Request $request){
-        $data = new AssetTracker;
+        $data = AssetList::where('id',$request->input('id'));
         $data->tracker_code = $request->input('trackercode');
-        $data->asset_code = $request->input('assetcode');
-        $data->assetlist_id = $request->input('id');
         $data->save();
 
         return new DefaultResource($data);
