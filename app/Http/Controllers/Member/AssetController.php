@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Member;
 use App\Models\Asset;
 use App\Models\AssetList;
 use App\Models\AssetLocation;
+use App\Models\Dropdown;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\StoreImage;
@@ -69,11 +70,13 @@ class AssetController extends Controller
 
     public function lists($id,$quantity){
         $count = AssetLocation::where('id',$id)->count();
+        $status = Dropdown::select('id')->where('classification','Status')->where('name','Operational')->first();
+
         for($count+1; $count<=$quantity; $count++){
             $data = new AssetList;
             $data->asset_code = \Auth::user()->member->mm->member->acronym.'-'.$id.'-'.str_pad(($count), 4, '0', STR_PAD_LEFT); ;
             $data->assetlocation_id = $id;
-            $data->status_id = 1;
+            $data->status_id = $status->id;
             $data->save();
         }
         return true;

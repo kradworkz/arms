@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Dropdown;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,7 +27,8 @@ class AssetLocation extends Model
 
     public function available()
     {
-        return $this->hasMany('App\Models\AssetList', 'assetlocation_id')->where('status_id',1)->count();
+        $status = Dropdown::select('id')->where('classification','Status')->where('name','Operational')->first();
+        return $this->hasMany('App\Models\AssetList', 'assetlocation_id')->where('status_id',$status->id)->count();
     }
 
     public function tracker()

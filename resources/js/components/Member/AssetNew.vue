@@ -32,7 +32,7 @@
                             <div class="col-md-3" style="margin-top: -10px;">
                                 <div class="form-group form-primary">
                                     <label class="float-label">Category <span v-if="errors.category" class="haveerror">({{ errors.category[0] }})</span></label>
-                                    <multiselect v-model="asset.category" :options="categories" placeholder="Select Category" label="name" track-by="id">
+                                    <multiselect v-model="asset.category"  :allow-empty="false" :show-labels="false" :options="categories" placeholder="Select Category" label="name" track-by="id">
                                     </multiselect>
                                 </div>
                             </div>
@@ -56,13 +56,14 @@
                         <div class="row col-md-12" v-for="(list , index) in lists" v-bind:key="'a-'+list.id+index">
                             <div class="col-md-8">
                                 <div class="form-group">
-                                    <label class="float-label">Location  <span v-if="errors['lists.'+index+'.location']" class="haveerror"> {{( errors['lists.'+index+'.location'][0] )}}</span></label>
+                                    <label class="float-label">Station<span v-if="errors['lists.'+index+'.location']" class="haveerror"> {{( errors['lists.'+index+'.location'][0] )}}</span></label>
                                     <multiselect  
                                     :allow-empty="false"
                                     deselect-label="Can't remove"
                                     v-model="list.location" 
                                     @input="onChange(list.location.id)" 
-                                    :options="locations" placeholder="Select Location" 
+                                    :show-labels="false"
+                                    :options="locations" placeholder="Select Station" 
                                     label="name" track-by="id">
                                     </multiselect>
                                 </div>

@@ -16,7 +16,7 @@ use App\Http\Controllers\Auth\WelcomeController;
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+    return view('landing');
 });
 
 Auth::routes(['register' => false]);

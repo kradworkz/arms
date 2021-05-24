@@ -19,4 +19,6 @@
 
         <admin-home></admin-home>
 
+        <script src="{{asset('js/pusher.js')}}"></script>
+
 @endsection

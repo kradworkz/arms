@@ -36,8 +36,8 @@
                                     </div>
 
                                     <div class="overflow-hidden mr-auto">
-                                        <h5 class="font-size-13 text-truncate mb-1">Images</h5>
-                                        <p class="text-muted text-truncate mb-0">176 Files</p>
+                                        <h5 class="font-size-13 text-truncate mb-1">Vehicles</h5>
+                                        <p class="text-muted text-truncate mb-0">176 Assets</p>
                                     </div>
                                 </div>
                             </div>

@@ -5,7 +5,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-4">
+                        <div class="col-lg-5">
                             <div class="media">
                                 <div class="mr-3">
                                     <img v-if="asset.image != undefined" :src="currentUrl+'/images/avatars/'+asset.image" alt="" class="avatar-md rounded-circle img-thumbnail">
@@ -25,7 +25,7 @@
                                 <div class="row">
                                     <div class="col-4">
                                         <div>
-                                            <p class="text-muted text-truncate mb-2">Total Quantity</p>
+                                            <p class="text-muted text-truncate mb-2">Quantity</p>
                                             <h5 class="mb-0">{{asset.quantity}}</h5>
                                         </div>
                                     </div>
@@ -46,7 +46,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-4 d-none d-lg-block">
+                        <div class="col-lg-3 d-none d-lg-block">
                             <div class="ml-auto">
                                 <div class="toolbar button-items text-right">
                                     <button @click="newtrack(asset.id,asset.quantity)" type="button" class="btn btn-light btn-sm">
