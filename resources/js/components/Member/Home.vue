@@ -70,8 +70,8 @@
                             <div>
                                 <div class="text-muted">
                                     <h5>asdada</h5>
-                                    <p class="mb-1">henrywells@abc.com</p>
-                                    <p class="mb-0">Id no: #SK0234</p>
+                                    <p class="mb-1">kradd</p>
+                                    <p class="mb-0">asdada</p>
                                 </div>
                             </div>
                             <div class="dropdown ml-2">
@@ -89,18 +89,7 @@
 
                     <div class="card-body border-top mb-2 mt-2">
                         <div class="row">
-                            <div class="col-sm-6">
-                                <div>
-                                    <p class="text-muted mb-2">Income Generated</p>
-                                    <h5>₱ asda</h5>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="text-sm-right mt-4 mt-sm-0">
-                                    <p class="text-muted mb-2">Since last month</p>
-                                    <h5>+ $ 248.35   <span class="badge badge-success ml-1 align-bottom">+ 1.3 %</span></h5>
-                                </div>
-                            </div>
+                         
                         </div>
                     </div>
 
@@ -108,36 +97,7 @@
                         <p class="text-muted mb-4">{{ (month == 'All' ? 'In this year ' + year : (month != 'Daily') ? 'In this month '+ months[month.replace(/^0+/, '')-1] : 'In this day '+ todate )}} </p>
                         <div class="text-center">
                             <div class="row">
-                                <div class="col-sm-4">
-                                    <div>
-                                        <div class="font-size-24 text-primary mb-2">
-                                            <i class="bx bx-send"></i>
-                                        </div>
-                    
-                                        <p class="text-muted mb-2">Gratis</p>
-                                        <h5>₱ 234242</h5>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="mt-4 mt-sm-0">
-                                        <div class="font-size-24 text-primary mb-2">
-                                            <i class="bx bx-import"></i>
-                                        </div>
-                    
-                                        <p class="text-muted mb-2">Discount</p>
-                                        <h5>₱ {234242</h5>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="mt-4 mt-sm-0">
-                                        <div class="font-size-24 text-primary mb-2">
-                                            <i class="bx bx-wallet"></i>
-                                        </div>
-                    
-                                        <p class="text-muted mb-2">Gross</p>
-                                        <h5>₱ 123131</h5>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
