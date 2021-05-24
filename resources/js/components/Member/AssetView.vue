@@ -108,7 +108,7 @@
                                     </td>
                                     <td class="text-center">
                                         <a class="mr-2 text-warning font-size-16" @click="newtrack(list.id,index,list.status)"><i class='bx bx-edit-alt'></i></a>
-                                        <a v-if="list.coordinates == 'n/a'" class="mr-2 text-danger font-size-16" @click="newtrack(list.id,list.asset,'newtrack')"><i class='bx bxs-location-plus'></i></a>
+                                        <a v-if="list.coordinates == 'n/a' && list.tracker == 'n/a'" class="mr-2 text-danger font-size-16" @click="newtrack(list.id,index,'newtrack')"><i class='bx bxs-location-plus'></i></a>
                                         <a v-else class="mr-2 text-danger font-size-16" @click="newtrack(list.id,list.tracker,'edit')"><i class='bx bxs-edit-location' ></i></a>
                                         <a @click="track(list.id,list.coordinates)" v-bind:class="[(list.coordinates != 'n/a' ? 'text-danger' : 'text-secondary')]" class="font-size-16"><i class='bx bx-current-location'></i></i></a>
                                     </td>
@@ -249,8 +249,8 @@ export default {
         },
 
         newtrack(id,code,type){
-            this.code = code;
             this.location_id = id;
+            this.code = code;
             this.type = type;
             if(this.type == 'newtrack'){
                 this.type = type;
@@ -260,7 +260,7 @@ export default {
             }else{
                 this.status = type;
             }
-            if(this.status.id != 3){
+            if(this.status.id != 5){
                 $("#newtrack").modal('show');
             }
         },
@@ -272,6 +272,11 @@ export default {
                     trackercode: this.trackercode
                 })
                 .then(response => {
+                    var index = this.lists.map(x => {
+                        return x.id;
+                    }).indexOf(this.location_id);
+    
+                    this.lists[index].tracker = response.data.data.tracker_code;
                     $("#newtrack").modal("hide");
                     Vue.$toast.success('<strong>Successfully Created</strong>', {
                         position: 'bottom-right'

@@ -31,8 +31,8 @@
                                         <option value="2019">2019</option>
                                         <option value="2018">2018</option>
                                     </select>
-                                    <select v-model="laboratory" class="custom-select custom-select-sm" style="width: 200px;">
-                                        <option :value="lab" v-for="lab in laboratories" v-bind:key="lab.id">{{lab.name}}</option>
+                                    <select class="custom-select custom-select-sm" style="width: 200px;">
+                                        <!-- <option :value="lab" v-for="lab in laboratories" v-bind:key="lab.id">{{lab.name}}</option> -->
                                     </select>
                                     <div class="input-group-append">
                                         <label class="input-group-text">Services</label>
@@ -42,13 +42,13 @@
                             <div class="float-right">
                                 <div class="apex-charts" >
                                     <div class="toolbar button-items text-center">
-                                        <button @click="show = 'bar'" type="button" class="btn btn-light btn-sm">
+                                        <button  type="button" class="btn btn-light btn-sm">
                                             <i class="bx bx-grid-alt"></i>
                                         </button>
-                                        <button @click="show = 'lists'" type="button" class="btn btn-light btn-sm">
+                                        <button  type="button" class="btn btn-light btn-sm">
                                             <i class="bx bx-list-ul"></i>
                                         </button>
-                                        <button @click="print" class="btn btn-sm btn-primary" type="button">
+                                        <button  class="btn btn-sm btn-primary" type="button">
                                             <i class="bx bxs-printer align-middle mr-1"></i> Print
                                         </button>
                                     </div>
@@ -63,138 +63,118 @@
 
 
         <div class="row">
-            <div class="col-xl-5">
-                <div class="card">
-                    <div class="card-body">
-                        <div>
-                            <div>
-                                <div class="text-muted">
-                                    <h5>asdada</h5>
-                                    <p class="mb-1">henrywells@abc.com</p>
-                                    <p class="mb-0">Id no: #SK0234</p>
-                                </div>
-                            </div>
-                            <div class="dropdown ml-2">
-                                <a class="text-muted dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="mdi mdi-dots-horizontal font-size-18"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
+            <div class="col-xl-3">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card mini-stats-wid" v-for="(list,index) in reports" v-bind:key="list.id" style="margin-bottom: 5px;">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <p :class="'text-'+list.color+' mb-2'">{{ list.name }}</p>
+                                        <h5 class="mb-0">{{ list.counts }}</h5>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="card-body border-top mt-2">
-                        <div class="row">
-                            <div class="col-md-12">
+                </div>
+            </div>
+            
+            <div class="col-xl-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card" style="min-height: 365px;">
+                            <div class="card-body">
                                 <form>
                                     <div class="search-box">
                                         <div class="position-relative">
-                                            <input type="text" class="form-control bg-light border-light rounded" placeholder="Search..." v-model="keyword" @keyup="fetch()">
+                                            <input type="text" class="form-control bg-light border-light rounded" style="text-transform: capitalize;" placeholder="Search..." v-model="keyword" @keyup="fetch()">
                                         <i class='bx bx-search-alt search-icon'></i>
                                         </div>
                                     </div>
                                 </form>
+
+                                <div class="text-center">
+                                    <div class="row">
+                                        <div class="col-md-12 align-center" style="margin-top: 95px;" v-if="results.length < 1">
+                                            <center style="opacity: 0.5;">
+                                            <i class='bx bxs-file' style="font-size: 100px;"></i>
+                                            <p>Nothing on lists, search assets now.</p>
+                                            </center>
+                                        </div>
+                                        <div class="col-md-12" v-else>
+                                        <table class="table table-nowrap table-centered table-hover mt-4 mb-0">
+                                                <tbody>
+                                                    <tr v-for="(list,index) in results" v-bind:key="list.id" @click="editStatus(list.id,list.status,index)">
+                                                        <td width="50px;">
+                                                            <img class="rounded-circle avatar-xs" :src="currentUrl+'/images/avatars/'+list.image" alt="">
+                                                        </td>
+                                                        <td class="text-left">
+                                                            <h5 class="text-truncate font-size-14 mb-1"><a href="#" class="text-dark">{{ list.asset_code }}</a></h5>
+                                                            <p class="text-muted mb-0">{{ list.name}}</p>
+                                                        </td>
+                                                        <td class="text-right font-size-14">
+                                                            <span :class="'badge badge-'+list.status.color">{{list.status.name}}</span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="card-body border-top mb-4 mt-2">
-                        <div class="text-center">
-                            <div class="row">
-                                <div class="col-md-12 align-center" style="margin-top: 20px;" v-if="results.length < 1">
-                                    <center>
-                                    <i class='bx bxs-file' style="font-size: 100px; opacity: 0.5;"></i>
-                                    </center>
-                                </div>
-                                <div class="col-md-12" v-else>
-                                    <table class="table table-centered table-nowrap mb-0">
-                                    <tbody>
-                                        <!-- :class="{'table-success':list.coordinates != 'n/a'} -->
-                                            <tr v-for="(list,index) in lists" v-bind:key="list.id">
-                                                <td>{{index +1}}</td>
-                                                <td class="text-center font-weight-bold">{{list.asset}}</td>
-                                                <td class="text-center">{{list.tracker}}</td>
-                                                <td class="text-center">
-                                                    <span :class="'badge badge-'+list.status.color">{{list.status.name}}</span>
-                                                </td>
-                                                <td class="text-center">
-                                                    <a class="mr-2 text-warning font-size-16" @click="editstatus(list.id,index,list.status)"><i class='bx bx-edit-alt'></i></a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
-            
-            <div class="col-xl-7">
+
+            <div class="col-xl-3">
                 <div class="row">
-                    <div class="col-sm-4">
-                        <div class="card mini-stats-wid">
+                    <div class="col-md-12">
+                        <div class="card" style="min-height: 365px;">
                             <div class="card-body">
-                                <div class="media">
-                                    <div class="media-body">
-                                        <p class="text-success mb-2">Operational</p>
-                                        <h5 class="mb-0">123131</h5>
+                                <h4 class="card-title mb-4">Requests</h4>
+                                <div class="text-center">
+                                    <div class="row">
+                                        <div class="col-md-12 align-center" style="margin-top: 95px;" v-if="requests.length < 1">
+                                            <center style="opacity: 0.3;">
+                                            <i class='bx bx-add-to-queue ' style="font-size: 50px;"></i>
+                                            <p>No Requests.</p>
+                                            </center>
+                                        </div>
+                                        <div class="col-md-12" v-else>
+                                            <table class="table table-nowrap table-centered table-hover mt-4 mb-0">
+                                                <tbody>
+                                                    <!-- <tr v-for="(list,index) in results" v-bind:key="list.id" @click="editStatus(list.id,list.status,index)">
+                                                        <td width="50px;">
+                                                            <img class="rounded-circle avatar-xs" :src="currentUrl+'/images/avatars/'+list.image" alt="">
+                                                        </td>
+                                                        <td class="text-left">
+                                                            <h5 class="text-truncate font-size-14 mb-1"><a href="#" class="text-dark">{{ list.asset_code }}</a></h5>
+                                                            <p class="text-muted mb-0">{{ list.name}}</p>
+                                                        </td>
+                                                        <td class="text-right font-size-14">
+                                                            <span :class="'badge badge-'+list.status.color">{{list.status.name}}</span>
+                                                        </td>
+                                                    </tr> -->
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="card mini-stats-wid">
-                            <div class="card-body">
-                                <div class="media">
-                                    <div class="media-body">
-                                        <p class="text-warning mb-2">Under Maintenance</p>
-                                        <h5 class="mb-0">123131</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="card mini-stats-wid">
-                            <div class="card-body">
-                                <div class="media">
-                                    <div class="media-body">
-                                        <p class="text-danger mb-2">Disposed</p>
-                                        <h5 class="mb-0">1231</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title mb-3">Overview</h4>
-                        <div>
-                            <div id="chart">
-                                <!-- <apexchart height="240" :options="chartOptions" :series="series"></apexchart> -->
-                            </div>
-                        </div>
-                    </div>
+                    </div>    
                 </div>
             </div>
 
-            <div class="modal fade exampleModal" id="newtrack" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade exampleModal" id="updatestatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" v-if="type == 'newtrack' || type == 'edit'">Asset Code: {{code}} </h5>
-                            <h5 class="modal-title" v-else>Update Status</h5>
+                            <h5 class="modal-title">Update Status</h5>
                         </div>
-                        <form  @submit.prevent="createtracker">
+                        <form  @submit.prevent="updateStatus">
                             <div class="modal-body customerform">
                                 <div class="form-group">
                                     <label class="float-label">Status  <span v-if="errors.status" class="haveerror"> {{( errors.status )}}</span></label>
@@ -220,37 +200,82 @@
 </template>
 
 <script>
+import Multiselect from 'vue-multiselect';
 export default {
     data(){
         return {
             currentUrl: window.location.origin,
             errors: [],
             pagination: {},
+            keyword: '',
             year: new Date().getFullYear(),
             month: 'All', /* ("0" + ((new Date()).getMonth() + 1)).slice(-2) */
             months : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
             todate: '',
-            results: []
+            results: [],
+            reports: [],
+            statuses: [],
+            requests: [],
+            status: '',
+            asset_id: '',
+            index: ''
         }
     },
 
-    methods : {
-        editStatus(){
+    created(){
+        this.fetchStatus();
+        this.fetchReports();
+    },
 
+    methods : {
+ 
+        fetch(){
+            if(this.keyword.length > 4){
+                let key;
+                (this.keyword != '' && this.keyword != null) ? key = this.keyword : key = '-';
+
+                axios.get(this.currentUrl + '/request/member/assets/search/'+key)
+                .then(response => {
+                    this.results = response.data.data;
+                })
+                .catch(err => console.log(err));
+            }
+        },
+
+        fetchReports(){
+            axios.get(this.currentUrl + '/request/dropdown/reports/'+2)
+            .then(response => {
+                this.reports = response.data.data;
+            })
+            .catch(err => console.log(err));
+        },
+
+        fetchStatus(){
+            axios.get(this.currentUrl + '/request/dropdown/2')
+            .then(response => {
+                this.statuses = response.data.data;;
+            })
+            .catch(err => console.log(err));
+        },
+
+        editStatus(asset,status,index){
+            this.status = status;
+            this.asset_id = asset;
+            this.index = index;
+            $("#updatestatus").modal('show');
         },
 
         updateStatus(){
-            axios.post(this.currentUrl + '/request/member/status/update', {
-                id: this.location_id,
+            axios.post(this.currentUrl + '/request/member/status/up', {
+                id: this.asset_id,
                 status: this.status.id
             })
             .then(response => {
-                this.lists[this.code] = response.data.data;
-                $("#newtrack").modal("hide");
+                this.results[this.index].status = response.data.data.status;
+                $("#updatestatus").modal("hide");
                 Vue.$toast.success('<strong>Successfully Updated</strong>', {
                     position: 'bottom-right'
                 });
-                this.clear();
             })
             .catch(error => {
                 if (error.response.status == 422) {
@@ -258,6 +283,6 @@ export default {
                 }
             });
         }
-    }
+    }, components: { Multiselect}
 }
 </script>

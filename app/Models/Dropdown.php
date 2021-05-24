@@ -29,4 +29,17 @@ class Dropdown extends Model
             return 'success';
         }
     }
+
+    public function lists()
+    {
+        $member = \Auth::user()->member->mm->id;
+        return $this->hasMany('App\Models\AssetList', 'status_id')
+        ->where('status_id',$this->id)
+        ->whereHas('assetlocation', function ($query) use ($member){
+            $query->whereHas('asset', function ($query) use ($member){
+                $query->where('mm_id',$member);
+            });
+        })
+        ->count();
+    }
 }

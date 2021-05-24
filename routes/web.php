@@ -45,6 +45,7 @@ Route::prefix('request')->group(function () {
     Route::get('/provinces/{id}', 'LocationController@provinces');
     Route::get('/municipalities/{id}', 'LocationController@municipalities');
     Route::get('/dropdown/{type}', 'DropdownController@lists');
+    Route::get('/dropdown/reports/{type}', 'DropdownController@reports');
 
     Route::prefix('admin')->group(function () {
 
@@ -79,6 +80,8 @@ Route::prefix('request')->group(function () {
         Route::get('/lists/{id}', 'Member\ListsController@index'); 
         Route::post('/tracker/store', 'Member\ListsController@store'); 
         Route::get('/coordinates/{id}', 'Member\ListsController@coordinates'); 
+        Route::get('/assets/search/{keyword}', 'Member\ListsController@search');
+        Route::post('/status/up', 'Member\ListsController@status'); 
     });
 });
 

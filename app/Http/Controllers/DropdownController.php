@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Dropdown;
 use Illuminate\Http\Request;
 use App\Http\Resources\DefaultResource;
+use App\Http\Resources\DropdownResource;
 
 class DropdownController extends Controller
 {
@@ -19,6 +20,12 @@ class DropdownController extends Controller
         $classification = ($type == 1) ? 'Category' : 'Status';
         $data = Dropdown::where('classification',$classification)->get();
         return DefaultResource::collection($data);
+    }
+
+    public function reports($type){
+        $classification = ($type == 1) ? 'Category' : 'Status';
+        $data = Dropdown::where('classification',$classification)->get();
+        return DropdownResource::collection($data);
     }
 
     public function store(Request $request){
