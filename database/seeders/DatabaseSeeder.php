@@ -48,6 +48,6 @@ class DatabaseSeeder extends Seeder
         $this->call(LocationRegionsTableSeeder::class);
         $this->call(LocationProvincesTableSeeder::class);
         $this->call(LocationMunicipalitiesTableSeeder::class);
-        // $this->call(DropdownsTableSeeder::class);
+        $this->call(DropdownsTableSeeder::class);
     }
 }
