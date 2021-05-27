@@ -126,7 +126,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="formrow-firstname-input">Name: <span v-if="errors.member" class="haveerror">({{ errors.member[0] }})</span></label>
+                                            <label for="formrow-firstname-input">Name: <span v-if="errors.name" class="haveerror">({{ errors.name[0] }})</span></label>
                                             <input type="text" class="form-control" id="formrow-firstname-input" v-model="member.name" style="text-transform: capitalize;">
                                         </div>
                                     </div>
@@ -225,6 +225,7 @@ export default {
                 if (error.response.status == 422) {
                     this.errors = error.response.data.errors;
                 }
+                this.isLoading = false;
             });
         },
 
@@ -243,6 +244,7 @@ export default {
 
         clear(){
             this.member = {};  
+            this.errors = [];
         },
 
         edit(member){

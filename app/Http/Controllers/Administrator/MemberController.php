@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\StoreImage;
 use App\Http\Resources\DefaultResource;
+use App\Http\Requests\MemberRequest;
 
 class MemberController extends Controller
 {
@@ -22,7 +23,7 @@ class MemberController extends Controller
         return DefaultResource::collection($data);
     }
 
-    public function store(StoreImage $strmg, Request $request){
+    public function store(StoreImage $strmg, MemberRequest $request){
 
         $data = ($request->input('editable')) ? Member::findOrFail($request->input('id')) : new Member;
         $data->name  = ucwords($request->input('name'));

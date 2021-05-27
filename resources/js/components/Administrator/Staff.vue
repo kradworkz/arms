@@ -119,7 +119,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                        <div class="form-group">
-                                            <label for="formrow-email-input">Member <span v-if="errors.member" class="haveerror">({{ errors.member[0] }})</span></label>
+                                            <label>Member <span v-if="errors.member" class="haveerror">({{ errors.member[0] }})</span></label>
                                             <multiselect 
                                             v-model="user.member" 
                                             :options="agencies" 
@@ -149,14 +149,14 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="formrow-firstname-input">Personnel: <span v-if="errors.name" class="haveerror">({{ errors.name[0] }})</span></label>
-                                            <input type="text" class="form-control" id="formrow-firstname-input" v-model="user.name" style="text-transform: capitalize;">
+                                            <label>Personnel: <span v-if="errors.name" class="haveerror">({{ errors.name[0] }})</span></label>
+                                            <input type="text" class="form-control" v-model="user.name" style="text-transform: capitalize;">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="formrow-firstname-input">Email: <span v-if="errors.email" class="haveerror">({{ errors.email[0] }})</span></label>
-                                            <input type="email" class="form-control" id="formrow-firstname-input" v-model="user.email" style="text-transform: capitalize;">
+                                            <label>Email: <span v-if="errors.email" class="haveerror">({{ errors.email[0] }})</span></label>
+                                            <input type="email" class="form-control" v-model="user.email" style="text-transform: lowercase;">
                                         </div>
                                     </div>
                                 </div>
