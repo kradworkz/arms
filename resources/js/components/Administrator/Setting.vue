@@ -65,7 +65,8 @@
                                         <th>Name</th>
                                       
                                         <th v-if="selected == 1">Status</th>
-                                        <th v-if="selected == 2">Type</th>
+                                        <th>Type</th>
+                                        <th>Color</th>
                                         <th class="text-right">Action</th>
                                     </tr>
                                 </thead>
@@ -76,7 +77,10 @@
                                             <span v-if="list.status == 0" class="badge badge-lg badge-success">Active</span>
                                             <span v-else class="badge badge-danger">Inactive</span>
                                         </td> 
-                                        <td v-if="selected == 2">{{list.type}}</td>
+                                        <td>{{list.type}}</td>
+                                        <td>
+                                            <span :class="'badge badge-'+list.color">{{list.color}}</span>
+                                        </td>
                                         <td class="text-right">
                                             <button v-if="list.status == 0" @click="status(list.id,list.status)" class="btn btn-sm btn-danger waves-effect waves-light">Deactivate</button>
                                             <button v-else @click="status(list.id,list.status)" class="btn btn-sm btn-success waves-effect waves-light">Activate</button>
@@ -110,8 +114,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row" v-if="selected == 2">
-                                        <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12" v-if="selected == 2">
                                             <label for="formrow-firstname-input">Type: <span v-if="errors.type" class="haveerror">({{ errors.type[0] }})</span></label>
                                             <multiselect 
                                                 v-model="type" 
@@ -120,6 +124,12 @@
                                                 deselect-label="Can't remove this value"
                                                 >
                                             </multiselect>
+                                        </div>
+                                        <div class="col-md-12" v-else>
+                                            <div class="form-group">
+                                                <label>Icon Text: <span v-if="errors.type" class="haveerror">({{ errors.type[0] }})</span></label>
+                                                <input type="text" class="form-control"  v-model="type" style="text-transform: capitalize;">
+                                            </div>
                                         </div>
                                         <div class="col-md-12">
                                             <label for="formrow-firstname-input">Color: <span v-if="errors.color" class="haveerror">({{ errors.color[0] }})</span></label>
@@ -205,8 +215,8 @@ export default {
             form.append('name', this.name);
             form.append('selected', this.selected);
             (this.editable == true) ? form.append('update', 'update') : form.append('update','create');
-            (this.selected == 2) ? form.append('type', this.type) : '';
-            (this.selected == 2) ? form.append('color', this.color) : '';
+            form.append('type', this.type);
+            form.append('color', this.color);
 
             axios.post(this.currentUrl + '/request/admin/dropdown/store', form)
             .then(response => {
@@ -236,6 +246,7 @@ export default {
         change(number){
             this.selected = number;
             this.fetch();
+            this.errors = [];
         },
 
         clear(){

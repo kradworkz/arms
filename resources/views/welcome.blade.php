@@ -4,54 +4,26 @@
 
     <div class="chat-leftsidebar mr-lg-4">
         <div class="">
-            <div class="py-4 border-bottom">
+            <div class="py-2 border-bottom">
                 <div class="media">
-                    <div class="align-self-center mr-3">
-                        <img  src="{{asset('images/avatars/lgu.png')}}" class="avatar-md rounded-circle" alt="">
+                    <div class="align-self-center mr-2">
+                        <img  src="{{asset('assets/images/dost.png')}}" class="avatar-md rounded-circle img-thumbnail" alt="">
                     </div>
                   
                     <div class="media-body">
-                        <h5 class="font-size-15 mt-0 mb-1">asdada</h5>
-                        <p class="text-muted mb-0"><i class="icofont icofont-check-circled text-success align-middle mr-1"></i>asdadada</p>
+                        <h5 style="font-size: 12.5px;" class="mt-3 mb-1">Asset Resource Management System</h5>
+                        <p class="text-muted font-size-11" style="margin-left: -3px;"><i class="icofont icofont-check-circled text-success align-middle mr-1"></i>Department of Science and Technology IX</p>
                     </div>
                 </div>
             </div> 
-            <div class="search-box chat-search-box py-4">
-                <div class="position-relative">
-                    <input type="text" class="form-control" placeholder="Search...">
-                <i class="bx bx-search-alt search-icon"></i>
-                </div>
-            </div>
-
-            <div class="chat-leftsidebar-nav">
-                <div class="mt-4">
-                    <div class="card border shadow-none mb-2">
-                        <a href="javascript: void(0);" class="text-body">
-                            <div class="p-2">
-                                <div class="d-flex">
-                                    <div class="avatar-xs align-self-center mr-2">
-                                        <div class="avatar-title rounded bg-transparent text-success font-size-20">
-                                                <i class='bx bxs-category'></i>
-                                        </div>
-                                    </div>
-
-                                    <div class="overflow-hidden mr-auto">
-                                        <h5 class="font-size-13 text-truncate mb-1">Vehicles</h5>
-                                        <p class="text-muted text-truncate mb-0">176 Assets</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>           
-                </div>
-            </div>
+            <public-sidebar ref="sidebar"></public-sidebar>
         </div>
     </div>
 
     <div class="w-100 user-chat">
         <div class="card">
             <div class="chat-conversation p-3" style="height: calc(100vh - 50px);">
-                
+                <public-map ref="map"></public-map>
             </div>
         </div>
     </div>

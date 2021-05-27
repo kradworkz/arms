@@ -33,17 +33,23 @@
                         </a>
                     </li>
                     @elseif(Auth::user()->type == 'Member')
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle arrow-none" href="/assetlists" id="topnav-dashboard" role="button">
-                            <i class="bx bx-customize mr-2"></i><span key="t-dashboards">Assets</span> 
-                        </a>
-                    </li>
+                    
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" href="/stations"  id="topnav-dashboard" role="button">
                             <i class='bx bx-map mr-2'></i><span key="t-dashboards">Stations</span> 
                         </a>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle arrow-none" href="/assetlists" id="topnav-dashboard" role="button">
+                            <i class="bx bx-customize mr-2"></i><span key="t-dashboards">Assets</span> 
+                        </a>
+                    </li>
                     @endif
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle arrow-none" href="/devices" id="topnav-dashboard" role="button">
+                            <i class='bx bx-chip mr-2'></i><span key="t-devices">Devices</span> 
+                        </a>
+                    </li>
                 </ul>
                   
             </div>

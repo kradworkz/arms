@@ -17,10 +17,11 @@ class ViewResource extends JsonResource
         return [
             'id' => $this->id,
             'quantity' => $this->quantity,
+            'asset_id' => $this->asset->id,
             'name' => $this->asset->name,
             'image' => $this->asset->image,
             'category' => $this->asset->category->name,
-            'location' => $this->location->name,
+            'location' => $this->location,
             'available' => $this->available(),
             'tracker' => $this->tracker(),
         ];

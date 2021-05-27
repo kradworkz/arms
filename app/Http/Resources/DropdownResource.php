@@ -17,8 +17,9 @@ class DropdownResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'type' => $this->type,
             'color' => $this->color,
-            'counts' => $this->lists()
+            'counts' => ($this->classification == 'Category') ? $this->count() :  $this->lists() ,
         ];
     }
 }

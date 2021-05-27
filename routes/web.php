@@ -16,27 +16,46 @@ use App\Http\Controllers\Auth\WelcomeController;
 */
 
 Route::get('/', function () {
-    return view('landing');
+    return view('welcome');
 });
 
 Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
-
 Route::get('/test', 'HomeController@test');
 
+Route::get('/assets/{id}/{keyword}', 'PublicController@index');
+Route::get('/status', 'PublicController@status');
+Route::get('/category', 'PublicController@category');
+
+Route::post('/api/login', 'Api\DeviceController@login');
+Route::post('/api/check', 'Api\DeviceController@check');
+Route::post('/api/devices', 'Api\DeviceController@devices');
+Route::post('/api/device/search', 'Api\DeviceController@search');
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/devices', 'PageController@devices'); 
+});
+
 Route::middleware(['role:Administrator','auth'])->group(function () {
-    Route::get('/staffs', 'Administrator\PageController@staffs'); 
-    Route::get('/agencies', 'Administrator\PageController@agencies'); 
-    Route::get('/lgus', 'Administrator\PageController@lgus'); 
-    Route::get('/lists', 'Administrator\PageController@settings'); 
+    Route::get('/staffs', 'PageController@staffs'); 
+    Route::get('/agencies', 'PageController@agencies'); 
+    Route::get('/lgus', 'PageController@lgus'); 
+    Route::get('/lists', 'PageController@settings'); 
 });
 
 Route::middleware(['role:Member','auth'])->group(function () {
-    Route::get('/assetlists', 'Member\PageController@inventory'); 
-    Route::get('/stations', 'Member\PageController@locations'); 
-    Route::get('/assetlist/{id}', 'Member\PageController@viewasset'); 
+    Route::get('/assetlists', 'PageController@inventory'); 
+    Route::get('/stations', 'PageController@locations'); 
+    Route::get('/assetlist/{id}', 'PageController@viewasset'); 
 });
+
+
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
 
 Route::prefix('request')->group(function () {
 
@@ -70,14 +89,15 @@ Route::prefix('request')->group(function () {
         Route::get('/assets/{keyword}', 'Member\AssetController@index');
         Route::get('/asset/{id}', 'Member\AssetController@view'); 
         Route::get('/asset/{id}/purchased', 'Member\AssetController@purchases'); 
-        Route::get('/asset/{id}/locations', 'Member\AssetController@locations'); 
+        Route::post('/asset/locations', 'Member\AssetController@locations'); 
         Route::post('/status/update', 'Member\AssetController@status'); 
+        Route::post('/quantity/update', 'Member\AssetController@updateQuantity'); 
 
         Route::get('/locations', 'Member\LocationController@lists');
         Route::get('/location/lists/{keyword}', 'Member\LocationController@index');
         Route::post('/location/store', 'Member\LocationController@store');
 
-        Route::get('/lists/{id}', 'Member\ListsController@index'); 
+        Route::get('/lists/{id}/{keyword}', 'Member\ListsController@index'); 
         Route::post('/tracker/store', 'Member\ListsController@store'); 
         Route::get('/coordinates/{id}', 'Member\ListsController@coordinates'); 
         Route::get('/assets/search/{keyword}', 'Member\ListsController@search');

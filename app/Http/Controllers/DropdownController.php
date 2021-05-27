@@ -6,6 +6,7 @@ use App\Models\Dropdown;
 use Illuminate\Http\Request;
 use App\Http\Resources\DefaultResource;
 use App\Http\Resources\DropdownResource;
+use App\Http\Requests\DropdownRequest;
 
 class DropdownController extends Controller
 {
@@ -28,13 +29,13 @@ class DropdownController extends Controller
         return DropdownResource::collection($data);
     }
 
-    public function store(Request $request){
+    public function store(DropdownRequest $request){
 
         $data = new Dropdown;
         $data->name =  ucwords(strtolower($request->input('name')));
         $data->type = ($request->input('type')) ? $request->input('type') : 'n/a';
         $data->classification = ($request->input('selected') == 1) ? 'Category' : 'Status';
-        ($request->input('selected') == 1) ? '' : $data->color = $request->input('color');
+        $data->color = $request->input('color');
         $data->save();
 
         return new DefaultResource($data);

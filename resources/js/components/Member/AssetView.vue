@@ -5,14 +5,14 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-5">
+                        <div class="col-lg-8">
                             <div class="media">
                                 <div class="mr-3">
                                     <img v-if="asset.image != undefined" :src="currentUrl+'/images/avatars/'+asset.image" alt="" class="avatar-md rounded-circle img-thumbnail">
                                 </div>
                                 <div class="media-body align-self-center">
                                     <div class="text-muted font-weight-bold">
-                                        <p class="text-primary mb-2">{{asset.location}}</p>
+                                        <p class="text-primary mb-2">{{asset.location.name}}</p>
                                         <h5 class="text-success mb-1">{{asset.name}}</h5>
                                         <p class="mb-0">{{asset.category}}</p>
                                     </div>
@@ -45,20 +45,7 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-lg-3 d-none d-lg-block">
-                            <div class="ml-auto">
-                                <div class="toolbar button-items text-right">
-                                    <button @click="newtrack(asset.id,asset.quantity)" type="button" class="btn btn-light btn-sm">
-                                        Register Tracker
-                                    </button>
-                                    <button type="button" class="btn btn-light btn-sm">
-                                        Maintenance
-                                    </button>
-                                    
-                                </div>
-                            </div>
-                        </div>
+                       
                     </div>
                     <!-- end row -->
                 </div>
@@ -70,22 +57,39 @@
         <div class="col-xl-8">
             <div class="card">
                 <div class="card-body">
-                    <ul class="list-inline user-chat-nav float-right" style="margin-top: -10px;">
-                        <li class="list-inline-item d-none d-sm-inline-block font-size-12">{{pagination.current_page}} out of {{pagination.last_page}}</li>
-                        <li class="list-inline-item d-none d-sm-inline-block">
-                            <a class="btn nav-btn" v-bind:class="[{disabled: !pagination.prev_page_url}]" @click="fetchPurchases(pagination.prev_page_url)">
-                                <i class='bx bxs-chevron-left font-size-16'></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item d-none d-sm-inline-block">
-                            <a class="btn nav-btn" v-bind:class="[{disabled: !pagination.next_page_url}]" @click="fetchPurchases(pagination.next_page_url)">
-                                <i class='bx bxs-chevron-right font-size-16'></i>
-                            </a>
-                        </li>
-                    </ul>
-                  
-                    <h4 class="card-title mb-5">Asset Lists</h4>
+                    <div class="row mb-3">
+                        <div class="col-xl-8 form-inline">
+                            <button @click="newtrack(asset.id,asset.quantity,'quantity')" type="button" class="btn btn-info mr-2"><span class="d-none d-sm-inline-block "> <i class='bx bx-plus'></i></span></button>      
+                            <form class="float-sm-right form-inline">
+                                <div class="search-box">
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control bg-light border-light rounded" placeholder="Search..." v-model="keyword" @keyup="fetchLists()">
+                                    <i class='bx bx-search-alt search-icon'></i>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
 
+                        <div class="col-xl-4">
+                            <ul class="list-inline user-chat-nav text-right mb-0 dropdown">
+                                <li class="list-inline-item d-none d-sm-inline-block font-size-12">{{pagination.current_page}} out of {{pagination.last_page}}</li>
+                                <li class="list-inline-item d-none d-sm-inline-block">
+                                    <a class="btn nav-btn" v-bind:class="[{disabled: !pagination.prev_page_url}]" @click="fetchLists(pagination.prev_page_url)">
+                                        <i class='bx bxs-chevron-left font-size-16'></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item d-none d-sm-inline-block">
+                                    <a class="btn nav-btn" v-bind:class="[{disabled: !pagination.next_page_url}]" @click="fetchLists(pagination.next_page_url)">
+                                        <i class='bx bxs-chevron-right font-size-16'></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item d-non d-sm-inline-block">
+                                    <button @click="fetchLists()" type="button" class="btn btn-light"><span class="d-none d-sm-inline-block "> <i class='bx bx-refresh'></i></span></button>                                 
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
                     <div class="table-responsive"  data-simplebar style="max-height: 278px; min-height: 278px;">
                         <table class="table table-centered table-nowrap mb-0">
                             <thead>
@@ -135,7 +139,8 @@
         <div class="modal-dialog modal-dialog-centered modal" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" v-if="type == 'newtrack' || type == 'edit'">Asset Code: {{code}} </h5>
+                    <h5 class="modal-title" v-if="type == 'newtrack' || type == 'edit'">Update Assetcode</h5>
+                    <h5 class="modal-title" v-else-if="type == 'quantity'">Add Quantity </h5>
                     <h5 class="modal-title" v-else>Update Status</h5>
                 </div>
                 <form  @submit.prevent="createtracker">
@@ -144,6 +149,27 @@
                             <div class="form-group ">
                                 <label for="formrow-firstname-input">Tracker Code: <span v-if="errors.trackercode" class="haveerror">({{ errors.trackercode[0] }})</span></label>
                                 <input type="text" class="form-control" id="formrow-firstname-input" v-model="trackercode" style="text-transform: capitalize;">
+                            </div>
+                        </div>
+                        <div v-else-if="type == 'quantity'">
+                            <div class="col-md-12">
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <i class="mdi mdi-alert-outline mr-2"></i>
+                                    <div class="form-group" style="margin-top:-20px; margin-bottom: 2px;">         
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" v-model="trackable" class="custom-control-input" id="formrow-customCheck">
+                                            <label class="custom-control-label font-size-12" for="formrow-customCheck">Is trackable via <b>GPS</b>? (<b>Yes</b>?, It will automatically generate a code for each Asset quantity)</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label>Quantity <span v-if="errors['quantity']" class="haveerror"> {{( errors['quantity'])}}</span></label>
+                                <div class="input-group  bootstrap-touchspin bootstrap-touchspin-injected"><input type="text" v-model="quantity" class="form-control"><span class="input-group-btn-vertical">
+                                    <button @click="addup('add')" class="btn btn-primary bootstrap-touchspin-up " type="button">+</button>
+                                    <button @click="addup('minus')" class="btn btn-primary bootstrap-touchspin-down " type="button">-</button>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         <div v-else>
@@ -160,8 +186,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                        <button @click="clear" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button @click="clear" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -184,7 +210,7 @@ export default {
             errors: [],
             pagination: {},
             keyword: '',
-            asset: {},
+            asset: { location: {}},
             lists: [],
             statuses: [],
             trackercode: '',
@@ -193,7 +219,9 @@ export default {
             count: '',
             code: '',
             type: '',
-            status: ''
+            status: '',
+            quantity : 1,
+            trackable: false
         }
     },
 
@@ -223,8 +251,9 @@ export default {
         },
 
         fetchLists(page_url){
-            let vm = this; 
-            page_url = page_url || this.currentUrl + '/request/member/lists/'+this.assetid;
+            let vm = this; let key;
+            (this.keyword != '' && this.keyword != null) ? key = this.keyword : key = '-';
+            page_url = page_url || this.currentUrl + '/request/member/lists/'+this.assetid+'/'+key;
             axios.get(page_url)
             .then(response => {
                 this.lists = response.data.data;
@@ -260,7 +289,7 @@ export default {
             }else{
                 this.status = type;
             }
-            if(this.status.id != 5){
+            if(this.status.id != 7){
                 $("#newtrack").modal('show');
             }
         },
@@ -270,6 +299,29 @@ export default {
                 axios.post(this.currentUrl + '/request/member/tracker/store', {
                     id: this.location_id,
                     trackercode: this.trackercode
+                })
+                .then(response => {
+                    var index = this.lists.map(x => {
+                        return x.id;
+                    }).indexOf(this.location_id);
+    
+                    this.lists[index].tracker = response.data.data.tracker_code;
+                    $("#newtrack").modal("hide");
+                    Vue.$toast.success('<strong>Successfully Created</strong>', {
+                        position: 'bottom-right'
+                    });
+                    this.clear();
+                })
+                .catch(error => {
+                    if (error.response.status == 422) {
+                        this.errors = error.response.data.errors;
+                    }
+                });
+            }else if(this.type == 'quantity'){
+                axios.post(this.currentUrl + '/request/member/quantity/update', {
+                    id: this.asset.id,
+                    quantity: this.quantity,
+                    trackable: this.trackable
                 })
                 .then(response => {
                     var index = this.lists.map(x => {
@@ -319,7 +371,17 @@ export default {
         newquantity(id){
             this.location_id = id;
             $("#newquantity").modal('show');
-        }
+        },
+
+        addup(val){
+            if(val == 'add'){
+                this.quantity += 1;
+            }else{
+                if(this.quantity > 1){
+                this.quantity -= 1;
+                }
+            }
+        },
     }, components: { Multiselect}
 }
 </script>

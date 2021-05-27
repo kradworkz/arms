@@ -21,11 +21,11 @@ class AssetController extends Controller
         $member_id = \Auth::user()->member->mm->id;
         ($keyword == '-') ? $keyword = '' : $keyword;
         $data =  AssetLocation::with('asset')->with('location')
-        ->whereHas('asset', function ($query) use ($keyword){
-            $query->where('name', 'LIKE', '%'.$keyword.'%');
+        ->whereHas('asset', function ($query) use ($keyword,$member_id){
+            $query->where('mm_id',$member_id)->where('name', 'LIKE', '%'.$keyword.'%');
         })
-        ->orWhereHas('location', function ($query) use ($keyword){
-            $query->where('name', 'LIKE', '%'.$keyword.'%');
+        ->orWhereHas('location', function ($query) use ($keyword,$member_id){
+            $query->where('mm_id',$member_id)->where('name', 'LIKE', '%'.$keyword.'%');
         })
         ->paginate(5);
         return AssetResource::collection($data);
@@ -69,17 +69,29 @@ class AssetController extends Controller
     }
 
     public function lists($id,$quantity){
-        $count = AssetLocation::where('id',$id)->count();
+        $count = AssetList::where('assetlocation_id',$id)->count();
         $status = Dropdown::select('id')->where('classification','Status')->where('name','Operational')->first();
-
-        for($count+1; $count<=$quantity; $count++){
+        $count = $count + 1;
+        for($x = 0; $x<$quantity; $x++){
             $data = new AssetList;
             $data->asset_code = \Auth::user()->member->mm->member->acronym.'-'.$id.'-'.str_pad(($count), 4, '0', STR_PAD_LEFT); ;
             $data->assetlocation_id = $id;
             $data->status_id = $status->id;
             $data->save();
+            $count ++;
         }
         return true;
+    }
+
+    public function updateQuantity(Request $request){
+        $data = AssetLocation::where('id',$request->input('id'))->first();
+        $data->quantity = $data->quantity + $request->input('quantity');
+        if($data->save()){
+            if($request->input('trackable')){
+               $this->lists($request->input('id'),$request->input('quantity'));
+            }
+        }
+        return new DefaultResource($data);
     }
 
     public function view($id){

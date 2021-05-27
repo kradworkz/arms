@@ -12,9 +12,14 @@ use App\Http\Requests\TrackerRequest;
 
 class ListsController extends Controller
 {
-    public function index($id){
-
-        $data = AssetList::with('status')->where('assetlocation_id',$id)->paginate(10);
+    public function index($id,$keyword){
+        $member_id = \Auth::user()->member->mm->id;
+        ($keyword == '-') ? $keyword = '' : $keyword;
+        $data = AssetList::with('status')->where('assetlocation_id',$id)
+        ->where(function ($query) use ($keyword){
+            $query ->where('asset_code', 'LIKE', '%'.$keyword.'%')->orWhere('tracker_code', 'LIKE', '%'.$keyword.'%');
+        })
+        ->paginate(10);
         return ListResource::collection($data);
     }
 

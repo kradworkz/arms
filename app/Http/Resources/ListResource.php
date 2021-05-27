@@ -20,6 +20,11 @@ class ListResource extends JsonResource
             'tracker' => ($this->tracker_code == null) ? 'n/a' : $this->tracker_code,
             'coordinates' => ($this->coordinates == null) ? 'n/a' : $this->coordinates,
             'status' => $this->status,
+            'created_at' => $this->created_at,
+            'name' => $this->assetlocation->asset->name,
+            'image' => $this->assetlocation->asset->image,
+            'location' => $this->assetlocation->location->name,
+            'address' => $this->assetlocation->location->address,
         ];
     }
 }
