@@ -26,6 +26,7 @@ class ListsController extends Controller
     public function store(TrackerRequest $request){
         $data = AssetList::where('id',$request->input('id'))->first();
         $data->tracker_code = $request->input('trackercode');
+        $data->asset_code = $request->input('assetcode');
         $data->save();
 
         return new DefaultResource($data);

@@ -137,7 +137,6 @@ export default {
 
     created(){
         this.fetchCategory();
-        this.fetchLocations();
     },
 
     methods : {
@@ -212,15 +211,6 @@ export default {
             axios.get(this.currentUrl + '/request/dropdown/1')
             .then(response => {
                 this.categories = response.data.data;;
-            })
-            .catch(err => console.log(err));
-        },
-
-        fetchLocations(){
-            axios.get(this.currentUrl + '/request/member/locations')
-            .then(response => {
-                this.locations = response.data.data;
-                this.total = this.locations.length;
             })
             .catch(err => console.log(err));
         },

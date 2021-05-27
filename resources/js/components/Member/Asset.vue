@@ -54,7 +54,7 @@
                                 </td>
                                 <td class="text-center">{{asset.name}}</td>
                                 <td class="text-center">{{asset.location}}</td>
-                                <td class="text-center">{{asset.available}} of {{asset.quantity}}</td>
+                                <td class="text-center">{{asset.available}} out of {{asset.quantity}}</td>
                                 <td class="text-center">
                                     <a :href="'assetlist/'+asset.id" class="mr-3 text-info" data-toggle="tooltip" data-placement="top" title="" data-original-title="View"><i class='bx bx-show'></i></a>
                                     <a class="mr-3 text-warning" @click="edit(asset)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class='bx bx-edit-alt' ></i></a>
@@ -68,7 +68,7 @@
             </div>
 
             <div class="card-body" v-else>
-                <asset-create @status="newass"></asset-create>
+                <asset-create :stations="locations" @status="newass"></asset-create>
             </div>
 
         </div>
@@ -79,6 +79,9 @@
 <script>
 import myUpload from 'vue-image-crop-upload/upload-2.vue';
 export default {
+    props: {
+
+    },
     data(){
         return {
             currentUrl: window.location.origin,
@@ -86,6 +89,7 @@ export default {
             pagination: {},
             keyword: '',
             assets: [],
+            locations: [],
             editable: false,
             addnew: false,
             trselected : '',
@@ -106,6 +110,15 @@ export default {
                 prev_page_url: links.prev
             };
             this.pagination = pagination;
+        },
+
+        fetchLocations(){
+            axios.get(this.currentUrl + '/request/member/locations')
+            .then(response => {
+                this.locations = response.data.data;
+                this.total = this.locations.length;
+            })
+            .catch(err => console.log(err));
         },
 
         fetch(page_url) {

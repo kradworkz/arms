@@ -113,7 +113,7 @@
                                     <td class="text-center">
                                         <a class="mr-2 text-warning font-size-16" @click="newtrack(list.id,index,list.status)"><i class='bx bx-edit-alt'></i></a>
                                         <a v-if="list.coordinates == 'n/a' && list.tracker == 'n/a'" class="mr-2 text-danger font-size-16" @click="newtrack(list.id,index,'newtrack')"><i class='bx bxs-location-plus'></i></a>
-                                        <a v-else class="mr-2 text-danger font-size-16" @click="newtrack(list.id,list.tracker,'edit')"><i class='bx bxs-edit-location' ></i></a>
+                                        <a v-else class="mr-2 text-danger font-size-16" @click="newtrack(list.id,list,'edit')"><i class='bx bxs-edit-location' ></i></a>
                                         <a @click="track(list.id,list.coordinates)" v-bind:class="[(list.coordinates != 'n/a' ? 'text-danger' : 'text-secondary')]" class="font-size-16"><i class='bx bx-current-location'></i></i></a>
                                     </td>
                                 </tr>
@@ -148,7 +148,11 @@
                         <div v-if="type == 'newtrack' || type == 'edit'">
                             <div class="form-group ">
                                 <label for="formrow-firstname-input">Tracker Code: <span v-if="errors.trackercode" class="haveerror">({{ errors.trackercode[0] }})</span></label>
-                                <input type="text" class="form-control" id="formrow-firstname-input" v-model="trackercode" style="text-transform: capitalize;">
+                                <input type="text" class="form-control" v-model="trackercode" style="text-transform: capitalize;">
+                            </div>
+                            <div class="form-group ">
+                                <label for="formrow-firstname-input">Asset Code: <span v-if="errors.assetcode" class="haveerror">({{ errors.assetcode[0] }})</span></label>
+                                <input type="text" class="form-control" v-model="assetcode" style="text-transform: capitalize;">
                             </div>
                         </div>
                         <div v-else-if="type == 'quantity'">
@@ -214,6 +218,7 @@ export default {
             lists: [],
             statuses: [],
             trackercode: '',
+            assetcode: '',
             location_id: '',
             qnty: '',
             count: '',
@@ -285,7 +290,8 @@ export default {
                 this.type = type;
                 this.trackercode = ''
             }else if(this.type == 'edit'){
-                this.trackercode = code;
+                this.trackercode = code.tracker;
+                this.assetcode = code.asset;
             }else{
                 this.status = type;
             }
@@ -298,7 +304,8 @@ export default {
             if(this.type == 'newtrack' || this.type == 'edit'){
                 axios.post(this.currentUrl + '/request/member/tracker/store', {
                     id: this.location_id,
-                    trackercode: this.trackercode
+                    trackercode: this.trackercode,
+                    assetcode: this.assetcode
                 })
                 .then(response => {
                     var index = this.lists.map(x => {
@@ -307,7 +314,7 @@ export default {
     
                     this.lists[index].tracker = response.data.data.tracker_code;
                     $("#newtrack").modal("hide");
-                    Vue.$toast.success('<strong>Successfully Created</strong>', {
+                    Vue.$toast.success('<strong>Successfully Updated</strong>', {
                         position: 'bottom-right'
                     });
                     this.clear();

@@ -28,7 +28,7 @@
                                         <div class="col-7">
                                             <div class="text-primary p-4">
                                                 <h5 class="text-primary">SIGN IN!</h5>
-                                                <p><span style="color: white; font-weight: 700;">Asset Management System.</span></p>
+                                                <p><span style="color: white; font-weight: 700;">Asset Resource Management System.</span></p>
                                             </div>
                                         </div>
                                     </div>

@@ -25,6 +25,7 @@ class TrackerRequest extends FormRequest
     {
         return [
             'trackercode' => 'required|string|unique:asset_lists,tracker_code,'.$this->id,
+            'assetcode' => 'required|string|unique:asset_lists,asset_code,'.$this->id,
         ];
     }
 }
