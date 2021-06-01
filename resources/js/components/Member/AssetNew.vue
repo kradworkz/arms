@@ -219,7 +219,8 @@ export default {
         fetchLocations(){
             axios.get(this.currentUrl + '/request/member/locations')
             .then(response => {
-                this.locations = response.data.data;;
+                this.locations = response.data.data;
+                this.total = this.locations.length;
             })
             .catch(err => console.log(err));
         },

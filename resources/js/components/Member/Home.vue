@@ -251,7 +251,7 @@ export default {
         },
 
         fetchStatus(){
-            axios.get(this.currentUrl + '/request/dropdown/Asset/2')
+            axios.get(this.currentUrl + '/request/dropdown/lists/status/asset')
             .then(response => {
                 this.statuses = response.data.data;;
             })
