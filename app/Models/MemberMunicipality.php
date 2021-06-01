@@ -23,6 +23,7 @@ class MemberMunicipality extends Model
     {
         return $this->belongsTo('App\Models\Member', 'member_id', 'id');
     }
+    
     public function getUpdatedAtAttribute($value)
     {
         return date('M d, Y g:i a', strtotime($value));

@@ -30,7 +30,7 @@ class PublicController extends Controller
     }
 
     public function status(){
-        $data = Dropdown::where('classification','Status')->get();
+        $data = Dropdown::where('type','Asset')->where('classification','Status')->get();
         return PubResource::collection($data);
     }
 

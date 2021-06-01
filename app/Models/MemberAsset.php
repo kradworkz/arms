@@ -5,25 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AssetList extends Model
+class MemberAsset extends Model
 {
     use HasFactory;
 
-    public function assetlocation()
+    public function by()
     {
-        return $this->belongsTo('App\Models\AssetLocation', 'assetlocation_id', 'id');
+        return $this->belongsTo('App\Models\MemberMunicipality', 'borrowed_by', 'id');
     }
 
-    public function borrowed()
-    {
-        return $this->hasMany('App\Models\MemberAsset', 'asset_id');
-    }
-
-    public function status()
-    {
-        return $this->belongsTo('App\Models\Dropdown', 'status_id', 'id');
-    }
-  
     public function getUpdatedAtAttribute($value)
     {
         return date('M d, Y g:i a', strtotime($value));
@@ -33,4 +23,5 @@ class AssetList extends Model
     {
         return date('M d, Y g:i a', strtotime($value));
     }
+
 }

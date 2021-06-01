@@ -12,12 +12,12 @@
                     </span>
                 </a>
 
-                <a href="index.html" class="logo logo-light">
+                <a href="/" class="logo logo-light">
                     <span class="logo-sm">
                         <img src="{{asset('assets/images/logo-light.svg')}}" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="{{asset('assets/images/logo-light.png')}}" alt="" height="19">
+                        <img src="{{asset('assets/images/logo-light.png')}}" alt="" height="30">
                     </span>
                 </a>
             </div>

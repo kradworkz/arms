@@ -243,7 +243,7 @@ export default {
         },
 
         fetchReports(){
-            axios.get(this.currentUrl + '/request/dropdown/reports/'+2)
+            axios.get(this.currentUrl + '/request/dropdown/count/status/asset')
             .then(response => {
                 this.reports = response.data.data;
             })
@@ -251,7 +251,7 @@ export default {
         },
 
         fetchStatus(){
-            axios.get(this.currentUrl + '/request/dropdown/2')
+            axios.get(this.currentUrl + '/request/dropdown/Asset/2')
             .then(response => {
                 this.statuses = response.data.data;;
             })

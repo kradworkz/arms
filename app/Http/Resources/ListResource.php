@@ -25,6 +25,7 @@ class ListResource extends JsonResource
             'image' => $this->assetlocation->asset->image,
             'location' => $this->assetlocation->location->name,
             'address' => $this->assetlocation->location->address,
+            'borrowed' => ($this->status->name == "Borrowed") ? BorrowedResource::collection($this->borrowed) : ''
         ];
     }
 }

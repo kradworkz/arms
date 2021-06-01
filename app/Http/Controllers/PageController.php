@@ -44,6 +44,11 @@ class PageController extends Controller
         return view('user_member.location');
     }
 
+    public function requests()
+    {
+        return view('user_member.request');
+    }
+
     public function viewasset()
     {
         return view('user_member.view');

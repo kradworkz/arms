@@ -15,11 +15,14 @@
                                 </div>
                             </div>
                             <div class="mail-list mt-4">
-                                <a @click="change(1)" :class="{active:selected == 1}">
+                                <a @click="change('Category')" :class="{active:selected == 'Category'}">
                                    <i class='bx bx-list-ul mr-2'></i>Categories
                                 </a>
-                                <a @click="change(2)" :class="{active:selected == 2}">
+                                <a @click="change('Status')" :class="{active:selected == 'Status'}">
                                     <i class='bx bx-list-check mr-2'></i>Statuses
+                                </a>
+                                <a @click="change('Device')" :class="{active:selected == 'Device'}">
+                                    <i class='bx bx-list-check mr-2'></i>Devices
                                 </a>
                             </div>
                             <hr class="mb-4">
@@ -172,7 +175,7 @@ export default {
             contact_no: '',
             type: '',
             color: '',
-            selected: 1,
+            selected: 'Category',
             editable: false,
             options : ["Asset","Activity","Request","Maintenance"],
             colors : ["green","red","blue","yellow","black","gray"],
@@ -199,7 +202,7 @@ export default {
         fetch(page_url) {
             let vm = this; let key;
             (this.keyword != '' && this.keyword != null) ? key = this.keyword : key = '-';
-            page_url = page_url || this.currentUrl + '/request/admin/'+this.selected+'/'+key;
+            page_url = page_url || this.currentUrl + '/request/dropdown/'+this.selected+'/'+key;
 
             axios.get(page_url)
             .then(response => {
@@ -218,10 +221,10 @@ export default {
             form.append('type', this.type);
             form.append('color', this.color);
 
-            axios.post(this.currentUrl + '/request/admin/dropdown/store', form)
+            axios.post(this.currentUrl + '/request/dropdown/store', form)
             .then(response => {
                 $('#new').modal('hide');
-                let page_url = '/request/admin/'+this.selected+'/-?page=' + this.pagination.current_page;
+                let page_url = '/request/admin/'+this.selected+'/?page=' + this.pagination.current_page;
                 this.fetch(page_url);
                 Vue.$toast.success('<strong>Successfully Updated</strong>', {
                     position: 'bottom-right'
@@ -243,8 +246,8 @@ export default {
 
         },
 
-        change(number){
-            this.selected = number;
+        change(type){
+            this.selected = type;
             this.fetch();
             this.errors = [];
         },

@@ -54,7 +54,7 @@
     </div>
                 
     <div class="row">
-        <div class="col-xl-8">
+        <div class="col-xl-12">
             <div class="card">
                 <div class="card-body">
                     <div class="row mb-3">
@@ -111,8 +111,9 @@
                                         <span :class="'badge badge-'+list.status.color">{{list.status.name}}</span>
                                     </td>
                                     <td class="text-center">
-                                        <a class="mr-2 text-warning font-size-16" @click="newtrack(list.id,index,list.status)"><i class='bx bx-edit-alt'></i></a>
-                                        <a v-if="list.coordinates == 'n/a' && list.tracker == 'n/a'" class="mr-2 text-danger font-size-16" @click="newtrack(list.id,index,'newtrack')"><i class='bx bxs-location-plus'></i></a>
+                                        <a v-if="list.status.name != 'Borrowed'" class="mr-2 text-warning font-size-16" @click="newtrack(list.id,index,list.status)"><i class='bx bx-edit-alt'></i></a>
+                                        <a v-else class="mr-2 text-warning font-size-16" @click="newtrack(list.id,list.borrowed,list.status)"><i class='bx bxs-show'></i></a>
+                                        <a v-if="list.coordinates == 'n/a' && list.tracker == 'n/a'" class="mr-2 text-danger font-size-16" @click="newtrack(list.id,list,'newtrack')"><i class='bx bxs-location-plus'></i></a>
                                         <a v-else class="mr-2 text-danger font-size-16" @click="newtrack(list.id,list,'edit')"><i class='bx bxs-edit-location' ></i></a>
                                         <a @click="track(list.id,list.coordinates)" v-bind:class="[(list.coordinates != 'n/a' ? 'text-danger' : 'text-secondary')]" class="font-size-16"><i class='bx bx-current-location'></i></i></a>
                                     </td>
@@ -124,16 +125,6 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-4">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title mb-5">Asset Tracker/'s</h4>
-                    <div class="table-responsive"  data-simplebar style="max-height: 278px; min-height: 278px;">
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
     <div class="modal fade exampleModal" id="newtrack" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal" role="document">
@@ -141,7 +132,10 @@
                 <div class="modal-header">
                     <h5 class="modal-title" v-if="type == 'newtrack' || type == 'edit'">Update Assetcode</h5>
                     <h5 class="modal-title" v-else-if="type == 'quantity'">Add Quantity </h5>
-                    <h5 class="modal-title" v-else>Update Status</h5>
+                    <h5 class="modal-title" v-else>
+                        <span v-if="currentStatus != 'Borrowed'">Update Status</span>
+                        <span v-else>View</span>
+                    </h5>
                 </div>
                 <form  @submit.prevent="createtracker">
                     <div class="modal-body customerform">
@@ -177,21 +171,37 @@
                             </div>
                         </div>
                         <div v-else>
-                            <div class="form-group">
-                                <label class="float-label">Status  <span v-if="errors.status" class="haveerror"> {{( errors.status )}}</span></label>
-                                <multiselect v-model="status" 
-                                :allow-empty="false"
-                                deselect-label="Can't remove"
-                                :options="statuses" 
-                                placeholder="Select Status" 
-                                label="name" track-by="id">
-                                </multiselect>
+                            <div v-if="currentStatus != 'Borrowed'">
+                                <div class="form-group">
+                                    <label class="float-label">Status  <span v-if="errors.status" class="haveerror"> {{( errors.status )}}</span></label>
+                                    <multiselect v-model="status" 
+                                    :allow-empty="false"
+                                    deselect-label="Can't remove"
+                                    :options="statuses" 
+                                    placeholder="Select Status" 
+                                    label="name" track-by="id">
+                                    </multiselect>
+                                </div>
+                                <div class="form-group" v-if="status.name == 'Borrowed'">
+                                    <label class="float-label">Agencies<span v-if="errors.agency" class="haveerror"> {{( errors.agency )}}</span></label>
+                                    <multiselect v-model="agency" id="ajax" label="name" track-by="name"
+                                        placeholder="Search Agency" open-direction="bottom" :options="agencies"
+                                        :searchable="true" 
+                                        @search-change="asyncFind">
+                                    </multiselect> 
+                                </div>
+                            </div>
+                            <div v-else>
+                                <div class="text-muted">
+                                    <h5 class="mb-1"><span class="text-secondary font-size-11">Borrowed By:</span> {{code.name }}</h5>
+                                    <p class="mb-0"><span class="text-secondary font-size-11">Date Borrowed:</span> {{code.created_at}}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Save</button>
-                        <button @click="clear" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button v-if="currentStatus != 'Borrowed'" type="submit" class="btn btn-primary">Save</button>
+                        <button @click="clear" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </form>
             </div>
@@ -216,7 +226,9 @@ export default {
             keyword: '',
             asset: { location: {}},
             lists: [],
+            agencies: [],
             statuses: [],
+            agency: '',
             trackercode: '',
             assetcode: '',
             location_id: '',
@@ -226,7 +238,8 @@ export default {
             type: '',
             status: '',
             quantity : 1,
-            trackable: false
+            trackable: false,
+            currentStatus: ''
         }
     },
 
@@ -268,11 +281,25 @@ export default {
         },
 
         fetchStatus(){
-            axios.get(this.currentUrl + '/request/dropdown/2')
+            axios.get(this.currentUrl + '/request/dropdown/lists/status/asset')
             .then(response => {
                 this.statuses = response.data.data;;
             })
             .catch(err => console.log(err));
+        },
+
+        asyncFind(value) {
+            if(value.length > 0){
+                axios.post(this.currentUrl + '/request/agency/search', {
+                    keyword: value,
+                })
+                .then(response => {
+                    this.agencies = response.data.data;
+                })
+                .catch(err => console.log(err));
+            }else{
+                this.agencies = [];
+            }
         },
 
         track(id,coor){
@@ -289,13 +316,16 @@ export default {
             if(this.type == 'newtrack'){
                 this.type = type;
                 this.trackercode = ''
+                this.assetcode = code.asset;
             }else if(this.type == 'edit'){
                 this.trackercode = code.tracker;
                 this.assetcode = code.asset;
             }else{
+                this.currentStatus = type.name;
+                this.code = code[0];
                 this.status = type;
             }
-            if(this.status.id != 7){
+            if(this.status.id != 9){
                 $("#newtrack").modal('show');
             }
         },
@@ -350,11 +380,13 @@ export default {
             }else{
                 axios.post(this.currentUrl + '/request/member/status/update', {
                     id: this.location_id,
-                    status: this.status.id
+                    status: this.status.id,
+                    agency: this.agency.id
                 })
                 .then(response => {
                     this.lists[this.code] = response.data.data;
                     $("#newtrack").modal("hide");
+                    this.agency = '';
                     Vue.$toast.success('<strong>Successfully Updated</strong>', {
                         position: 'bottom-right'
                     });
@@ -391,4 +423,51 @@ export default {
         },
     }, components: { Multiselect}
 }
+
+ var lastDate = 0;
+  var data = []
+  var TICKINTERVAL = 86400000
+  let XAXISRANGE = 777600000
+  function getDayWiseTimeSeries(baseval, count, yrange) {
+    var i = 0;
+    while (i < count) {
+      var x = baseval;
+      var y = Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
+  
+      data.push({
+        x, y
+      });
+      lastDate = baseval
+      baseval += TICKINTERVAL;
+      i++;
+    }
+  }
+  
+  getDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 10, {
+    min: 10,
+    max: 90
+  })
+  
+  function getNewSeries(baseval, yrange) {
+    var newDate = baseval + TICKINTERVAL;
+    lastDate = newDate
+  
+    for(var i = 0; i< data.length - 10; i++) {
+      // IMPORTANT
+      // we reset the x and y of the data which is out of drawing area
+      // to prevent memory leaks
+      data[i].x = newDate - XAXISRANGE - TICKINTERVAL
+      data[i].y = 0
+    }
+  
+    data.push({
+      x: newDate,
+      y: Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min
+    })
+  }
+  
+  function resetData(){
+    // Alternatively, you can also reset the data at certain intervals to prevent creating a huge series 
+    data = data.slice(data.length - 10, data.length);
+  }
 </script>

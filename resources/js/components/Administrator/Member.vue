@@ -212,7 +212,7 @@ export default {
             .then(response => {
                  this.isLoading = false;
                 if(this.editable == true){
-                    let page_url = '/request/admin/members?page=' + this.pagination.current_page;
+                    let page_url = '/request/admin/members/-/?page=' + this.pagination.current_page;
                     this.fetch(page_url);
                 }else{
                     this.fetch();

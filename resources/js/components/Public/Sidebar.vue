@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div class="search-box chat-search-box py-4">
+    <div class="search-box chat-search-box py-3">
         <div class="position-relative">
             <input type="text" class="form-control" placeholder="Search...">
         <i class="bx bx-search-alt search-icon"></i>
@@ -99,7 +99,7 @@ export default {
 
     methods : {
         fetchCategory(){
-            axios.get(this.currentUrl + '/category')
+            axios.get(this.currentUrl + '/request/dropdown/count/category/-')
             .then(response => {
                 this.categories = response.data.data;
                 this.inactive = response.data.data;
@@ -124,7 +124,7 @@ export default {
         },
 
         fetchStatus(){
-            axios.get(this.currentUrl + '/status/')
+            axios.get(this.currentUrl + '/request/dropdown/lists/status/asset')
             .then(response => {
                 this.statuses = response.data.data;
                 this.countStatus();

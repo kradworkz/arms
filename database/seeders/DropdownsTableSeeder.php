@@ -22,73 +22,109 @@ class DropdownsTableSeeder extends Seeder
             0 => 
             array (
                 'id' => 1,
+                'name' => 'Sensor Device',
+                'type' => 'chip',
+                'classification' => 'Category',
+                'color' => 'blue',
+                'status' => 1,
+            ),
+            1 => 
+            array (
+                'id' => 2,
                 'name' => 'Transportation',
                 'type' => 'trip',
                 'classification' => 'Category',
                 'color' => 'green',
                 'status' => 1,
             ),
-            1 => 
+            2 => 
             array (
-                'id' => 2,
-                'name' => 'Medical Equipement',
+                'id' => 3,
+                'name' => 'Medical Equipment',
                 'type' => 'health',
                 'classification' => 'Category',
                 'color' => 'red',
                 'status' => 1,
             ),
-            2 => 
+            3 => 
             array (
-                'id' => 3,
+                'id' => 4,
                 'name' => 'Machinery',
                 'type' => 'cog',
                 'classification' => 'Category',
                 'color' => 'yellow',
                 'status' => 1,
             ),
-            3 => 
+            4 => 
             array (
-                'id' => 4,
+                'id' => 5,
                 'name' => 'Others',
                 'type' => 'folder-open',
                 'classification' => 'Category',
                 'color' => 'gray',
                 'status' => 1,
             ),
-            4 => 
+            5 => 
             array (
-                'id' => 5,
+                'id' => 6,
                 'name' => 'Operational',
                 'type' => 'Asset',
                 'classification' => 'Status',
                 'color' => 'green',
                 'status' => 1,
             ),
-            5 => 
+            6 => 
             array (
-                'id' => 6,
+                'id' => 7,
                 'name' => 'Maintenance',
                 'type' => 'Asset',
                 'classification' => 'Status',
                 'color' => 'red',
                 'status' => 1,
             ),
-            6 => 
-            array (
-                'id' => 7,
-                'name' => 'Disposed',
-                'type' => 'Asset',
-                'classification' => 'Status',
-                'color' => 'black',
-                'status' => 1,
-            ),
             7 => 
             array (
                 'id' => 8,
+                'name' => 'Disposed',
+                'type' => 'Asset',
+                'classification' => 'Status',
+                'color' => 'blue',
+                'status' => 1,
+            ),
+            8 => 
+            array (
+                'id' => 9,
                 'name' => 'Borrowed',
                 'type' => 'Asset',
                 'classification' => 'Status',
                 'color' => 'yellow',
+                'status' => 1,
+            ),
+            9 => 
+            array (
+                'id' => 10,
+                'name' => 'Pending',
+                'type' => 'Request',
+                'classification' => 'Status',
+                'color' => 'yellow',
+                'status' => 1,
+            ),
+            10 => 
+            array (
+                'id' => 11,
+                'name' => 'Approved',
+                'type' => 'Request',
+                'classification' => 'Status',
+                'color' => 'green',
+                'status' => 1,
+            ),
+            11 => 
+            array (
+                'id' => 12,
+                'name' => 'Lost',
+                'type' => 'Request',
+                'classification' => 'Status',
+                'color' => 'red',
                 'status' => 1,
             ),
         ));

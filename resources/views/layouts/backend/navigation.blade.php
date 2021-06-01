@@ -27,6 +27,12 @@
                             <i class="bx bxs-user-circle mr-2"></i><span key="t-dashboards">Staffs</span> 
                         </a>
                     </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle arrow-none" href="/devices" id="topnav-dashboard" role="button">
+                            <i class='bx bxs-chip mr-2'></i><span key="t-devices">Trackers</span> 
+                        </a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" href="/lists" id="topnav-dashboard" role="button">
                             <i class='bx bxs-cog mr-2'></i></i><span key="t-dashboards">Lists</span> 
@@ -44,12 +50,12 @@
                             <i class="bx bx-customize mr-2"></i><span key="t-dashboards">Assets</span> 
                         </a>
                     </li>
-                    @endif
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle arrow-none" href="/devices" id="topnav-dashboard" role="button">
-                            <i class='bx bx-chip mr-2'></i><span key="t-devices">Devices</span> 
+                        <a class="nav-link dropdown-toggle arrow-none" href="/requests" id="topnav-dashboard" role="button">
+                        <i class='bx bx-git-pull-request mr-2'></i></i><span key="t-requests">Requests</span> 
                         </a>
                     </li>
+                    @endif
                 </ul>
                   
             </div>

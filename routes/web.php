@@ -22,16 +22,16 @@ Route::get('/', function () {
 Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/test', 'HomeController@test');
+
 
 Route::get('/assets/{id}/{keyword}', 'PublicController@index');
-Route::get('/status', 'PublicController@status');
-Route::get('/category', 'PublicController@category');
 
 Route::post('/api/login', 'Api\DeviceController@login');
 Route::post('/api/check', 'Api\DeviceController@check');
 Route::post('/api/devices', 'Api\DeviceController@devices');
 Route::post('/api/device/search', 'Api\DeviceController@search');
+
+
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 
@@ -49,6 +49,7 @@ Route::middleware(['role:Administrator','auth'])->group(function () {
 Route::middleware(['role:Member','auth'])->group(function () {
     Route::get('/assetlists', 'PageController@inventory'); 
     Route::get('/stations', 'PageController@locations'); 
+    Route::get('/requests', 'PageController@requests'); 
     Route::get('/assetlist/{id}', 'PageController@viewasset'); 
 });
 
@@ -58,50 +59,49 @@ Route::middleware(['role:Member','auth'])->group(function () {
 
 
 Route::prefix('request')->group(function () {
+    /////Location
+    Route::post('/user/password', 'Users\Admin\UserController@password');
+    Route::get('/regions', 'HomeController@regions');
+    Route::get('/provinces/{id}', 'HomeController@provinces');
+    Route::get('/municipalities/{id}', 'HomeController@municipalities');
+    /////Dropdown
+    Route::get('/dropdown/{classification}/{keyword}', 'DropdownController@index');
+    Route::get('/dropdown/lists/{classification}/{type}', 'DropdownController@lists');
+    Route::get('/dropdown/count/{classification}/{type}', 'DropdownController@count');
+    Route::post('/dropdown/store', 'DropdownController@store');
 
-    Route::post('/user/password', 'Administrator\UserController@password');
-    Route::get('/regions', 'LocationController@regions');
-    Route::get('/provinces/{id}', 'LocationController@provinces');
-    Route::get('/municipalities/{id}', 'LocationController@municipalities');
-    Route::get('/dropdown/{type}', 'DropdownController@lists');
-    Route::get('/dropdown/reports/{type}', 'DropdownController@reports');
-
+    // Route::post('/agency/search', 'Administrator\MemberController@search');
     Route::prefix('admin')->group(function () {
-
-        Route::get('/users/{keyword}', 'Administrator\UserController@index');
-        Route::post('/user/store', 'Administrator\UserController@store');
-
-        Route::get('/members/{keyword}', 'Administrator\MemberController@index');
-        Route::get('/member/list', 'Administrator\MemberController@list');
-        Route::post('/member/store', 'Administrator\MemberController@store');
-        Route::get('/lgus/{keyword}', 'Administrator\MemberController@lgu');
-
-        Route::get('/{type}/{keyword}', 'DropdownController@index');
-        Route::post('/dropdown/{keyword}', 'DropdownController@store');
-
-        Route::get('/packets', 'Administrator\PacketController@index');
-
+        /////Users
+        Route::get('/users/{keyword}', 'Users\Admin\UserController@index');
+        Route::post('/user/store', 'Users\Admin\UserController@store');
+        /////Members
+        Route::get('/members/{keyword}', 'Users\Admin\MemberController@index');
+        Route::get('/member/list', 'Users\Admin\MemberController@lists');
+        Route::post('/member/store', 'Users\Admin\MemberController@store');
+        Route::get('/member/lgu/{keyword}', 'Users\Admin\MemberController@lgu');
+        // Route::get('/packets', 'Administrator\PacketController@index');
     });
 
     Route::prefix('member')->group(function (){
 
-        Route::post('/asset/store', 'Member\AssetController@store');
-        Route::get('/assets/{keyword}', 'Member\AssetController@index');
-        Route::get('/asset/{id}', 'Member\AssetController@view'); 
-        Route::get('/asset/{id}/purchased', 'Member\AssetController@purchases'); 
-        Route::post('/asset/locations', 'Member\AssetController@locations'); 
-        Route::post('/status/update', 'Member\AssetController@status'); 
-        Route::post('/quantity/update', 'Member\AssetController@updateQuantity'); 
+        Route::get('/locations', 'Users\Member\StationController@lists');
+        Route::get('/location/lists/{keyword}', 'Users\Member\StationController@index');
+        Route::post('/location/store', 'Users\Member\StationController@store');
 
-        Route::get('/locations', 'Member\LocationController@lists');
-        Route::get('/location/lists/{keyword}', 'Member\LocationController@index');
-        Route::post('/location/store', 'Member\LocationController@store');
+        Route::post('/asset/store', 'Users\Member\AssetController@store');
+        Route::get('/assets/{keyword}', 'Users\Member\AssetController@index');
+        Route::get('/asset/{id}', 'Users\Member\AssetController@view'); 
+        Route::get('/asset/{id}/purchased', 'Users\Member\AssetController@purchases'); 
+        Route::post('/asset/locations', 'Users\Member\AssetController@locations'); 
+        Route::post('/status/update', 'Users\Member\AssetController@status'); 
+        Route::post('/quantity/update', 'Users\Member\AssetController@updateQuantity'); 
 
-        Route::get('/lists/{id}/{keyword}', 'Member\ListsController@index'); 
-        Route::post('/tracker/store', 'Member\ListsController@store'); 
-        Route::get('/coordinates/{id}', 'Member\ListsController@coordinates'); 
-        Route::get('/assets/search/{keyword}', 'Member\ListsController@search');
-        Route::post('/status/up', 'Member\ListsController@status'); 
+        Route::get('/lists/{id}/{keyword}', 'Users\Member\ListsController@index'); 
+        Route::post('/tracker/store', 'Users\Member\ListsController@store'); 
+        Route::get('/coordinates/{id}', 'Users\Member\ListsController@coordinates'); 
+        Route::get('/assets/search/{keyword}', 'Users\Member\ListsController@search');
+        Route::post('/status/up', 'Users\Member\ListsController@status'); 
     });
 });
 

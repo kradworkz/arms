@@ -23,6 +23,7 @@ class CreateAssetListsTable extends Migration
             $table->foreign('status_id')->references('id')->on('dropdowns')->onDelete('cascade');
             $table->smallInteger('assetlocation_id')->unsigned()->index();
             $table->foreign('assetlocation_id')->references('id')->on('asset_locations')->onDelete('cascade');
+            $table->boolean('is_available')->default(1);
             $table->timestamps();
         });
     }

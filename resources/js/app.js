@@ -42,6 +42,7 @@ Vue.component('inventory', require('./components/Member/Asset.vue').default);
 Vue.component('asset-create', require('./components/Member/AssetNew.vue').default);
 Vue.component('asset-view', require('./components/Member/AssetView.vue').default);
 Vue.component('asset-track', require('./components/Member/AssetTrack.vue').default);
+Vue.component('histories', require('./components/Member/History.vue').default);
 Vue.component('locations', require('./components/Member/Location.vue').default);
 Vue.component('member-home', require('./components/Member/Home.vue').default);
 /**

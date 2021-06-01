@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Models\Asset;
 use App\Models\DeviceData;
+use App\Models\LocationRegion;
+use App\Models\LocationProvince;
+use App\Models\LocationMunicipality;
 use Illuminate\Http\Request;
 use App\Events\AssetLocation;
 use App\Http\Resources\DefaultResource;
@@ -36,7 +39,25 @@ class HomeController extends Controller
             return view('user_top.index');
         }
     }
-    
+
+    public function regions()
+    {
+        $data = LocationRegion::orderBy('id','ASC')->get();
+        return DefaultResource::collection($data);
+    }
+
+    public function provinces($id)
+    {
+        $data = LocationProvince::where('region_id',$id)->orderBy('name','ASC')->get();
+        return DefaultResource::collection($data);
+    }
+
+    public function municipalities($id)
+    {
+        $data = LocationMunicipality::where('province_id',$id)->orderBy('name','ASC')->get();
+        return DefaultResource::collection($data);
+    }
+
 
     public function test(){
         // $data = '{

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Member;
+namespace App\Http\Controllers\Users\Member;
 
 use App\Models\Asset;
 use App\Models\AssetList;
 use App\Models\AssetLocation;
 use App\Models\Dropdown;
+use App\Models\MemberAsset;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\StoreImage;
@@ -102,8 +103,17 @@ class AssetController extends Controller
     public function status(Request $request){
         $data = AssetList::where('id',$request->input('id'))->first();
         $data->status_id = $request->input('status');
-        $data->save();
-        return new ListResource($data);
+        if($data->save()){
+            if($request->input('agency') != ''){
+                $borrowed = new MemberAsset;
+                $borrowed->borrowed_to = \Auth::user()->member->mm->id;
+                $borrowed->borrowed_by = $request->input('agency');
+                $borrowed->status_id = 10;
+                $borrowed->asset_id = $request->input('id');
+                $borrowed->save();
+            }
+            return new ListResource($data);
+        }
     }
 
 }

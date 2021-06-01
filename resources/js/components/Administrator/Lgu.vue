@@ -111,7 +111,7 @@ export default {
         fetch(page_url) {
             let vm = this; let key;
             (this.keyword != '' && this.keyword != null) ? key = this.keyword : key = '-';
-            page_url = page_url || this.currentUrl + '/request/admin/lgus/'+key;
+            page_url = page_url || this.currentUrl + '/request/admin/member/lgu/'+key;
 
             axios.get(page_url)
             .then(response => {

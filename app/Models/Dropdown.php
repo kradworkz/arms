@@ -49,15 +49,24 @@ class Dropdown extends Model
 
     public function count()
     {
-        $count = AssetLocation::whereHas('asset', function ($query){
-            $query->where('category_id',$this->id);
-        })
-        ->whereHas('lists', function ($query){
-            $query->where('coordinates','!=',NULL);
-        })
-        ->count();
+        $count = AssetList::where('coordinates','!=',NULL)
+        ->whereHas('assetlocation', function ($query){
+            $query->whereHas('asset', function ($query){
+                $query->where('category_id',$this->id);
+            });
+        })->count();
 
         return $count;
+
+        // $count = AssetLocation::whereHas('asset', function ($query){
+        //     $query->where('category_id',$this->id);
+        // })
+        // ->whereHas('lists', function ($query){
+        //     $query->where('coordinates','!=',NULL);
+        // })
+        // ->count();
+
+        // return $count;
     }
 
 

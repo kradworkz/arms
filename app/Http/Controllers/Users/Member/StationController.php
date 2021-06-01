@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Member;
+namespace App\Http\Controllers\Users\Member;
 
 use App\Models\Location;
 use App\Http\Controllers\Controller;
@@ -9,7 +9,7 @@ use App\Http\Resources\DefaultResource;
 use App\Http\Resources\LocationResource;
 use App\Http\Requests\LocationRequest;
 
-class LocationController extends Controller
+class StationController extends Controller
 {
     public function index($keyword){
         ($keyword == '-') ? $keyword = '' : $keyword;
@@ -24,7 +24,7 @@ class LocationController extends Controller
         $data = Location::where('mm_id',\Auth::user()->member->mm->id)->get();
         return LocationResource::collection($data);
     }
-
+    
     public function store(LocationRequest $request){
         $member_id = \Auth::user()->member->mm->id;
        

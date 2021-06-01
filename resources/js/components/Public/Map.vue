@@ -4,15 +4,15 @@
         <LTileLayer :url="url" :attribution="attribution"></LTileLayer>
         
         <LMarker v-for="(m, index) in markers" :key="index" :lat-lng="JSON.parse(m.coordinates)" @click="view(m)">
-            <!-- <LIcon
-            class-name="customicon">
-            <img :src="currentUrl+'/images/avatars/marker.png'" style="height: 50px; width: 50px;">
-            </LIcon> -->
-                <!-- <l-icon
-                :icon-size="dynamicSize"
+            // <LIcon
+            // class-name="customicon">
+            // <img :src="currentUrl+'/images/avatars/marker.png'" style="height: 50px; width: 50px;">
+            // </LIcon>
+                <l-icon
+                :icon-size="[35,35]"
                 :icon-anchor="dynamicAnchor"
-                icon-url="currentUrl+'/images/avatars/marker.png"
-            /> -->
+                :icon-url="'images/markers/'+m.status.color+'.png'"
+            /> 
         </LMarker>
     </LMap>
 
@@ -66,12 +66,12 @@ export default {
             currentUrl: window.location.origin,
             url: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-            zoom: 9.4,
+            zoom: 8,
             center: [7.790777061377434, 122.8572650068709],
             confirmed : [],
             staticAnchor: [16, 37],
             customText: "Foobar",
-            iconSize: 64,
+            iconSize: 30,
             markers: [],
             selected: [],
             asset : {
