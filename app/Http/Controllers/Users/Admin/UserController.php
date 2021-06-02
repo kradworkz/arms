@@ -32,7 +32,7 @@ class UserController extends Controller
         return UserResource::collection($users);
     }
 
-    public function store(StoreImage $strmg, Request $request){
+    public function store(StoreImage $strmg, UserRequest $request){
         \DB::transaction(function () use ($request,$strmg){
             
             $data = ($request->input('editable')) ? User::findOrFail($request->input('id')) : new User;

@@ -118,7 +118,7 @@ export default {
                 quantity: 1,
                 category: '',
                 location: '',
-                trackable: false
+                trackable: true
             },
             lists : [ {quantity : 1}],
             categories: [],

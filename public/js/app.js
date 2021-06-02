@@ -3566,7 +3566,7 @@ __webpack_require__.r(__webpack_exports__);
         quantity: 1,
         category: '',
         location: '',
-        trackable: false
+        trackable: true
       },
       lists: [{
         quantity: 1
@@ -4650,15 +4650,13 @@ __webpack_require__.r(__webpack_exports__);
     fetch: function fetch() {
       var _this = this;
 
-      if (this.keyword.length > 4) {
-        var key;
-        this.keyword != '' && this.keyword != null ? key = this.keyword : key = '-';
-        axios.get(this.currentUrl + '/request/member/assets/search/' + key).then(function (response) {
-          _this.results = response.data.data;
-        })["catch"](function (err) {
-          return console.log(err);
-        });
-      }
+      var key;
+      this.keyword != '' && this.keyword != null ? key = this.keyword : key = '-';
+      axios.get(this.currentUrl + '/request/member/assets/search/' + key).then(function (response) {
+        _this.results = response.data.data;
+      })["catch"](function (err) {
+        return console.log(err);
+      });
     },
     fetchReports: function fetchReports() {
       var _this2 = this;
@@ -61650,10 +61648,7 @@ var render = function() {
                       attrs: { type: "button" },
                       on: { click: _vm.newasset }
                     },
-                    [
-                      _vm._v("New "),
-                      _c("i", { staticClass: "bx bx-plus-medical ml-2" })
-                    ]
+                    [_c("i", { staticClass: "bx bx-plus" })]
                   ),
                   _vm._v(" "),
                   _c("form", { staticClass: "float-sm-right form-inline" }, [
@@ -63940,195 +63935,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-lg-12" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-body" }, [
-            _c("div", { staticClass: "clearfix" }, [
-              _c("div", { staticClass: "float-left" }, [
-                _c("div", { staticClass: "input-group input-group-sm" }, [
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.month,
-                          expression: "month"
-                        }
-                      ],
-                      staticClass: "custom-select custom-select-sm ml-2",
-                      staticStyle: { width: "100px" },
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.month = $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        }
-                      }
-                    },
-                    [
-                      _c("option", { attrs: { value: "All" } }, [
-                        _vm._v("All")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "Daily" } }, [
-                        _vm._v("Daily")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "01" } }, [
-                        _vm._v("January")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "02" } }, [
-                        _vm._v("February")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "03" } }, [
-                        _vm._v("March")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "04" } }, [
-                        _vm._v("April")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "05" } }, [_vm._v("May")]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "06" } }, [
-                        _vm._v("June")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "07" } }, [
-                        _vm._v("July")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "08" } }, [
-                        _vm._v("August")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "09" } }, [
-                        _vm._v("September")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "10" } }, [
-                        _vm._v("October")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "11" } }, [
-                        _vm._v("November")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "12" } }, [
-                        _vm._v("December")
-                      ])
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _vm.month == "Daily"
-                    ? _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.todate,
-                            expression: "todate"
-                          }
-                        ],
-                        staticClass: "custom-select custom-select-sm",
-                        staticStyle: {
-                          "margin-right": "10px",
-                          "margin-left": "10px",
-                          width: "100px"
-                        },
-                        attrs: { type: "date" },
-                        domProps: { value: _vm.todate },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.todate = $event.target.value
-                          }
-                        }
-                      })
-                    : _c(
-                        "select",
-                        {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.year,
-                              expression: "year"
-                            }
-                          ],
-                          staticClass: "custom-select custom-select-sm ml-2",
-                          staticStyle: {
-                            "margin-right": "10px",
-                            width: "100px"
-                          },
-                          on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.year = $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            }
-                          }
-                        },
-                        [
-                          _c(
-                            "option",
-                            { attrs: { value: "2021", selected: "" } },
-                            [_vm._v("2021")]
-                          ),
-                          _vm._v(" "),
-                          _c("option", { attrs: { value: "2020" } }, [
-                            _vm._v("2020")
-                          ]),
-                          _vm._v(" "),
-                          _c("option", { attrs: { value: "2019" } }, [
-                            _vm._v("2019")
-                          ]),
-                          _vm._v(" "),
-                          _c("option", { attrs: { value: "2018" } }, [
-                            _vm._v("2018")
-                          ])
-                        ]
-                      ),
-                  _vm._v(" "),
-                  _c("select", {
-                    staticClass: "custom-select custom-select-sm",
-                    staticStyle: { width: "200px" }
-                  }),
-                  _vm._v(" "),
-                  _vm._m(0)
-                ])
-              ]),
-              _vm._v(" "),
-              _vm._m(1)
-            ])
-          ])
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-xl-3" }, [
         _c("div", { staticClass: "row" }, [
           _c(
@@ -64382,7 +64188,7 @@ var render = function() {
                             ],
                             1
                           )
-                        : _c("div", { staticClass: "col-md-12" }, [_vm._m(2)])
+                        : _c("div", { staticClass: "col-md-12" }, [_vm._m(0)])
                     ])
                   ])
                 ])
@@ -64413,7 +64219,7 @@ var render = function() {
             },
             [
               _c("div", { staticClass: "modal-content" }, [
-                _vm._m(3),
+                _vm._m(1),
                 _vm._v(" "),
                 _c(
                   "form",
@@ -64462,7 +64268,7 @@ var render = function() {
                       )
                     ]),
                     _vm._v(" "),
-                    _vm._m(4)
+                    _vm._m(2)
                   ]
                 )
               ])
@@ -64474,50 +64280,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-append" }, [
-      _c("label", { staticClass: "input-group-text" }, [_vm._v("Services")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "float-right" }, [
-      _c("div", { staticClass: "apex-charts" }, [
-        _c("div", { staticClass: "toolbar button-items text-center" }, [
-          _c(
-            "button",
-            { staticClass: "btn btn-light btn-sm", attrs: { type: "button" } },
-            [_c("i", { staticClass: "bx bx-grid-alt" })]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            { staticClass: "btn btn-light btn-sm", attrs: { type: "button" } },
-            [_c("i", { staticClass: "bx bx-list-ul" })]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-sm btn-primary",
-              attrs: { type: "button" }
-            },
-            [
-              _c("i", { staticClass: "bx bxs-printer align-middle mr-1" }),
-              _vm._v(" Print\n                                    ")
-            ]
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { attrs: { id: "overview-chart-timeline" } })
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -64595,10 +64357,7 @@ var render = function() {
                   attrs: { type: "button" },
                   on: { click: _vm.newloc }
                 },
-                [
-                  _vm._v("New "),
-                  _c("i", { staticClass: "bx bx-plus-medical ml-2" })
-                ]
+                [_c("i", { staticClass: "bx bx-plus" })]
               ),
               _vm._v(" "),
               _c("form", { staticClass: "float-sm-right form-inline" }, [

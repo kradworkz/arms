@@ -6,7 +6,7 @@
             <div class="card-body" v-if="addnew == false">
                 <div class="row mb-3">
                     <div class="col-xl-6 col-sm-6 form-inline">
-                        <button type="button" @click="newasset" class="btn btn-danger waves-effect waves-light mr-2">New <i class='bx bx-plus-medical ml-2'></i></button>
+                        <button type="button" @click="newasset" class="btn btn-danger waves-effect waves-light mr-2"><i class='bx bx-plus'></i></button>
                         <form class="float-sm-right form-inline">
                             <div class="search-box">
                                 <div class="position-relative">

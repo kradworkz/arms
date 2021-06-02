@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="row">
+    <!-- <div class="row">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
@@ -32,7 +32,7 @@
                                         <option value="2018">2018</option>
                                     </select>
                                     <select class="custom-select custom-select-sm" style="width: 200px;">
-                                        <!-- <option :value="lab" v-for="lab in laboratories" v-bind:key="lab.id">{{lab.name}}</option> -->
+                                         <option :value="lab" v-for="lab in laboratories" v-bind:key="lab.id">{{lab.name}}</option> 
                                     </select>
                                     <div class="input-group-append">
                                         <label class="input-group-text">Services</label>
@@ -59,7 +59,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
 
         <div class="row">
@@ -230,16 +230,14 @@ export default {
     methods : {
  
         fetch(){
-            if(this.keyword.length > 4){
-                let key;
-                (this.keyword != '' && this.keyword != null) ? key = this.keyword : key = '-';
+            let key;
+            (this.keyword != '' && this.keyword != null) ? key = this.keyword : key = '-';
 
-                axios.get(this.currentUrl + '/request/member/assets/search/'+key)
-                .then(response => {
-                    this.results = response.data.data;
-                })
-                .catch(err => console.log(err));
-            }
+            axios.get(this.currentUrl + '/request/member/assets/search/'+key)
+            .then(response => {
+                this.results = response.data.data;
+            })
+            .catch(err => console.log(err));
         },
 
         fetchReports(){
