@@ -133,13 +133,13 @@
                     <div class="col-md-12">
                         <div class="card" style="min-height: 365px;">
                             <div class="card-body">
-                                <h4 class="card-title mb-4">Requests</h4>
+                                <h4 class="card-title mb-4">Advisory</h4>
                                 <div class="text-center">
                                     <div class="row">
                                         <div class="col-md-12 align-center" style="margin-top: 95px;" v-if="requests.length < 1">
                                             <center style="opacity: 0.3;">
                                             <i class='bx bx-add-to-queue ' style="font-size: 50px;"></i>
-                                            <p>No Requests.</p>
+                                            <p>No advisory.</p>
                                             </center>
                                         </div>
                                         <div class="col-md-12" v-else>

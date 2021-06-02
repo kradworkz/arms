@@ -64160,7 +64160,7 @@ var render = function() {
               [
                 _c("div", { staticClass: "card-body" }, [
                   _c("h4", { staticClass: "card-title mb-4" }, [
-                    _vm._v("Requests")
+                    _vm._v("Advisory")
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "text-center" }, [
@@ -64182,7 +64182,7 @@ var render = function() {
                                     staticStyle: { "font-size": "50px" }
                                   }),
                                   _vm._v(" "),
-                                  _c("p", [_vm._v("No Requests.")])
+                                  _c("p", [_vm._v("No advisory.")])
                                 ]
                               )
                             ],
