@@ -64,16 +64,13 @@
                 devices: []
             }
         },
-
         created(){
             this.check(true);
         },
-
         methods : {
             checkApi(){
                 this.$parent.validateToken();
             },
-
             check(value){
                 if(value == true){
                     let toks = localStorage.getItem('api_token');
@@ -93,7 +90,6 @@
                    
                 }
             },
-
             search(){
                 if(this.keyword.length > 0){
                     let toks = localStorage.getItem('api_token');
@@ -114,7 +110,6 @@
                     this.check(true);
                 }
             }
-
         }
     }
 </script>

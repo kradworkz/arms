@@ -16,6 +16,7 @@ class StationController extends Controller
         $member_id = \Auth::user()->member->mm->id;
         $data = Location::where('mm_id',$member_id)
         ->where('name', 'LIKE', '%'.$keyword.'%')
+        ->orderBy('id','DESC')
         ->paginate(5);
         return LocationResource::collection($data);
     }
@@ -32,6 +33,7 @@ class StationController extends Controller
         $data->name = ucwords(strtolower($request->input('name')));
         $data->address = ucwords(strtolower($request->input('address')));
         $data->contact_no = $request->input('contact_no');
+        $data->coordinates = $request->input('coordinates');
         $data->mm_id = $member_id; 
         $data->save();
 

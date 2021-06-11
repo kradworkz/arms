@@ -24,16 +24,17 @@ class DropdownRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'name' => 'required|string|max:100|unique:dropdowns,name,'.$this->id,
+            'name' => 'required|string|max:100|unique:dropdowns,name,NULL,'.$this->id.',type,'.$this->type,
             'type' => 'required|string|max:30',
         ];
 
-        $type = ($this->selected == 1) ? 'Category' : 'Asset';
         
-        if($type == 'Category'){
-            $rules = array_merge($rules, ['color' => 'required|unique:dropdowns,color,NULL,'.$this->id.',classification,'.$type]);
-        }else{
+        if($this->selected == 'Category'){
+            $rules = array_merge($rules, ['color' => 'required|unique:dropdowns,color,NULL,'.$this->id.',classification,'.$this->selected]);
+        }else if($this->selected == 'Asset'){
             $rules = array_merge($rules, ['color' => 'required|unique:dropdowns,color,NULL,'.$this->id.',type,'.$this->type]);
+        }else{
+            $rules = array_merge($rules, ['color' => 'required']);
         }
         
         

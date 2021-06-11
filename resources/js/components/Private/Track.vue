@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Track Asset</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Map Track</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -12,17 +12,7 @@
                     <LMap ref="mymap" style="width: 100%; height: 100%;" :zoom="zoom" :center="center">
                         <LTileLayer :url="url" :attribution="attribution"></LTileLayer>
                       
-                        <LMarker :lat-lng="center">
-                            <!-- <LIcon
-                            class-name="customicon">
-                            <img :src="currentUrl+'/images/avatars/marker.png'" style="height: 50px; width: 50px;">
-                            </LIcon> -->
-                              <!-- <l-icon
-                                :icon-size="dynamicSize"
-                                :icon-anchor="dynamicAnchor"
-                                icon-url="currentUrl+'/images/avatars/marker.png"
-                            /> -->
-                        </LMarker>
+                        <LMarker :lat-lng="center"></LMarker>
                     </LMap>
                 </div>
             </div>
@@ -40,7 +30,7 @@ export default {
             currentUrl: window.location.origin,
             url: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-            zoom: 20,
+            zoom: 15,
             center: [6.905508,122.075958],
            
             confirmed : [],
@@ -50,7 +40,7 @@ export default {
         }
     },
 
-     computed: {
+    computed: {
         dynamicSize() {
             return [this.iconSize, this.iconSize * 1.15];
         },
@@ -60,11 +50,14 @@ export default {
     },
 
     methods : {
-        track(){
-            alert(this.selectedasset);
+        track(coor){
+            this.center = JSON.parse(coor);
+            setTimeout(() => {
+                this.$refs.mymap.mapObject.invalidateSize(); 
+            }, 500);
         },
         
-        test(id){
+        trackId(id){
             axios.get(this.currentUrl + '/request/member/coordinates/'+id)
             .then(response => {
                 this.center = JSON.parse(response.data.coordinates);

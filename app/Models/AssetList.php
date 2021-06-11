@@ -19,6 +19,11 @@ class AssetList extends Model
         return $this->hasMany('App\Models\MemberAsset', 'asset_id');
     }
 
+    public function info()
+    {
+        return $this->hasOne('App\Models\AssetInfo', 'asset_id');
+    }
+
     public function status()
     {
         return $this->belongsTo('App\Models\Dropdown', 'status_id', 'id');

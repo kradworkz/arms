@@ -25,9 +25,10 @@ class LocationRequest extends FormRequest
     {
         $member_id = \Auth::user()->member->mm->id;
         return [
-            'name' => 'required|string|max:150|unique:locations,name,NULL,'.$this->id.',mm_id,'.$member_id,
+            'name' => 'required|string|max:150|unique:locations,name,'.$this->id.',id,mm_id,'.$member_id,
             'address' => 'required|string|max:100',
             'contact_no' => 'required',
+            'coordinates' => 'required'
         ];
     }
 }

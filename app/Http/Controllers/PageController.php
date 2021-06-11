@@ -30,6 +30,11 @@ class PageController extends Controller
         return view('user_admin.setting');
     }
 
+    public function deviceslist()
+    {
+        return view('user_admin.devicelist');
+    }
+
     ///////////////////////////////////
     /////////// MEMBER PAGES //////////
     ///////////////////////////////////
@@ -53,6 +58,12 @@ class PageController extends Controller
     {
         return view('user_member.view');
     }
+
+    public function search()
+    {
+        return view('user_member.search');
+    }
+
 
     ///////////////////////////////////
     /////////// ALL PAGES //////////

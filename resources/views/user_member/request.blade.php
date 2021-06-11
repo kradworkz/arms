@@ -17,6 +17,6 @@
             </div>
         </div>
 
-        <histories></histories>
+        <requests></requests>
 
 @endsection

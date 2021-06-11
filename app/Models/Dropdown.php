@@ -49,8 +49,7 @@ class Dropdown extends Model
 
     public function count()
     {
-        $count = AssetList::where('coordinates','!=',NULL)
-        ->whereHas('assetlocation', function ($query){
+        $count = AssetList::whereHas('assetlocation', function ($query){
             $query->whereHas('asset', function ($query){
                 $query->where('category_id',$this->id);
             });

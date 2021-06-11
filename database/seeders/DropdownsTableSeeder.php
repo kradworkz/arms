@@ -127,6 +127,114 @@ class DropdownsTableSeeder extends Seeder
                 'color' => 'red',
                 'status' => 1,
             ),
+            12 => 
+            array (
+                'id' => 13,
+                'name' => 'Automated Rain Gauge',
+                'type' => 'cloud-rain',
+                'classification' => 'Device',
+                'color' => 'yellow',
+                'status' => 1,
+            ),
+            13 => 
+            array (
+                'id' => 14,
+                'name' => 'Automated Weather Station',
+                'type' => 'cloud',
+                'classification' => 'Device',
+                'color' => 'green',
+                'status' => 1,
+            ),
+            14 => 
+            array (
+                'id' => 15,
+                'name' => 'Water Level Monitoring System',
+                'type' => 'water',
+                'classification' => 'Device',
+                'color' => 'blue',
+                'status' => 1,
+            ),
+            15 => 
+            array (
+                'id' => 16,
+                'name' => 'Triggering Alerting Station',
+                'type' => 'alarm-exclamation',
+                'classification' => 'Device',
+                'color' => 'gray',
+                'status' => 1,
+            ),
+            16 => 
+            array (
+                'id' => 17,
+            'name' => 'Automated Weather Station (asti)',
+                'type' => 'cloud-upload',
+                'classification' => 'Device',
+                'color' => 'red',
+                'status' => 1,
+            ),
+            17 => 
+            array (
+                'id' => 18,
+                'name' => 'Operational',
+                'type' => 'Device',
+                'classification' => 'Status',
+                'color' => 'green',
+                'status' => 1,
+            ),
+            18 => 
+            array (
+                'id' => 19,
+                'name' => 'Non-operational/signal Problem',
+                'type' => 'Device',
+                'classification' => 'Status',
+                'color' => 'red',
+                'status' => 1,
+            ),
+            19 => 
+            array (
+                'id' => 20,
+                'name' => 'Non-operational/gdat Replacement',
+                'type' => 'Device',
+                'classification' => 'Status',
+                'color' => 'red',
+                'status' => 1,
+            ),
+            20 => 
+            array (
+                'id' => 21,
+                'name' => 'Non-operational/lead Acid Battery Replacement',
+                'type' => 'Device',
+                'classification' => 'Status',
+                'color' => 'red',
+                'status' => 1,
+            ),
+            21 => 
+            array (
+                'id' => 22,
+                'name' => 'Non-operational/for Troubleshooting',
+                'type' => 'Device',
+                'classification' => 'Status',
+                'color' => 'red',
+                'status' => 1,
+            ),
+            22 => 
+            array (
+                'id' => 23,
+                'name' => 'For Replacement',
+                'type' => 'Device',
+                'classification' => 'Status',
+                'color' => 'yellow',
+                'status' => 1,
+            ),
+            23 => 
+            array (
+                'id' => 24,
+                'name' => 'Disposed',
+                'type' => 'Device',
+                'classification' => 'Status',
+                'color' => 'black',
+                'status' => 1,
+            ),
         ));
         
         

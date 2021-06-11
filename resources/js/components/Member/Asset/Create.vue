@@ -209,7 +209,7 @@ export default {
         },
 
         fetchCategory(){
-            axios.get(this.currentUrl + '/request/dropdown/lists/category/-')
+            axios.get(this.currentUrl + '/request/dropdowns/category/-')
             .then(response => {
                 this.categories = response.data.data;;
             })

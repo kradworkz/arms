@@ -16,5 +16,5 @@
             </div>
         </div>
 
-        <inventory></inventory>
+        <assets></assets>
 @endsection

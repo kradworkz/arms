@@ -58,9 +58,9 @@
                                 <td class="text-center">{{location.address}}</td>
                                 <td class="text-center">{{location.contact_no}}</td>
                                 <td class="text-center">
-                                    <a :href="'assetlist/'+location.id" class="mr-3 text-info" data-toggle="tooltip" data-placement="top" title="" data-original-title="View"><i class='bx bx-show'></i></a>
+                                    <!--<a :href="'assetlist/'+location.id" class="mr-3 text-info" data-toggle="tooltip" data-placement="top" title="" data-original-title="View"><i class='bx bx-show'></i></a>-->
                                     <a class="mr-3 text-warning" @click="edit(location)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class='bx bx-edit-alt' ></i></a>
-                                    <a class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class='bx bx-trash'></i></a>
+                                    <a  @click="track(location.coordinates)" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class='bx bxs-map' ></i></a>
                                 </td>
                             </tr>
                         </tbody>
@@ -69,51 +69,7 @@
             </div>
 
             <div class="modal fade exampleModal" id="newloc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">{{(this.editable) ? 'Update' : 'New'}} Station</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        
-                        <form @submit.prevent="createloc">
-                            <div class="modal-body">
-                                <div class="row" style="margin-right: 10px; margin-left: 10px;">
-                                    
-                                    <div class="col-md-12 customerform" style="margin-top: 15px;">
-                                        <div class="row">
-                                            <div class="col-md-12" style="margin-bottom: -10px;">
-                                                <div class="form-group">
-                                                    <label for="formrow-firstname-input">Name: <span v-if="errors.name" class="haveerror">({{ errors.name[0] }})</span></label>
-                                                    <input type="text" class="form-control" id="formrow-firstname-input" v-model="loc.name" style="text-transform: capitalize;">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12" style="margin-bottom: -10px;">
-                                                <div class="form-group">
-                                                    <label for="formrow-firstname-input">Address: <span v-if="errors.address" class="haveerror">({{ errors.address[0] }})</span></label>
-                                                    <input type="text" class="form-control" id="formrow-firstname-input" v-model="loc.address" style="text-transform: capitalize;">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label for="formrow-firstname-input">Contact no: <span v-if="errors.contact_no" class="haveerror">({{ errors.contact_no[0] }})</span></label>
-                                                    <input type="text" class="form-control" id="formrow-firstname-input" v-model="loc.contact_no" style="text-transform: capitalize;">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Save</button>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
-                        </form>
-
-                    </div>
-                </div>
+                <location-create @status="message" ref="create"></location-create>
             </div>
             
         </div>
@@ -133,12 +89,6 @@ export default {
             locations: [],
             trselected : '',
             editable: false, 
-            loc: {
-                id: '',
-                name: '',
-                address: '',
-                contact_no: ''
-            },
         }
     },
 
@@ -172,29 +122,10 @@ export default {
             .catch(err => console.log(err));
         },
 
-        createloc(){
-            axios.post(this.currentUrl + '/request/member/location/store', {
-                id: this.loc.id,
-                name: this.loc.name,
-                address: this.loc.address,
-                contact_no: this.loc.contact_no,
-                editable: this.editable
-            })
-            .then(response => {
-                this.fetch();
-                $("#newloc").modal("hide");
-                this.loc.name = '';
-                this.loc.address = '';
-                this.loc.contact_no = '';
-                 Vue.$toast.success('<strong>Successfully Created</strong>', {
-                    position: 'bottom-right'
-                });
-            })
-            .catch(error => {
-                if (error.response.status == 422) {
-                    this.errors = error.response.data.errors;
-                }
-            });
+        track(coordinates){
+            if(coordinates != 'n/a'){
+                this.$parent.trackMap(coordinates);
+            }
         },
 
         newloc(val){
@@ -202,13 +133,26 @@ export default {
         },
 
         edit(location){
-            this.loc = location;
             $("#newloc").modal('show');
             this.editable = true;
+            this.$refs.create.edit(location,true);
         },
 
         view(id){
             this.trselected = id;
+        },
+
+        message(val){
+            if(val){
+                if(this.editable == true){
+                    let page_url = '/request/member/location/lists/-?page=' + this.pagination.current_page;
+                    this.fetch(page_url);
+                }else{
+                    this.fetch();
+                }
+                $("#newloc").modal('hide');
+                this.editable = false;
+            }
         }
 
      }, components: { Multiselect }

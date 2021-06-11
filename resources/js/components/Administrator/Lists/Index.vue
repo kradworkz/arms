@@ -34,17 +34,31 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-xl-6 col-sm-6 ">
-                                <form class="form-inline">
-                                    <div class="search-box">
-                                        <div class="position-relative">
-                                            <input type="text" class="form-control bg-light border-light rounded" placeholder="Search..." v-model="keyword" @keyup="fetch()">
-                                            <i class='bx bx-search-alt search-icon'></i>
-                                        </div>
+                            <div class="col-xl-8 col-sm-8 ">
+                                <div class="row">
+                                    <div class="col-md-4" v-if="selected == 'Status'">
+                                        <multiselect 
+                                            v-model="status" 
+                                            :options="options"
+                                            :allow-empty="false"
+                                            deselect-label="Can't remove this value"
+                                            @input="onChangeStatus()"
+                                            >
+                                        </multiselect>
                                     </div>
-                                </form>  
+                                    <div class="col-md-6">
+                                        <form class="form-inline">
+                                            <div class="search-box">
+                                                <div class="position-relative">
+                                                    <input type="text" class="form-control bg-light border-light rounded" placeholder="Search..." v-model="keyword" @keyup="fetch()">
+                                                    <i class='bx bx-search-alt search-icon'></i>
+                                                </div>
+                                            </div>
+                                        </form>  
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-xl-6 col-sm-6">
+                            <div class="col-xl-4 col-sm-4">
                                 <ul class="list-inline user-chat-nav text-right mb-0 dropdown">
                                     <li class="list-inline-item d-none d-sm-inline-block font-size-12">{{pagination.current_page}} out of {{pagination.last_page}}</li>
                                     <li class="list-inline-item d-none d-sm-inline-block">
@@ -62,12 +76,12 @@
                         </div>
 
                         <div class="table-responsive">
-                            <table class="table table-centered table-nowrap">
+                            <table class="table table-centered table-nowrap mt-4">
                                 <thead>
                                     <tr>
                                         <th>Name</th>
                                       
-                                        <th v-if="selected == 1">Status</th>
+                                        <th v-if="selected == 'Category'">Status</th>
                                         <th>Type</th>
                                         <th>Color</th>
                                         <th class="text-right">Action</th>
@@ -76,7 +90,7 @@
                                 <tbody>
                                     <tr v-for="list in lists" v-bind:key="list.id">
                                         <td>{{list.name}}</td>
-                                        <td v-if="selected == 1">
+                                        <td v-if="selected == 'Category'">
                                             <span v-if="list.status == 0" class="badge badge-lg badge-success">Active</span>
                                             <span v-else class="badge badge-danger">Inactive</span>
                                         </td> 
@@ -118,17 +132,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-12" v-if="selected == 2">
-                                            <label for="formrow-firstname-input">Type: <span v-if="errors.type" class="haveerror">({{ errors.type[0] }})</span></label>
-                                            <multiselect 
-                                                v-model="type" 
-                                                :options="options"
-                                                :allow-empty="false"
-                                                deselect-label="Can't remove this value"
-                                                >
-                                            </multiselect>
-                                        </div>
-                                        <div class="col-md-12" v-else>
+                                        <div class="col-md-12" v-if="selected != 'Status'">
                                             <div class="form-group">
                                                 <label>Icon Text: <span v-if="errors.type" class="haveerror">({{ errors.type[0] }})</span></label>
                                                 <input type="text" class="form-control"  v-model="type" style="text-transform: capitalize;">
@@ -175,9 +179,10 @@ export default {
             contact_no: '',
             type: '',
             color: '',
+            status: '',
             selected: 'Category',
             editable: false,
-            options : ["Asset","Activity","Request","Maintenance"],
+            options : ["Asset","Activity","Device","Request","Maintenance"],
             colors : ["green","red","blue","yellow","black","gray"],
         }
     },
@@ -200,9 +205,10 @@ export default {
         },
 
         fetch(page_url) {
-            let vm = this; let key;
+            let vm = this; let key; let statust;
             (this.keyword != '' && this.keyword != null) ? key = this.keyword : key = '-';
-            page_url = page_url || this.currentUrl + '/request/dropdown/'+this.selected+'/'+key;
+            (this.status != '' && this.status != null) ? statust = this.status : statust = '-';
+            page_url = page_url || this.currentUrl + '/request/dropdown/'+this.selected+'/'+statust+'/'+key;
 
             axios.get(page_url)
             .then(response => {
@@ -210,6 +216,12 @@ export default {
                 vm.makePagination(response.data.meta, response.data.links);
             })
             .catch(err => console.log(err));
+        },
+
+        onChangeStatus(){
+            console.log(this.status);
+            (this.selected == 'Status') ? this.type = this.status : '';
+            this.fetch();
         },
 
         create(){
@@ -224,7 +236,7 @@ export default {
             axios.post(this.currentUrl + '/request/dropdown/store', form)
             .then(response => {
                 $('#new').modal('hide');
-                let page_url = '/request/admin/'+this.selected+'/?page=' + this.pagination.current_page;
+                let page_url = '/request/dropdown/'+this.selected+'/'+this.status+'/-/?page=' + this.pagination.current_page;
                 this.fetch(page_url);
                 Vue.$toast.success('<strong>Successfully Updated</strong>', {
                     position: 'bottom-right'
@@ -242,12 +254,9 @@ export default {
             $("#new").modal('show');
         },
 
-        status(){
-
-        },
-
         change(type){
             this.selected = type;
+            (type == 'Status') ? this.status = 'Asset' : this.status = '';
             this.fetch();
             this.errors = [];
         },

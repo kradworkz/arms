@@ -16,7 +16,7 @@ class PublicController extends Controller
         ($keyword == '-') ? $keyword = '' : $keyword;
     
         $query = AssetList::query();
-        $query = $query->with('status')->with(['assetlocation.asset','assetlocation.location'])->where('asset_code', 'LIKE', '%'.$keyword.'%')->where('coordinates','!=',NULL);
+        $query = $query->with('status')->with(['assetlocation.asset','assetlocation.location'])->where('asset_code', 'LIKE', '%'.$keyword.'%');
         if($id != '-'){
             $query = $query->whereHas('assetlocation', function ($query) use ($id){
                 $query->whereHas('asset', function ($query) use ($id){

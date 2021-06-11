@@ -9,7 +9,7 @@
             // <img :src="currentUrl+'/images/avatars/marker.png'" style="height: 50px; width: 50px;">
             // </LIcon>
                 <l-icon
-                :icon-size="[35,35]"
+                :icon-size="iconSize"
                 :icon-anchor="dynamicAnchor"
                 :icon-url="'images/markers/'+m.status.color+'.png'"
             /> 
@@ -21,7 +21,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">View Asset</h5>
-                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <button type="button" @click="zoomee(12)" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -67,11 +67,12 @@ export default {
             url: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
             zoom: 8,
+            zoomSnap: 0,
             center: [7.790777061377434, 122.8572650068709],
             confirmed : [],
             staticAnchor: [16, 37],
             customText: "Foobar",
-            iconSize: 30,
+            iconSize: [25,25],
             markers: [],
             selected: [],
             asset : {
@@ -130,8 +131,23 @@ export default {
 
         view(marker){
             this.asset = marker;
-            this.center = JSON.parse(marker.coordinates);
-            $("#view").modal('show');
+            this.zoomee(15)
+
+            // this.$refs.mymap.mapObject.on('zoomend', function (){
+            //     $("#view").modal('show');
+            //     this.iconSize = 40
+            // });
+
+            setTimeout(() => {
+                $("#view").modal('show');
+            }, 2000);
+        },
+
+        zoomee(val){
+            this.$refs.mymap.mapObject.flyTo(JSON.parse(this.asset.coordinates), val, {
+                animate: true,
+                duration: 2.0
+            });
         }
 
     }, components: { LMap, LTileLayer,LMarker, LIcon }

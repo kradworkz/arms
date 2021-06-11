@@ -16,5 +16,5 @@
             </div>
         </div>
 
-        <locations></locations>
+        <locations ref="location"></locations>
 @endsection

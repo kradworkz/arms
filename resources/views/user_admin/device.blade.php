@@ -17,6 +17,6 @@
             </div>
         </div>
 
-        <device ref="apiconnection"></device>
+        <trackers ref="apiconnection"></trackers>
 
 @endsection

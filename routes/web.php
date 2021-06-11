@@ -36,7 +36,7 @@ Route::post('/api/device/search', 'Api\DeviceController@search');
 //////////////////////////////////////////////////////////////////////
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/devices', 'PageController@devices'); 
+    Route::get('/trackers', 'PageController@devices'); 
 });
 
 Route::middleware(['role:Administrator','auth'])->group(function () {
@@ -44,6 +44,7 @@ Route::middleware(['role:Administrator','auth'])->group(function () {
     Route::get('/agencies', 'PageController@agencies'); 
     Route::get('/lgus', 'PageController@lgus'); 
     Route::get('/lists', 'PageController@settings'); 
+    Route::get('/devices', 'PageController@deviceslist'); 
 });
 
 Route::middleware(['role:Member','auth'])->group(function () {
@@ -51,6 +52,7 @@ Route::middleware(['role:Member','auth'])->group(function () {
     Route::get('/stations', 'PageController@locations'); 
     Route::get('/requests', 'PageController@requests'); 
     Route::get('/assetlist/{id}', 'PageController@viewasset'); 
+    Route::get('/search', 'PageController@search'); 
 });
 
 
@@ -65,9 +67,9 @@ Route::prefix('request')->group(function () {
     Route::get('/provinces/{id}', 'HomeController@provinces');
     Route::get('/municipalities/{id}', 'HomeController@municipalities');
     /////Dropdown
-    Route::get('/dropdown/{classification}/{keyword}', 'DropdownController@index');
-    Route::get('/dropdown/lists/{classification}/{type}', 'DropdownController@lists');
-    Route::get('/dropdown/count/{classification}/{type}', 'DropdownController@count');
+    Route::get('/dropdown/{classification}/{type}/{keyword}', 'DropdownController@index');
+    Route::get('/dropdowns/{classification}/{type}', 'DropdownController@lists');
+    Route::get('/dropdowncount/{classification}/{type}', 'DropdownController@count');
     Route::post('/dropdown/store', 'DropdownController@store');
 
     // Route::post('/agency/search', 'Administrator\MemberController@search');
@@ -81,6 +83,9 @@ Route::prefix('request')->group(function () {
         Route::post('/member/store', 'Users\Admin\MemberController@store');
         Route::get('/member/lgu/{keyword}', 'Users\Admin\MemberController@lgu');
         // Route::get('/packets', 'Administrator\PacketController@index');
+
+        Route::post('/device/store', 'Users\Admin\DeviceController@store');
+        Route::get('/devices/{keyword}', 'Users\Admin\DeviceController@index');
     });
 
     Route::prefix('member')->group(function (){
@@ -99,9 +104,13 @@ Route::prefix('request')->group(function () {
 
         Route::get('/lists/{id}/{keyword}', 'Users\Member\ListsController@index'); 
         Route::post('/tracker/store', 'Users\Member\ListsController@store'); 
+        Route::post('/asset/update', 'Users\Member\ListsController@update'); 
         Route::get('/coordinates/{id}', 'Users\Member\ListsController@coordinates'); 
         Route::get('/assets/search/{keyword}', 'Users\Member\ListsController@search');
+        Route::get('/assets/search2/{category}/{keyword}', 'Users\Member\ListsController@search2');
         Route::post('/status/up', 'Users\Member\ListsController@status'); 
+        Route::get('/foraction/{type}', 'Users\Member\ListsController@check'); 
+        
     });
 });
 

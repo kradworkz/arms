@@ -35,7 +35,7 @@
 
         <table  v-if="drop == true"  class="table table-centered table-nowrap mt-4" >
             <tbody>
-                <tr v-for="(status,index) in statuses" v-bind:key="status.id" style="cursor: pointer;" @click="view(status.id)"  :class="{'table-secondary':selected == status.id}">
+                <tr v-for="(status,index) in lists" v-bind:key="status.id" style="cursor: pointer;" @click="view(status.id)"  :class="{'table-secondary':selected == status.id}">
                     <td style="width: 50px;">
                         <div :class="'font-size-22 text-'+status.color">
                            <i class='bx bxs-alarm-exclamation' ></i>
@@ -86,6 +86,7 @@ export default {
             statuses: [],
             active: [],
             inactive: [],
+            lists: [],
             drop: false,
             selected: '',
             l: 0
@@ -95,11 +96,12 @@ export default {
     created(){
         this.fetchCategory();
         this.fetchStatus();
+        this.fetchDevice();
     },
 
     methods : {
         fetchCategory(){
-            axios.get(this.currentUrl + '/request/dropdown/count/category/-')
+            axios.get(this.currentUrl + '/request/dropdowncount/category/-')
             .then(response => {
                 this.categories = response.data.data;
                 this.inactive = response.data.data;
@@ -108,6 +110,7 @@ export default {
         },
 
         show(category){
+            
             if(this.drop == true){
                 this.categories = this.inactive;
                 this.active = [];
@@ -119,12 +122,13 @@ export default {
                     this.categories = this.active;
                     this.drop = true;
                     this.$parent.fetch(category.id);
+                    (category.id == 1 ) ? this.lists  = this.devices : this.lists  = this.statuses ;
                 }
             }
         },
 
         fetchStatus(){
-            axios.get(this.currentUrl + '/request/dropdown/lists/status/asset')
+            axios.get(this.currentUrl + '/request/dropdowns/status/asset')
             .then(response => {
                 this.statuses = response.data.data;
                 this.countStatus();
@@ -132,6 +136,14 @@ export default {
             .catch(err => console.log(err));
         },
 
+        fetchDevice(){
+            axios.get(this.currentUrl + '/request/dropdowns/device/-')
+            .then(response => {
+                this.devices = response.data.data;
+            })
+            .catch(err => console.log(err));
+        },
+    
         countStatus(){
             this.l = 0;
             for(var i=0; i < this.statuses.length; i++){

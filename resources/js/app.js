@@ -27,24 +27,48 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.component('password', require('./components/Password.vue').default);
 Vue.component('login', require('./components/Login.vue').default);
 
-Vue.component('public-sidebar', require('./components/Public/Sidebar.vue').default);
-Vue.component('public-map', require('./components/Public/Map.vue').default);
 
-Vue.component('staff', require('./components/Administrator/Staff.vue').default);
-Vue.component('member', require('./components/Administrator/Member.vue').default);
-Vue.component('lgu', require('./components/Administrator/Lgu.vue').default);
-Vue.component('application-setting', require('./components/Administrator/Setting.vue').default);
+
 Vue.component('admin-home', require('./components/Administrator/Home.vue').default);
-Vue.component('device', require('./components/Administrator/Device.vue').default);
+
+// Vue.component('staff', require('./components/Administrator/Staffs/Index.vue').default);
+
+Vue.component('application-setting', require('./components/Administrator/Lists/Index.vue').default);
+
+Vue.component('trackers', require('./components/Administrator/Tracker/Index.vue').default);
+Vue.component('lgu', require('./components/Administrator/LGU/Index.vue').default);
+
+Vue.component('staff', require('./components/Administrator/Staff/Index.vue').default);
+Vue.component('staff-create', require('./components/Administrator/Staff/Create.vue').default);
+Vue.component('agency', require('./components/Administrator/Agency/Index.vue').default);
+Vue.component('agency-create', require('./components/Administrator/Agency/Create.vue').default);
+Vue.component('device', require('./components/Administrator/Devices/Index.vue').default);
+Vue.component('device-create', require('./components/Administrator/Devices/Create.vue').default);
 
 // Vue.component('newasset', require('./components/Member/NewAsset.vue').default);
-Vue.component('inventory', require('./components/Member/Asset.vue').default);
-Vue.component('asset-create', require('./components/Member/AssetNew.vue').default);
-Vue.component('asset-view', require('./components/Member/AssetView.vue').default);
-Vue.component('asset-track', require('./components/Member/AssetTrack.vue').default);
-Vue.component('histories', require('./components/Member/History.vue').default);
-Vue.component('locations', require('./components/Member/Location.vue').default);
+Vue.component('search', require('./components/Member/Search/Search.vue').default);
+
+Vue.component('assets', require('./components/Member/Asset/Index.vue').default);
+Vue.component('asset-create', require('./components/Member/Asset/Create.vue').default);
+Vue.component('asset-view', require('./components/Member/Asset/View/Index.vue').default);
+Vue.component('asset-header', require('./components/Member/Asset/View/Header.vue').default);
+Vue.component('asset-body', require('./components/Member/Asset/View/Body.vue').default);
+Vue.component('asset-add', require('./components/Member/Asset/View/Add.vue').default);
+Vue.component('asset-set', require('./components/Member/Asset/View/Set.vue').default);
+
+Vue.component('requests', require('./components/Member/Request/Index.vue').default);
+
+Vue.component('locations', require('./components/Member/Station/Index.vue').default);
+Vue.component('location-create', require('./components/Member/Station/Create.vue').default);
 Vue.component('member-home', require('./components/Member/Home.vue').default);
+
+
+Vue.component('set-map', require('./components/Private/Map.vue').default);
+Vue.component('track-map', require('./components/Private/Track.vue').default);
+
+Vue.component('public-sidebar', require('./components/Public/Sidebar.vue').default);
+Vue.component('public-map', require('./components/Public/Map.vue').default);
+Vue.component('public-getdata', require('./components/Public/GetData.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -68,9 +92,48 @@ const app = new Vue({
         filter(id){
             return this.$refs.map.filter(id);
         },
+        zoomee(val){
+            return this.$refs.map.zoomee(val);
+        },
         recount(){
             this.$refs.sidebar.countStatus();
         },
+
+        //////////////////////////////////////////////
+        //////////////////////////////////////////////
+        setMap(type){
+            $("#setmap").modal({
+                backdrop: 'static',
+                keyboard: false,
+                show: true
+            });
+            this.$refs.setmap.set(type);
+        },
+
+        setCoor(latlang,type){
+            $("#setmap").modal('hide');
+            this.$refs[type].$refs.create.populate('['+latlang.lat+','+latlang.lng+']');
+        },
+
+        trackMap(coordinates){
+            $("#trackmap").modal('show');
+            this.$refs.trackmap.track(coordinates);
+        },
+
+        trackMapId(id){
+            $("#trackmap").modal('show');
+            this.$refs.trackmap.trackId(id);
+        },
+
+        getData(id){
+            $("#getdata").modal('show');
+            this.$refs.getdata.fetch(id);
+        },
+
+        //////////////////////////////////////////////
+        ///////////////// LOGIN API //////////////////
+        //////////////////////////////////////////////
+
         validateToken(){
             let toks = localStorage.getItem('api_token');
             if(toks == null){    
@@ -94,7 +157,6 @@ const app = new Vue({
            }
           
         },
-
         show(){
             $("#loginapi").modal({
                 backdrop: 'static',

@@ -18,7 +18,7 @@ class ListResource extends JsonResource
             'id' => $this->id,
             'asset' => $this->asset_code,
             'tracker' => ($this->tracker_code == null) ? 'n/a' : $this->tracker_code,
-            'coordinates' => ($this->coordinates == null) ? 'n/a' : $this->coordinates,
+            'coordinates' => ($this->coordinates == null) ? $this->assetlocation->location->coordinates : $this->coordinates,
             'status' => $this->status,
             'created_at' => $this->created_at,
             'name' => $this->assetlocation->asset->name,

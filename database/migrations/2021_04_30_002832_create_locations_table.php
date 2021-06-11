@@ -19,6 +19,7 @@ class CreateLocationsTable extends Migration
             $table->string('name',100);
             $table->string('address',200);
             $table->string('contact_no',12);  
+            $table->json('coordinates');
             $table->boolean('status')->default(1);
             $table->smallInteger('mm_id')->unsigned()->index();
             $table->foreign('mm_id')->references('id')->on('member_municipalities')->onDelete('cascade');     

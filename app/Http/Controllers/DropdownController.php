@@ -10,10 +10,11 @@ use App\Http\Requests\DropdownRequest;
 
 class DropdownController extends Controller
 {
-    public function index($classification,$keyword)
+    public function index($classification,$type,$keyword)
     {
         ($keyword == '-') ? $keyword = '' : $keyword;
-        $data = Dropdown::where('name','LIKE','%'.$keyword.'%')->where('classification',$classification)->paginate(5);
+        ($type == '-') ? $type = '' : $type;
+        $data = Dropdown::where('name','LIKE','%'.$keyword.'%')->where('type','LIKE','%'.$type.'%')->where('classification',$classification)->orderBy('id','DESC')->paginate(5);
         return DefaultResource::collection($data);
     }
 
