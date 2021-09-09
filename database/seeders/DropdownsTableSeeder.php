@@ -17,11 +17,20 @@ class DropdownsTableSeeder extends Seeder
         
 
         \DB::table('dropdowns')->delete();
+
+        \DB::table('dropdowns')->insert([
+            'id' => 1,
+            'name' => 'none',
+            'type' => 'none',
+            'classification' => 'none',
+            'color' => 'none',
+            'status' => 1,
+        ]);
         
         \DB::table('dropdowns')->insert(array (
             0 => 
             array (
-                'id' => 1,
+                'id' => 2,
                 'name' => 'Sensor Device',
                 'type' => 'chip',
                 'classification' => 'Category',
@@ -30,7 +39,7 @@ class DropdownsTableSeeder extends Seeder
             ),
             1 => 
             array (
-                'id' => 2,
+                'id' => 3,
                 'name' => 'Transportation',
                 'type' => 'trip',
                 'classification' => 'Category',
@@ -39,7 +48,7 @@ class DropdownsTableSeeder extends Seeder
             ),
             2 => 
             array (
-                'id' => 3,
+                'id' => 4,
                 'name' => 'Medical Equipment',
                 'type' => 'health',
                 'classification' => 'Category',
@@ -48,7 +57,7 @@ class DropdownsTableSeeder extends Seeder
             ),
             3 => 
             array (
-                'id' => 4,
+                'id' => 5,
                 'name' => 'Machinery',
                 'type' => 'cog',
                 'classification' => 'Category',
@@ -57,7 +66,7 @@ class DropdownsTableSeeder extends Seeder
             ),
             4 => 
             array (
-                'id' => 5,
+                'id' => 6,
                 'name' => 'Others',
                 'type' => 'folder-open',
                 'classification' => 'Category',
@@ -66,7 +75,7 @@ class DropdownsTableSeeder extends Seeder
             ),
             5 => 
             array (
-                'id' => 6,
+                'id' => 7,
                 'name' => 'Operational',
                 'type' => 'Asset',
                 'classification' => 'Status',
@@ -75,7 +84,7 @@ class DropdownsTableSeeder extends Seeder
             ),
             6 => 
             array (
-                'id' => 7,
+                'id' => 8,
                 'name' => 'Maintenance',
                 'type' => 'Asset',
                 'classification' => 'Status',
@@ -84,7 +93,7 @@ class DropdownsTableSeeder extends Seeder
             ),
             7 => 
             array (
-                'id' => 8,
+                'id' => 9,
                 'name' => 'Disposed',
                 'type' => 'Asset',
                 'classification' => 'Status',
@@ -93,7 +102,7 @@ class DropdownsTableSeeder extends Seeder
             ),
             8 => 
             array (
-                'id' => 9,
+                'id' => 10,
                 'name' => 'Borrowed',
                 'type' => 'Asset',
                 'classification' => 'Status',
@@ -102,7 +111,7 @@ class DropdownsTableSeeder extends Seeder
             ),
             9 => 
             array (
-                'id' => 10,
+                'id' => 11,
                 'name' => 'Pending',
                 'type' => 'Request',
                 'classification' => 'Status',
@@ -111,7 +120,7 @@ class DropdownsTableSeeder extends Seeder
             ),
             10 => 
             array (
-                'id' => 11,
+                'id' => 12,
                 'name' => 'Approved',
                 'type' => 'Request',
                 'classification' => 'Status',
@@ -120,7 +129,7 @@ class DropdownsTableSeeder extends Seeder
             ),
             11 => 
             array (
-                'id' => 12,
+                'id' => 13,
                 'name' => 'Lost',
                 'type' => 'Request',
                 'classification' => 'Status',
@@ -129,7 +138,7 @@ class DropdownsTableSeeder extends Seeder
             ),
             12 => 
             array (
-                'id' => 13,
+                'id' => 14,
                 'name' => 'Automated Rain Gauge',
                 'type' => 'cloud-rain',
                 'classification' => 'Device',
@@ -138,7 +147,7 @@ class DropdownsTableSeeder extends Seeder
             ),
             13 => 
             array (
-                'id' => 14,
+                'id' => 15,
                 'name' => 'Automated Weather Station',
                 'type' => 'cloud',
                 'classification' => 'Device',
@@ -147,7 +156,7 @@ class DropdownsTableSeeder extends Seeder
             ),
             14 => 
             array (
-                'id' => 15,
+                'id' => 16,
                 'name' => 'Water Level Monitoring System',
                 'type' => 'water',
                 'classification' => 'Device',
@@ -156,7 +165,7 @@ class DropdownsTableSeeder extends Seeder
             ),
             15 => 
             array (
-                'id' => 16,
+                'id' => 17,
                 'name' => 'Triggering Alerting Station',
                 'type' => 'alarm-exclamation',
                 'classification' => 'Device',
@@ -165,7 +174,7 @@ class DropdownsTableSeeder extends Seeder
             ),
             16 => 
             array (
-                'id' => 17,
+                'id' => 18,
             'name' => 'Automated Weather Station (asti)',
                 'type' => 'cloud-upload',
                 'classification' => 'Device',
@@ -174,7 +183,7 @@ class DropdownsTableSeeder extends Seeder
             ),
             17 => 
             array (
-                'id' => 18,
+                'id' => 19,
                 'name' => 'Operational',
                 'type' => 'Device',
                 'classification' => 'Status',
@@ -183,7 +192,7 @@ class DropdownsTableSeeder extends Seeder
             ),
             18 => 
             array (
-                'id' => 19,
+                'id' => 20,
                 'name' => 'Non-operational/signal Problem',
                 'type' => 'Device',
                 'classification' => 'Status',
@@ -192,7 +201,7 @@ class DropdownsTableSeeder extends Seeder
             ),
             19 => 
             array (
-                'id' => 20,
+                'id' => 21,
                 'name' => 'Non-operational/gdat Replacement',
                 'type' => 'Device',
                 'classification' => 'Status',
@@ -201,7 +210,7 @@ class DropdownsTableSeeder extends Seeder
             ),
             20 => 
             array (
-                'id' => 21,
+                'id' => 22,
                 'name' => 'Non-operational/lead Acid Battery Replacement',
                 'type' => 'Device',
                 'classification' => 'Status',
@@ -210,7 +219,7 @@ class DropdownsTableSeeder extends Seeder
             ),
             21 => 
             array (
-                'id' => 22,
+                'id' => 23,
                 'name' => 'Non-operational/for Troubleshooting',
                 'type' => 'Device',
                 'classification' => 'Status',
@@ -219,7 +228,7 @@ class DropdownsTableSeeder extends Seeder
             ),
             22 => 
             array (
-                'id' => 23,
+                'id' => 24,
                 'name' => 'For Replacement',
                 'type' => 'Device',
                 'classification' => 'Status',
@@ -228,7 +237,7 @@ class DropdownsTableSeeder extends Seeder
             ),
             23 => 
             array (
-                'id' => 24,
+                'id' => 25,
                 'name' => 'Disposed',
                 'type' => 'Device',
                 'classification' => 'Status',

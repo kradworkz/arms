@@ -16,6 +16,7 @@ class CreateAssetInfosTable extends Migration
         Schema::create('asset_infos', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
+            $table->string('type',30)->nullable();
             $table->string('remarks',200)->nullable();
             $table->date('maintenance')->nullable();
             $table->date('expiry')->nullable();

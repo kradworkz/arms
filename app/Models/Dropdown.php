@@ -18,6 +18,11 @@ class Dropdown extends Model
         return $this->hasMany('App\Models\AssetList', 'status_id');
     }
 
+    public function assetcategory()
+    {
+        return $this->hasMany('App\Models\Asset', 'category_id');
+    }
+
     public function getColorAttribute($value)
     {
         if($value == 'violet' ){
@@ -66,6 +71,40 @@ class Dropdown extends Model
         // ->count();
 
         // return $count;
+    }
+
+    public function aw()
+    {
+        $count = $this->hasMany('App\Models\AssetList', 'status_id')->count();
+
+        $available = $this->hasMany('App\Models\AssetList', 'status_id')->where('is_available',1)->count();
+        $notavailable = $this->hasMany('App\Models\AssetList', 'status_id')->where('is_available',0)->count();
+
+        if($count != 0){
+            $a = $available / $count * 100;
+            $na = $notavailable / $count * 100;
+        }else{
+            $a = 0;
+            $na = 0;
+        }
+
+        $data = [
+            $counts[] = [
+                'name' => 'Available',
+                'count' => $available,
+                'percentage' => floor($a),
+                'color' => 'success'
+            ], 
+            $counts[] = [
+                'name' => 'Not Available',
+                'count' => $notavailable,
+                'percentage' => floor($na),
+                'color' => 'danger'
+            ]
+        ];
+
+        return $data;
+
     }
 
 

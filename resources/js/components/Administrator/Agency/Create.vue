@@ -12,7 +12,7 @@
                 <div class="modal-body">
                     <div class="row" style="margin-right: 10px; margin-left: 10px;">
                         <div class="col-md-4">
-                            <myUpload field="img" @crop-success="cropSuccess" v-model="photo.show" :width="500" :height="500" :params="params" :headers="headers" lang-type="en" img-format="jpeg">
+                            <myUpload field="img" @crop-success="cropSuccess" v-model="photo.show" :width="500" :height="500" :params="params" :headers="headers" lang-type="en" img-format="png">
                             </myUpload>
                             <div @click="toggleShow" class="fuzone" style="width: 210px; height: 210px;">
                                 <div v-if="photo.url != ''">

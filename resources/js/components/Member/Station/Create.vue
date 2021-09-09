@@ -12,7 +12,7 @@
                 <div class="modal-body">
                     <div class="row" style="margin-right: 10px; margin-left: 10px;">
                         
-                        <div class="col-md-12 customerform" style="margin-top: 15px;">
+                        <div class="col-md-12 customerform" style="margin-top: 10px;">
                             <div class="row">
                                 <div class="col-md-12" style="margin-bottom: -10px;">
                                     <div class="form-group">
@@ -20,18 +20,22 @@
                                         <input type="text" class="form-control" v-model="loc.name" style="text-transform: capitalize;">
                                     </div>
                                 </div>
-                                <div class="col-md-12" style="margin-bottom: -10px;">
+                            </div>
+                            <div class="row" style="margin-bottom: -10px;"  >
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="formrow-firstname-input">Address: <span v-if="errors.address" class="haveerror">({{ errors.address[0] }})</span></label>
                                         <input type="text" class="form-control" v-model="loc.address" style="text-transform: capitalize;">
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="formrow-firstname-input">Contact no: <span v-if="errors.contact_no" class="haveerror">({{ errors.contact_no[0] }})</span></label>
                                         <input type="text" class="form-control" v-model="loc.contact_no" style="text-transform: capitalize;">
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-11">
                                     <div class="form-group">
                                         <label for="formrow-firstname-input">Coordinates: <span v-if="errors.coordinates" class="haveerror">({{ errors.coordinates[0] }})</span></label>

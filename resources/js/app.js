@@ -47,6 +47,8 @@ Vue.component('device-create', require('./components/Administrator/Devices/Creat
 
 // Vue.component('newasset', require('./components/Member/NewAsset.vue').default);
 Vue.component('search', require('./components/Member/Search/Search.vue').default);
+Vue.component('search-view', require('./components/Member/Search/View.vue').default);
+Vue.component('search-buttons', require('./components/Member/Search/Buttons.vue').default);
 
 Vue.component('assets', require('./components/Member/Asset/Index.vue').default);
 Vue.component('asset-create', require('./components/Member/Asset/Create.vue').default);
@@ -60,7 +62,12 @@ Vue.component('requests', require('./components/Member/Request/Index.vue').defau
 
 Vue.component('locations', require('./components/Member/Station/Index.vue').default);
 Vue.component('location-create', require('./components/Member/Station/Create.vue').default);
-Vue.component('member-home', require('./components/Member/Home.vue').default);
+
+Vue.component('member-home', require('./components/Member/Home/Index.vue').default);
+Vue.component('home-left', require('./components/Member/Home/Left.vue').default);
+Vue.component('home-right', require('./components/Member/Home/Right.vue').default);
+Vue.component('home-bottom', require('./components/Member/Home/Bottom.vue').default);
+Vue.component('piechart', require('./components/Member/Home/Piechart.vue').default);
 
 
 Vue.component('set-map', require('./components/Private/Map.vue').default);
@@ -69,6 +76,9 @@ Vue.component('track-map', require('./components/Private/Track.vue').default);
 Vue.component('public-sidebar', require('./components/Public/Sidebar.vue').default);
 Vue.component('public-map', require('./components/Public/Map.vue').default);
 Vue.component('public-getdata', require('./components/Public/GetData.vue').default);
+Vue.component('public-asset', require('./components/Public/Modals/Asset.vue').default);
+Vue.component('public-station', require('./components/Public/Modals/Station.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

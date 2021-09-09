@@ -70,7 +70,7 @@
                             <th class="text-center">Tracker Code</th>
                             <th class="text-center">Status</th>
                             <th class="text-center">Acquired Date</th>
-                                <th class="text-center">Action</th>
+                            <th class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>

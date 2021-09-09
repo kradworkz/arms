@@ -45,6 +45,15 @@ class DatabaseSeeder extends Seeder
             'updated_at' => now(),
         ]);
 
+        \DB::table('dropdowns')->insert([
+            'id' => 1,
+            'name' => 'none',
+            'type' => 'none',
+            'classification' => 'none',
+            'color' => 'none',
+            'status' => 1,
+        ]);
+
         $this->call(LocationRegionsTableSeeder::class);
         $this->call(LocationProvincesTableSeeder::class);
         $this->call(LocationMunicipalitiesTableSeeder::class);

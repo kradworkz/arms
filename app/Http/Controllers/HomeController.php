@@ -58,6 +58,15 @@ class HomeController extends Controller
         return DefaultResource::collection($data);
     }
 
+    public function agency(){
+        // $data = \Auth::user()->member->mm->member;
+
+        $data[] = [  
+            'agency' => \Auth::user()->member->mm->member,
+            'address' => \Auth::user()->member->mm->municipality,
+        ];
+        return $data;
+    }
 
     public function test(){
         // $data = '{

@@ -20,6 +20,7 @@ class ListResource extends JsonResource
             'tracker' => ($this->tracker_code == null) ? 'n/a' : $this->tracker_code,
             'coordinates' => ($this->coordinates == null) ? $this->assetlocation->location->coordinates : $this->coordinates,
             'status' => $this->status,
+            'avatar' => $this->status->color.'.png',
             'created_at' => $this->created_at,
             'name' => $this->assetlocation->asset->name,
             'image' => $this->assetlocation->asset->image,

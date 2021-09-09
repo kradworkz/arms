@@ -36,9 +36,9 @@
                     </div>
                 </div>
 
-                <div class="table-responsive">
+                <div class="table-responsive" data-simplebar style="max-height: calc(100vh - 340px); min-height: calc(100vh - 340px);">
                     <table class="table table-centered table-nowrap">
-                        <thead class="thead-light">
+                        <thead class="thead-light" style="position: sticky; top:0; background-color: white;">
                             <tr>
                                 <th></th>
                                 <th class="text-center">Name</th>

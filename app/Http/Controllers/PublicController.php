@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\AssetList;
+use App\Models\AssetLocation;
 use App\Models\Dropdown;
 use Illuminate\Http\Request;
 use App\Http\Resources\ListResource;
 use App\Http\Resources\PubResource;
+use App\Http\Resources\PubAssetsResource;
 use App\Http\Resources\DropdownResource;
 use App\Http\Resources\DefaultResource;
 
@@ -16,7 +18,9 @@ class PublicController extends Controller
         ($keyword == '-') ? $keyword = '' : $keyword;
     
         $query = AssetList::query();
-        $query = $query->with('status')->with(['assetlocation.asset','assetlocation.location'])->where('asset_code', 'LIKE', '%'.$keyword.'%');
+        $query = $query->with('status')->with(['assetlocation.asset','assetlocation.location'])
+        ->where('coordinates','!=',NULL)
+        ->where('asset_code', 'LIKE', '%'.$keyword.'%');
         if($id != '-'){
             $query = $query->whereHas('assetlocation', function ($query) use ($id){
                 $query->whereHas('asset', function ($query) use ($id){
@@ -28,6 +32,20 @@ class PublicController extends Controller
 
         return ListResource::collection($data);
     }
+
+    public function assets($id,$keyword){
+        $query = AssetList::query();
+        $query = $query->with('status')->with(['assetlocation:id,asset_id','assetlocation.asset:id,name,image,category_id','assetlocation.asset.category:id,name'])
+        ->where('asset_code', 'LIKE', '%'.$keyword.'%')
+        ->whereHas('assetlocation', function ($query) use ($id){
+            $query->whereHas('location', function ($query) use ($id){
+                $query->where('location_id',$id);
+            });
+        });
+        $data = $query->paginate(10);
+
+        return PubAssetsResource::collection($data);
+    }   
 
     public function status(){
         $data = Dropdown::where('type','Asset')->where('classification','Status')->get();

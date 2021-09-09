@@ -15,4 +15,9 @@ class Location extends Model
     {
         return $this->hasMany('App\Models\AssetLocation', 'location_id')->sum('quantity');
     }
+
+    public function mm()
+    {
+        return $this->belongsTo('App\Models\MemberMunicipality', 'mm_id', 'id');
+    }
 }

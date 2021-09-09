@@ -28,7 +28,7 @@ class UserRequest extends FormRequest
             'email' => 'required|string|max:150|unique:users,email,'.$this->id,
             'member' => 'required|integer',
             'municipality' => 'required|integer',
-            'avatar' => 'nullable|image64:jpeg,jpg',
+            'avatar' => 'nullable|image64:jpeg,jpg,png',
         ];
     }
 }

@@ -5,13 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MemberAsset extends Model
+class AssetLogs extends Model
 {
     use HasFactory;
 
-    public function by()
+    public function asset()
     {
-        return $this->belongsTo('App\Models\MemberMunicipality', 'borrowed_by', 'id');
+        return $this->belongsTo('App\Models\AssetList', 'asset_id', 'id');
+    }
+
+    public function status()
+    {
+        return $this->belongsTo('App\Models\Dropdown', 'status_id', 'id');
     }
 
     public function getUpdatedAtAttribute($value)
@@ -23,5 +28,4 @@ class MemberAsset extends Model
     {
         return date('M d, Y g:i a', strtotime($value));
     }
-
 }

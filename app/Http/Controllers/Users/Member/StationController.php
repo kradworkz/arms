@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\DefaultResource;
 use App\Http\Resources\LocationResource;
 use App\Http\Requests\LocationRequest;
+use App\Http\Resources\PubStationResource;
 
 class StationController extends Controller
 {
@@ -38,5 +39,10 @@ class StationController extends Controller
         $data->save();
 
         return new DefaultResource($data);
+    }
+
+    public function stations(){
+       $data = Location::with('mm:id,member_id,municipality_id','mm.member:id,name,acronym,avatar,type')->where('status',1)->get();
+        return PubStationResource::collection($data);
     }
 }

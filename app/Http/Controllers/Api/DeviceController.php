@@ -18,6 +18,7 @@ class DeviceController extends Controller
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, "{  \n   \"email\": \"$username\",  \n   \"password\": \"$password\"  \n }");
         curl_setopt($ch, CURLOPT_POST, 1);
+        
 
         $headers = array();
         $headers[] = 'Content-Type: application/json';
@@ -30,7 +31,6 @@ class DeviceController extends Controller
         }
         curl_close ($ch);
 
-        return $result;
     }
 
     public function check(Request $request){

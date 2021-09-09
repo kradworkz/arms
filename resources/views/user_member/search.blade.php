@@ -16,5 +16,5 @@
             </div>
         </div>
 
-        <search></search>
+        <search :user="'{{ auth()->user()->type }}'"></search>
 @endsection

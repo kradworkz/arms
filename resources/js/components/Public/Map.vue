@@ -1,57 +1,40 @@
 <template>
 <div style="height: 100%;">
+    <div class="b">
+        <ul class="list-inline user-chat-nav text-right mb-0">
+            <li class="list-inline-item mr-0">
+                <div class="dropdown" data-toggle="tooltip" data-placement="top" title="" data-original-title="Show Lists">
+                    <button class="btn nav-btn" type="button">
+                        <i class='bx bx-list-ul'></i>
+                    </button>
+                </div>
+            </li>
+        </ul>
+    </div>
     <LMap ref="mymap" style="width: 100%; height: 100%;" :zoom="zoom" :center="center">
         <LTileLayer :url="url" :attribution="attribution"></LTileLayer>
         
         <LMarker v-for="(m, index) in markers" :key="index" :lat-lng="JSON.parse(m.coordinates)" @click="view(m)">
-            // <LIcon
-            // class-name="customicon">
-            // <img :src="currentUrl+'/images/avatars/marker.png'" style="height: 50px; width: 50px;">
-            // </LIcon>
+            <!--<LIcon
+            class-name="customicon">
+            <img :src="currentUrl+'/images/avatars/marker.png'" style="height: 50px; width: 50px;">
+            </LIcon>-->
                 <l-icon
                 :icon-size="iconSize"
                 :icon-anchor="dynamicAnchor"
-                :icon-url="'images/markers/'+m.status.color+'.png'"
+                :icon-url="'images/markers/'+m.avatar"
+            /> 
+        </LMarker>
+         <LMarker v-for="(m, index) in stations" :key="'c'+index" :lat-lng="JSON.parse(m.coordinates)" @click="station(m)">
+                <l-icon
+                :icon-size="[40,40]"
+                :icon-anchor="dynamicAnchor"
+                :icon-url="'images/avatars/'+m.avatar"
             /> 
         </LMarker>
     </LMap>
-
-    <div class="modal fade exampleModal" id="view" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">View Asset</h5>
-                     <button type="button" @click="zoomee(12)" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body mb-4">
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <div class="text-lg-center">
-                                <img class="rounded avatar-xl" :src="currentUrl+'/images/avatars/'+asset.image" alt="">
-                            </div>
-                        </div>
-
-                        <div class="col-lg-8">
-                            <div>
-                                <a class="d-block text-primary mb-2">#{{asset.asset}}</a>
-                                <h5 class="text-truncate mb-2">{{asset.name}} 
-                                    <span :class="'badge badge-soft-'+asset.status.color+' ml-1 font-size-12'">{{asset.status.name}}</span>
-                                </h5>
-                                <p class="mb-4 mb-lg-4">Tracker : {{asset.tracker}}</p>
-                                <ul class="list-inline mb-0">
-                                    <li class="list-inline-item">
-                                        <h5 class="font-size-14" data-toggle="tooltip" data-placement="top" title="" data-original-title="Due Date"><i class='bx bxs-map mr-2'></i>{{asset.location}}</h5>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <public-asset @status="message" ref="assetModal"></public-asset>
+    <public-station @status="message" ref="stationModal"></public-station>
 </div>
 </template>
 
@@ -63,7 +46,6 @@ export default {
         return {
             currentUrl: window.location.origin,
             errors: [],
-            currentUrl: window.location.origin,
             url: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
             zoom: 8,
@@ -75,9 +57,7 @@ export default {
             iconSize: [25,25],
             markers: [],
             selected: [],
-            asset : {
-                status: {}
-            }
+            stations: [],
         }
     },
 
@@ -92,6 +72,7 @@ export default {
 
     created(){
         this.fetchAssets();
+        this.fetchStations();
     },
 
     methods : {
@@ -114,6 +95,17 @@ export default {
             }, 500);
         },
 
+         fetchStations(id){
+            axios.get(this.currentUrl + '/stations/lists')
+            .then(response => {
+                this.stations = response.data.data;
+            })
+            .catch(err => console.log(err));
+            setTimeout(() => {
+                this.$refs.mymap.mapObject.invalidateSize(); 
+            }, 500);
+        },
+
         filterAssets(id){
             var assetcount = this.markers.filter((item) => item.status.id == id);
             return assetcount.length;
@@ -130,21 +122,26 @@ export default {
         },
 
         view(marker){
-            this.asset = marker;
-            this.zoomee(15)
-
             // this.$refs.mymap.mapObject.on('zoomend', function (){
             //     $("#view").modal('show');
             //     this.iconSize = 40
             // });
-
+            this.zoomee(15,marker.coordinates)
             setTimeout(() => {
-                $("#view").modal('show');
+                this.$refs.assetModal.open(marker);
             }, 2000);
         },
 
-        zoomee(val){
-            this.$refs.mymap.mapObject.flyTo(JSON.parse(this.asset.coordinates), val, {
+        station(marker){
+            this.zoomee(15,marker.coordinates)
+            this.$refs.stationModal.open(marker);
+        },
+
+        message({size,coor}){
+            this.zoomee(size,coor);
+        },
+        zoomee(val,coordinates){
+            this.$refs.mymap.mapObject.flyTo(JSON.parse(coordinates), val, {
                 animate: true,
                 duration: 2.0
             });
@@ -152,4 +149,16 @@ export default {
 
     }, components: { LMap, LTileLayer,LMarker, LIcon }
 }
-</script>>
+</script>
+
+<style>
+div.b {
+  position:fixed;
+  padding:7px;
+  top:50px;
+  right:80px;
+  max-width:450px;
+  z-index:999
+} 
+
+</style>

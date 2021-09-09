@@ -23,8 +23,9 @@ Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-
 Route::get('/assets/{id}/{keyword}', 'PublicController@index');
+Route::get('/stations/lists', 'Users\Member\StationController@stations');
+Route::get('/assets/lists/{id}/{keyword}', 'PublicController@assets');
 
 Route::post('/api/login', 'Api\DeviceController@login');
 Route::post('/api/check', 'Api\DeviceController@check');
@@ -62,6 +63,7 @@ Route::middleware(['role:Member','auth'])->group(function () {
 
 Route::prefix('request')->group(function () {
     /////Location
+    Route::get('/agency', 'HomeController@agency');
     Route::post('/user/password', 'Users\Admin\UserController@password');
     Route::get('/regions', 'HomeController@regions');
     Route::get('/provinces/{id}', 'HomeController@provinces');
@@ -90,6 +92,8 @@ Route::prefix('request')->group(function () {
 
     Route::prefix('member')->group(function (){
 
+        Route::get('/totals', 'Users\Member\HomeController@total');
+
         Route::get('/locations', 'Users\Member\StationController@lists');
         Route::get('/location/lists/{keyword}', 'Users\Member\StationController@index');
         Route::post('/location/store', 'Users\Member\StationController@store');
@@ -107,9 +111,10 @@ Route::prefix('request')->group(function () {
         Route::post('/asset/update', 'Users\Member\ListsController@update'); 
         Route::get('/coordinates/{id}', 'Users\Member\ListsController@coordinates'); 
         Route::get('/assets/search/{keyword}', 'Users\Member\ListsController@search');
-        Route::get('/assets/search2/{category}/{keyword}', 'Users\Member\ListsController@search2');
+        Route::get('/assets/search2/{location}/{category}/{status}/{keyword}', 'Users\Member\ListsController@search2');
         Route::post('/status/up', 'Users\Member\ListsController@status'); 
         Route::get('/foraction/{type}', 'Users\Member\ListsController@check'); 
+        Route::get('/logs/{id}', 'Users\Member\ListsController@logs'); 
         
     });
 });

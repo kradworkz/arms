@@ -24,7 +24,7 @@
 
                 <div class="main-content">
                     <div class="page-content">
-                        <div class="container-fluid">
+                        <div class="container-fluid" style="max-width:95%;">
                             @yield('content')
                         </div>
                     </div>

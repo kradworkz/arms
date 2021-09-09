@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMemberAssetsTable extends Migration
+class CreateAssetMembersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,17 @@ class CreateMemberAssetsTable extends Migration
      */
     public function up()
     {
-        Schema::create('member_assets', function (Blueprint $table) {
+        Schema::create('asset_members', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->smallIncrements('id');
-            $table->bigInteger('asset_id')->unsigned()->index();
-            $table->foreign('asset_id')->references('id')->on('asset_lists')->onDelete('cascade');  
             $table->smallInteger('borrowed_to')->unsigned()->index();
             $table->foreign('borrowed_to')->references('id')->on('member_municipalities')->onDelete('cascade');  
             $table->smallInteger('borrowed_by')->unsigned()->index();
             $table->foreign('borrowed_by')->references('id')->on('member_municipalities')->onDelete('cascade');
+            $table->smallInteger('log_id')->unsigned()->index();
+            $table->foreign('log_id')->references('id')->on('asset_logs')->onDelete('cascade'); 
             $table->tinyInteger('status_id')->unsigned()->index();
-            $table->foreign('status_id')->references('id')->on('dropdowns')->onDelete('cascade');
+            $table->foreign('status_id')->references('id')->on('dropdowns')->onDelete('cascade'); 
             $table->timestamps();
         });
     }
@@ -35,6 +35,6 @@ class CreateMemberAssetsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('member_assets');
+        Schema::dropIfExists('asset_members');
     }
 }

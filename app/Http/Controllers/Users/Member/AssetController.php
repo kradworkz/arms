@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Users\Member;
 
 use App\Models\Asset;
 use App\Models\AssetList;
+use App\Models\AssetInfo;
 use App\Models\AssetLocation;
 use App\Models\Dropdown;
 use App\Models\MemberAsset;
@@ -75,10 +76,15 @@ class AssetController extends Controller
         $count = $count + 1;
         for($x = 0; $x<$quantity; $x++){
             $data = new AssetList;
-            $data->asset_code = \Auth::user()->member->mm->member->acronym.'-'.$id.'-'.str_pad(($count), 4, '0', STR_PAD_LEFT); ;
+            $data->asset_code = \Auth::user()->member->mm->member->acronym.'-'.$id.'-'.str_pad(($count), 6, '0', STR_PAD_LEFT); ;
             $data->assetlocation_id = $id;
             $data->status_id = $status->id;
             $data->save();
+
+            $info = new AssetInfo;
+            $info->asset_id = $data->id;
+            $info->save();
+
             $count ++;
         }
         return true;

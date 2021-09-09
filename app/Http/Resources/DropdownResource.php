@@ -20,6 +20,12 @@ class DropdownResource extends JsonResource
             'type' => $this->type,
             'color' => $this->color,
             'counts' => ($this->classification == 'Category') ? $this->count() :  $this->lists() ,
+            'percentage' => ($this->classification == 'Category') ? $this->aw() :  $this->aw() ,
         ];
+
+        // return [
+        //     'data' => ($this->classification == 'Category') ? $this->count() :  $this->lists(),
+        //     'name' => $this->name
+        // ];
     }
 }
