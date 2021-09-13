@@ -20,7 +20,7 @@ services:
     ports: 
       - "9002:9000"
     networks:
-      - arms-app-network
+      - dostnetwork
 
   #Nginx Service
   webserver:
@@ -34,33 +34,12 @@ services:
       - ./:/var/www
       - ./dockerize/nginx/conf.d/:/etc/nginx/conf.d/
     networks:
-      - arms-app-network
-
-  #MySQL Service
-  db:
-    image: mysql:5.7.29
-    container_name: arms-db
-    restart: unless-stopped
-    tty: true
-    ports:
-      - "33062:3306"
-    environment:
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_USER: ${DB_USERNAME}
-      SERVICE_TAGS: dev
-      SERVICE_NAME: mysql
-    volumes:
-      - dbdata:/var/lib/mysql
-      - ./dockerize/mysql/my.cnf:/etc/mysql/my.cnf
-    networks:
-      - arms-app-network
+      - dostnetwork
 
 #Docker Networks
 networks:
-  arms-app-network:
-    driver: bridge
+  dostnetwork:
+    external: true
 volumes:
   dbdata:
     driver: local
